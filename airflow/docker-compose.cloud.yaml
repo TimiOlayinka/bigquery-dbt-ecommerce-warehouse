@@ -1,6 +1,6 @@
 # ═══════════════════════════════════════════════════════════════
-# BellosData Cloud Airflow — LocalExecutor (Lightweight)
-# Runs on Lightsail medium (4 GB RAM)
+# Boohoo Cloud Airflow — LocalExecutor (Lightweight)
+# Runs on EC2 t3.medium
 # ═══════════════════════════════════════════════════════════════
 #
 # vs Local docker-compose.yaml:
@@ -22,7 +22,7 @@ x-airflow-common:
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'false'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
-    AIRFLOW__API_AUTH__JWT_SECRET: 'bellosdata_jwt_secret_2026'
+    AIRFLOW__API_AUTH__JWT_SECRET: 'boohoo_jwt_secret_2026'
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
     _PIP_ADDITIONAL_REQUIREMENTS: 'deltalake pyarrow boto3'
     # AWS credentials from instance .env file
@@ -108,11 +108,11 @@ services:
         airflow db migrate
         airflow users create \
           --username admin \
-          --firstname BellosData \
+          --firstname Boohoo \
           --lastname Admin \
           --role Admin \
-          --email admin@bellosdata.com \
-          --password bellosdata2026
+          --email admin@boohoo.com \
+          --password boohoo2026
         echo "Init complete"
     environment:
       <<: *airflow-common-env
@@ -120,17 +120,6 @@ services:
       <<: *airflow-common-depends-on
     restart: "no"
 
-  duckdb-console:
-    build:
-      context: .
-      dockerfile: Dockerfile.duckdb
-    ports:
-      - "8082:8082"
-    environment:
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
-      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION:-eu-west-2}
-    restart: unless-stopped
 
 volumes:
   postgres-data:
