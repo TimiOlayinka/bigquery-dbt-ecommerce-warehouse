@@ -34,7 +34,7 @@ SELECT
     roi,
     emv,
     emv_ratio,
-    ROUND(total_engagement::FLOAT / NULLIF(creator_followers, 0) * 100, 2) AS follower_engagement_rate,
+    ROUND(CAST(total_engagement AS FLOAT64) / NULLIF(creator_followers, 0) * 100, 2) AS follower_engagement_rate,
     ROUND(revenue_attributed / NULLIF(reach, 0) * 1000, 2) AS revenue_per_1k_reach,
-    ROUND(link_clicks::FLOAT / NULLIF(impressions, 0) * 100, 2) AS link_click_rate
+    ROUND(CAST(link_clicks AS FLOAT64) / NULLIF(impressions, 0) * 100, 2) AS link_click_rate
 FROM {{ ref('fact_influencer_performance') }}

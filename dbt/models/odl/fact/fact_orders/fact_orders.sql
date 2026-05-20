@@ -19,14 +19,14 @@ WITH all_orders AS (
     SELECT * FROM {{ ref('debenhams_orders') }}    WHERE is_latest
 )
 SELECT
-    MD5(order_id || '|' || brand)       AS order_sk,
+    TO_HEX(MD5(order_id || '|' || brand))       AS order_sk,
     order_id                            AS order_nk,
-    MD5(customer_id || '|' || brand)    AS customer_sk,
+    TO_HEX(MD5(customer_id || '|' || brand))    AS customer_sk,
     order_timestamp,
-    order_timestamp::DATE               AS order_date,
+    CAST(order_timestamp AS DATE)               AS order_date,
     EXTRACT(YEAR FROM order_timestamp)  AS order_year,
     EXTRACT(MONTH FROM order_timestamp) AS order_month,
-    EXTRACT(DOW FROM order_timestamp)   AS order_day_of_week,
+    EXTRACT(DAYOFWEEK FROM order_timestamp)   AS order_day_of_week,
     total_amount,
     discount_amount,
     shipping_cost,
@@ -41,5 +41,5 @@ SELECT
     brand,
     source_system,
     ingest_date,
-    CURRENT_TIMESTAMP AS dwh_created_at
+    CURRENT_TIMESTAMP() AS dwh_created_at
 FROM all_orders

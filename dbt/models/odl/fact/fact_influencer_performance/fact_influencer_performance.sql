@@ -4,7 +4,7 @@
 -- Follows HnB fact_influencer_posts pattern
 ------------------------------------------------------------------------------------------------------------------------
 SELECT
-    MD5(p.post_id || '|' || p.brand)                    AS influencer_sk,
+    TO_HEX(MD5(p.post_id || '|' || p.brand))                    AS influencer_sk,
     p.post_id                                           AS post_nk,
     p.creator_handle,
     p.creator_name,
@@ -40,7 +40,7 @@ SELECT
     p.brand,
     b.brand_tier,
     p.ingest_date,
-    CURRENT_TIMESTAMP                                   AS dwh_created_at
+    CURRENT_TIMESTAMP()                                   AS dwh_created_at
 FROM {{ ref('rdl_influencer_posts') }} p
 LEFT JOIN {{ ref('map_brand') }} b
     ON p.brand = b.brand

@@ -18,7 +18,7 @@ order_no AS order_id,
         shipment_method_id AS delivery_method,
         site_id AS fulfilment_centre,
         ingest_date,
-        REPLACE(SPLIT_PART(ingest_time, '+', 1), 'T', ' ')::TIMESTAMP AS ingest_ts
+        CAST(REPLACE(SPLIT(ingest_time, '+')[OFFSET(0)], 'T', ' ') AS TIMESTAMP) AS ingest_ts
     FROM {{ source('rdl_salesforce_commerce', 'plt_orders_history') }}
 ),
 versioned AS (
@@ -31,26 +31,26 @@ versioned AS (
         COUNT(*) OVER (
             PARTITION BY order_id
         ) AS version_count,
-        MD5(
-            COALESCE(order_id::VARCHAR, '') || '|' ||
-            COALESCE(customer_id::VARCHAR, '') || '|' ||
-            COALESCE(order_timestamp::VARCHAR, '') || '|' ||
-            COALESCE(total_amount::VARCHAR, '') || '|' ||
-            COALESCE(status::VARCHAR, '') || '|' ||
-            COALESCE(payment_method::VARCHAR, '') || '|' ||
-            COALESCE(discount_amount::VARCHAR, '') || '|' ||
-            COALESCE(shipping_cost::VARCHAR, '') || '|' ||
-            COALESCE(item_count::VARCHAR, '') || '|' ||
-            COALESCE(promo_code::VARCHAR, '') || '|' ||
-            COALESCE(delivery_method::VARCHAR, '') || '|' ||
-            COALESCE(fulfilment_centre::VARCHAR, '')
-        ) AS record_hash
+        TO_HEX(MD5(
+            COALESCE(CAST(order_id AS STRING), '') || '|' ||
+            COALESCE(CAST(customer_id AS STRING), '') || '|' ||
+            COALESCE(CAST(order_timestamp AS STRING), '') || '|' ||
+            COALESCE(CAST(total_amount AS STRING), '') || '|' ||
+            COALESCE(CAST(status AS STRING), '') || '|' ||
+            COALESCE(CAST(payment_method AS STRING), '') || '|' ||
+            COALESCE(CAST(discount_amount AS STRING), '') || '|' ||
+            COALESCE(CAST(shipping_cost AS STRING), '') || '|' ||
+            COALESCE(CAST(item_count AS STRING), '') || '|' ||
+            COALESCE(CAST(promo_code AS STRING), '') || '|' ||
+            COALESCE(CAST(delivery_method AS STRING), '') || '|' ||
+            COALESCE(CAST(fulfilment_centre AS STRING), '')
+        )) AS record_hash
     FROM history
 )
 SELECT
     order_id,
     customer_id,
-    order_timestamp::TIMESTAMP AS order_timestamp,
+    CAST(order_timestamp AS TIMESTAMP) AS order_timestamp,
     total_amount,
     status,
     payment_method,

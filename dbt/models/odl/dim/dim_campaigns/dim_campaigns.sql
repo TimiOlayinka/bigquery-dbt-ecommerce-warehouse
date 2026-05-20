@@ -23,7 +23,7 @@ google_campaigns AS (
 ),
 tiktok_campaigns AS (
     SELECT DISTINCT
-        SPLIT_PART(ad_id, '-', 1) || '-' || SPLIT_PART(ad_id, '-', 2) || '-' || SPLIT_PART(ad_id, '-', 3)
+        SPLIT(ad_id, '-')[OFFSET(0)] || '-' || SPLIT(ad_id, '-')[OFFSET(1)] || '-' || SPLIT(ad_id, '-')[OFFSET(2)]
             AS campaign_nk,
         campaign_name,
         objective,
@@ -47,7 +47,7 @@ dedup AS (
     FROM all_campaigns
 )
 SELECT
-    MD5(campaign_nk || '|' || platform || '|' || brand) AS campaign_sk,
+    TO_HEX(MD5(campaign_nk || '|' || platform || '|' || brand)) AS campaign_sk,
     campaign_nk,
     campaign_name,
     objective,
@@ -74,5 +74,5 @@ SELECT
         ELSE 'Other'
     END                                                 AS campaign_type,
     brand,
-    CURRENT_TIMESTAMP                                   AS dwh_created_at
+    CURRENT_TIMESTAMP()                                   AS dwh_created_at
 FROM dedup WHERE rnk = 1

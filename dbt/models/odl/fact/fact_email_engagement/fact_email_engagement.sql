@@ -4,7 +4,7 @@
 -- Follows HnB fact_email_engagement pattern
 ------------------------------------------------------------------------------------------------------------------------
 SELECT
-    MD5(e.campaign_id || '|' || e.date_nk || '|' || e.brand)
+    TO_HEX(MD5(e.campaign_id || '|' || e.date_nk || '|' || e.brand))
         AS email_engagement_sk,
     e.campaign_id                                       AS campaign_nk,
     e.campaign_name,
@@ -26,7 +26,7 @@ SELECT
     e.converted,
     e.revenue,
     -- Calculated rates (in case source rates are stale after dedup)
-    ROUND(e.delivered::FLOAT / NULLIF(e.list_size, 0) * 100, 2)     AS delivery_rate,
+    ROUND(CAST(e.delivered AS FLOAT64) / NULLIF(e.list_size, 0) * 100, 2)     AS delivery_rate,
     e.open_rate,
     e.click_rate,
     e.click_to_open_rate,
@@ -35,7 +35,7 @@ SELECT
     e.brand,
     b.brand_tier,
     e.ingest_date,
-    CURRENT_TIMESTAMP                                   AS dwh_created_at
+    CURRENT_TIMESTAMP()                                   AS dwh_created_at
 FROM {{ ref('rdl_email_campaigns') }} e
 LEFT JOIN {{ ref('map_brand') }} b
     ON e.brand = b.brand

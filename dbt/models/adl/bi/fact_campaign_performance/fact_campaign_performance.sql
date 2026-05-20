@@ -17,7 +17,7 @@ WITH meta_campaigns AS (
         SUM(clicks) AS clicks,
         SUM(reach) AS reach,
         0 AS conversions,
-        0::NUMERIC AS conversions_value
+        CAST(0 AS NUMERIC) AS conversions_value
     FROM {{ ref('fact_meta_campaign_insights') }}
     GROUP BY 1, 2, 3, 4, 5, 7
 ),
@@ -34,7 +34,7 @@ google_campaigns AS (
         SUM(impressions),
         SUM(clicks),
         0,
-        SUM(conversions)::INT,
+        CAST(SUM(conversions) AS INT64),
         SUM(conversions_value)
     FROM {{ ref('fact_google_ads_performance') }}
     GROUP BY 1, 2, 3, 4, 5, 7
@@ -52,8 +52,8 @@ tiktok_campaigns AS (
         SUM(impressions),
         SUM(clicks),
         SUM(reach),
-        SUM(conversion)::INT,
-        0::NUMERIC
+        CAST(SUM(conversion) AS INT64),
+        CAST(0 AS NUMERIC)
     FROM {{ ref('fact_tiktok_ad_insights') }}
     GROUP BY 1, 2, 3, 4, 5, 7
 ),
@@ -81,8 +81,8 @@ SELECT
     -- Performance metrics
     ROUND(spend / NULLIF(impressions, 0) * 1000, 2)     AS cpm,
     ROUND(spend / NULLIF(clicks, 0), 2)                 AS cpc,
-    ROUND(clicks::FLOAT / NULLIF(impressions, 0) * 100, 4) AS ctr,
-    ROUND(conversions::FLOAT / NULLIF(clicks, 0) * 100, 2) AS conversion_rate,
+    ROUND(CAST(clicks AS FLOAT64) / NULLIF(impressions, 0) * 100, 4) AS ctr,
+    ROUND(CAST(conversions AS FLOAT64) / NULLIF(clicks, 0) * 100, 2) AS conversion_rate,
     ROUND(spend / NULLIF(conversions, 0), 2)            AS cost_per_conversion,
     ROUND(conversions_value / NULLIF(spend, 0), 2)      AS roas
 FROM all_campaigns

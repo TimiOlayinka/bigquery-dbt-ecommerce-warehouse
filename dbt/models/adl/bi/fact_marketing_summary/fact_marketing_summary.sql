@@ -5,7 +5,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 WITH monthly_spend AS (
     SELECT
-        DATE_TRUNC('month', date_nk)::DATE AS month_start,
+        CAST(DATE_TRUNC(date_nk, MONTH) AS DATE) AS month_start,
         brand,
         brand_tier,
         SUM(spend) AS total_spend,
@@ -21,7 +21,7 @@ WITH monthly_spend AS (
 ),
 monthly_revenue AS (
     SELECT
-        DATE_TRUNC('month', date_nk)::DATE AS month_start,
+        CAST(DATE_TRUNC(date_nk, MONTH) AS DATE) AS month_start,
         brand,
         SUM(revenue) AS total_revenue,
         SUM(transactions) AS total_orders,
@@ -33,7 +33,7 @@ monthly_revenue AS (
 ),
 monthly_email AS (
     SELECT
-        DATE_TRUNC('month', date_nk)::DATE AS month_start,
+        CAST(DATE_TRUNC(date_nk, MONTH) AS DATE) AS month_start,
         brand,
         SUM(delivered) AS emails_delivered,
         SUM(converted) AS email_conversions,
@@ -71,9 +71,9 @@ combined AS (
         ROUND(COALESCE(r.total_revenue, 0) / NULLIF(s.total_spend, 0), 2) AS blended_roas,
         ROUND(s.total_spend / NULLIF(r.total_orders, 0), 2) AS customer_acquisition_cost,
         ROUND(COALESCE(r.total_revenue, 0) / NULLIF(r.total_orders, 0), 2) AS avg_order_value,
-        ROUND(s.total_clicks::FLOAT / NULLIF(s.total_impressions, 0) * 100, 2) AS blended_ctr,
+        ROUND(CAST(s.total_clicks AS FLOAT64) / NULLIF(s.total_impressions, 0) * 100, 2) AS blended_ctr,
         ROUND(s.total_spend / NULLIF(s.total_clicks, 0), 2) AS blended_cpc,
-        ROUND(COALESCE(r.converting_sessions, 0)::FLOAT / NULLIF(r.total_sessions, 0) * 100, 2) AS site_conversion_rate
+        ROUND(CAST(COALESCE(r.converting_sessions, 0) AS FLOAT64) / NULLIF(r.total_sessions, 0) * 100, 2) AS site_conversion_rate
     FROM monthly_spend s
     LEFT JOIN monthly_revenue r ON s.month_start = r.month_start AND s.brand = r.brand
     LEFT JOIN monthly_email e ON s.month_start = e.month_start AND s.brand = e.brand

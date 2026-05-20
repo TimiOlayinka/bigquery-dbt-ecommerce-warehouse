@@ -10,7 +10,7 @@ SELECT
     c.country,
     COUNT(*)                                                AS customer_count,
     COUNT(CASE WHEN c.is_marketing_opted_in THEN 1 END)    AS opted_in_count,
-    ROUND(COUNT(CASE WHEN c.is_marketing_opted_in THEN 1 END)::FLOAT / NULLIF(COUNT(*), 0) * 100, 1) AS opt_in_rate_pct,
+    ROUND(CAST(COUNT(CASE WHEN c.is_marketing_opted_in THEN 1 END) AS FLOAT64) / NULLIF(COUNT(*), 0) * 100, 1) AS opt_in_rate_pct,
     MIN(c.registration_date)                                AS earliest_registration,
     MAX(c.registration_date)                                AS latest_registration,
     c.ingest_date

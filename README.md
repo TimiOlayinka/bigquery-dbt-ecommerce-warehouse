@@ -1,13 +1,13 @@
 <p align="center">
   <h1 align="center">Boohoo Group Data Pipeline</h1>
   <p align="center">
-    <strong>Multi-brand e-commerce data warehouse on AWS — 9 Lambda data generators across 7 brands, Redshift Serverless star schema, dbt medallion architecture (RDL → ODL → ADL), Airflow on a cost-optimised EC2 managed by Lambda + EventBridge.</strong>
+    <strong>Multi-brand e-commerce data warehouse on GCP — 9 Cloud Run Jobs across 7 brands, BigQuery star schema, dbt medallion architecture (RDL → ODL → ADL), Airflow on a cost-optimised Compute Engine VM managed by Instance Schedules.</strong>
   </p>
   <p align="center">
-    <img src="https://img.shields.io/badge/Amazon_Redshift_Serverless-8C4FFF?style=for-the-badge&logo=amazonredshift&logoColor=white" alt="Redshift">
-    <img src="https://img.shields.io/badge/AWS_Lambda-FF9900?style=for-the-badge&logo=awslambda&logoColor=white" alt="Lambda">
-    <img src="https://img.shields.io/badge/Amazon_EventBridge-FF4F8B?style=for-the-badge&logo=amazonaws&logoColor=white" alt="EventBridge">
-    <img src="https://img.shields.io/badge/Amazon_S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white" alt="S3">
+    <img src="https://img.shields.io/badge/BigQuery-669DF6?style=for-the-badge&logo=googlebigquery&logoColor=white" alt="BigQuery">
+    <img src="https://img.shields.io/badge/Cloud_Run-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Cloud Run">
+    <img src="https://img.shields.io/badge/Cloud_Scheduler-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Cloud Scheduler">
+    <img src="https://img.shields.io/badge/Cloud_Storage-AECBFA?style=for-the-badge&logo=googlecloudstorage&logoColor=black" alt="GCS">
     <img src="https://img.shields.io/badge/Apache_Airflow-017CEE?style=for-the-badge&logo=apacheairflow&logoColor=white" alt="Airflow">
     <img src="https://img.shields.io/badge/dbt-FF694B?style=for-the-badge&logo=dbt&logoColor=white" alt="dbt">
     <img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" alt="Terraform">
@@ -20,7 +20,7 @@
 
 ## Architecture Overview
 
-A **production-grade, cost-optimised data warehouse** for the Boohoo Group's multi-brand e-commerce ecosystem. **9 Lambda functions** generate data for **7 brands** across **5 e-commerce platforms**, landing as JSONL.GZ in S3. **Redshift Serverless** warehouses the data through a **dbt-driven medallion architecture** (RDL → ODL → ADL) spanning **48+ models**. **Apache Airflow** runs on an **EC2 instance** that is automatically started and stopped by **Lambda + EventBridge** — running just **2 hours, 3 days a week** to minimise costs.
+A **production-grade, cost-optimised data warehouse** for the Boohoo Group's multi-brand e-commerce ecosystem. **9 Cloud Run Jobs** generate data for **7 brands** across **5 e-commerce platforms**, landing as JSONL.GZ in Cloud Storage. **BigQuery** warehouses the data through a **dbt-driven medallion architecture** (RDL → ODL → ADL) spanning **48+ models**. **Apache Airflow** runs on a **Compute Engine VM** that is automatically started and stopped by **Instance Schedules** — running just **2 hours, 3 days a week** to minimise costs.
 
 ### Brands & Platforms
 
@@ -36,7 +36,7 @@ A **production-grade, cost-optimised data warehouse** for the Boohoo Group's mul
 
 ```mermaid
 flowchart LR
-    subgraph LAMBDAS["⚡ 9 Lambda Functions (Daily EventBridge)"]
+    subgraph JOBS["⚡ 9 Cloud Run Jobs (Daily Cloud Scheduler)"]
         L1["ecommerce_customers"]
         L2["ecommerce_orders"]
         L3["ecommerce_products"]
@@ -48,55 +48,52 @@ flowchart LR
         L9["marketing_influencers"]
     end
 
-    subgraph S3["📦 S3 (3 Buckets)"]
-        RDL_S3["boohoo-dns-rdl-staging\nJSONL.GZ per brand\nGlacier after 90d"]
-        DQ_S3["boohoo-data-quality-staging\nParquet exports"]
+    subgraph GCS["📦 Cloud Storage (3 Buckets)"]
+        RDL_GCS["boohoo-rdl-staging\nJSONL.GZ per brand\nNearline after 90d"]
+        DQ_GCS["boohoo-data-quality\nParquet exports"]
     end
 
-    subgraph SCHEDULER["⏰ EC2 Cost Scheduler"]
-        EB1["EventBridge\nStart: 01:00 UTC\nMon/Wed/Fri"]
-        EB2["EventBridge\nStop: 03:00 UTC\nMon/Wed/Fri"]
-        SCHED_LAMBDA["Lambda\nec2-start / ec2-stop"]
+    subgraph SCHEDULER["⏰ Instance Schedule (Native GCE)"]
+        IS1["Start: 01:00 UTC\nMon/Wed/Fri"]
+        IS2["Stop: 03:00 UTC\nMon/Wed/Fri"]
     end
 
-    subgraph EC2["🖥️ EC2 t3.medium (2 hrs × 3 days/wk)"]
+    subgraph GCE["🖥️ Compute Engine e2-standard-2 (2 hrs × 3 days/wk)"]
         AF["Apache Airflow 2.10.5\nOrchestration"]
     end
 
-    subgraph REDSHIFT["🏢 Redshift Serverless (8 RPU)"]
-        RDL_RS["RDL Layer\n5 platform schemas\n21 source views"]
-        ODL_RS["ODL Layer\n5 dims · 7 facts · 3 maps"]
-        ADL_RS["ADL / BI Layer\n12 analytical tables"]
+    subgraph BQ["🏢 BigQuery (boohoo_dwh dataset)"]
+        RDL_BQ["RDL Layer\n5 platform schemas\n21 source views"]
+        ODL_BQ["ODL Layer\n5 dims · 7 facts · 3 maps"]
+        ADL_BQ["ADL / BI Layer\n12 analytical tables"]
     end
 
     subgraph DBT["🔄 dbt (48+ models)"]
-        DBT_RUN["dbt-redshift\nRDL → ODL → ADL"]
+        DBT_RUN["dbt-bigquery\nRDL → ODL → ADL"]
     end
 
-    L1 & L2 & L3 & L4 & L5 & L6 & L7 & L8 & L9 -->|"JSONL.GZ"| RDL_S3
-    RDL_S3 -->|"COPY"| RDL_RS
-    RDL_RS --> DBT_RUN --> ODL_RS --> ADL_RS
-    EB1 -->|"start"| SCHED_LAMBDA
-    EB2 -->|"stop"| SCHED_LAMBDA
-    SCHED_LAMBDA -->|"EC2 start/stop"| EC2
+    L1 & L2 & L3 & L4 & L5 & L6 & L7 & L8 & L9 -->|"JSONL.GZ"| RDL_GCS
+    RDL_GCS -->|"LOAD"| RDL_BQ
+    RDL_BQ --> DBT_RUN --> ODL_BQ --> ADL_BQ
+    IS1 & IS2 -->|"start/stop"| GCE
     AF -->|"Orchestrates"| DBT_RUN
 
-    style LAMBDAS fill:#FF9900,color:#fff
-    style S3 fill:#569A31,color:#fff
-    style SCHEDULER fill:#FF4F8B,color:#fff
-    style EC2 fill:#232F3E,color:#fff
-    style REDSHIFT fill:#8C4FFF,color:#fff
+    style JOBS fill:#4285F4,color:#fff
+    style GCS fill:#AECBFA,color:#000
+    style SCHEDULER fill:#34A853,color:#fff
+    style GCE fill:#232F3E,color:#fff
+    style BQ fill:#669DF6,color:#fff
     style DBT fill:#FF694B,color:#fff
 ```
 
 ### How It Works
 
-1. **EventBridge** triggers **9 Lambda functions** daily at midnight UTC — each generates e-commerce and marketing data for all 7 brands, uploading JSONL.GZ to **S3**
-2. **EventBridge** starts the **Airflow EC2** instance at **01:00 UTC** on Mon/Wed/Fri
-3. **Airflow** orchestrates **S3 → Redshift COPY** jobs (defined in `copy_jobs.yml`) to load raw data into platform-specific RDL schemas
+1. **Cloud Scheduler** triggers **9 Cloud Run Jobs** daily at midnight UTC — each generates e-commerce and marketing data for all 7 brands, uploading JSONL.GZ to **Cloud Storage**
+2. **Instance Schedule** starts the **Airflow VM** at **01:00 UTC** on Mon/Wed/Fri
+3. **Airflow** orchestrates **GCS → BigQuery Load** jobs (defined in `copy_jobs.yml`) to load raw data into platform-specific RDL tables
 4. **dbt** transforms the data through a **3-layer medallion architecture**: RDL (raw views) → ODL (dimensional model) → ADL (business analytics)
-5. **EventBridge** stops the EC2 at **03:00 UTC**, keeping total compute to ~**6 hours/week** (~£2–4/month)
-6. **Redshift → S3 UNLOAD** jobs (defined in `export_jobs.yml`) export Parquet files for external consumption
+5. **Instance Schedule** stops the VM at **03:00 UTC**, keeping total compute to ~**6 hours/week** (~£2–4/month)
+6. **BigQuery → GCS Export** jobs (defined in `export_jobs.yml`) export Parquet files for external consumption
 
 ---
 
@@ -104,17 +101,18 @@ flowchart LR
 
 | Layer | Technology | Details |
 |-------|-----------|---------|
-| **Data Warehouse** | Redshift Serverless | `boohoo-dwh` namespace, 8 RPU base capacity, 9 schemas |
-| **Storage** | Amazon S3 | 3 buckets: RDL staging, Terraform state, data quality. Lifecycle: Glacier at 90d, expire at 365d |
-| **Data Generation** | AWS Lambda (×9) | Python 3.11, 512 MB, 5-min timeout. Multi-platform schema-aware generators |
-| **Scheduling** | EventBridge | Daily Lambda triggers + EC2 start/stop crons (Mon/Wed/Fri) |
-| **Cost Optimisation** | Lambda + EventBridge | EC2 runs 2 hrs × 3 days/wk. ~£2–4/month compute |
-| **Orchestration** | Apache Airflow 2.10.5 | LocalExecutor (cloud), CeleryExecutor (local). S3→Redshift COPY + dbt |
-| **Transformation** | dbt (dbt-redshift) | 48+ models: 21 RDL views + 15 ODL tables + 12 ADL tables |
-| **Infrastructure** | Terraform | VPC, Redshift, S3, Lambda ×11, EventBridge, EC2, IAM, Secrets Manager |
-| **Containerisation** | Docker Compose | Full local stack (6 containers) + lightweight cloud stack (3 containers) |
+| **Data Warehouse** | BigQuery | `boohoo_dwh` dataset, EU location, on-demand pricing |
+| **Storage** | Cloud Storage | 3 buckets: RDL staging, Terraform state, data quality. Lifecycle: Nearline at 90d, delete at 365d |
+| **Data Generation** | Cloud Run Jobs (×9) | Python 3.11, containerised, 512 Mi, 5-min timeout. Multi-platform schema-aware generators |
+| **Scheduling** | Cloud Scheduler | Daily job triggers + VM Instance Schedules (Mon/Wed/Fri) |
+| **Cost Optimisation** | Instance Schedules | Native GCE feature — VM runs 2 hrs × 3 days/wk. ~£2–4/month compute |
+| **Orchestration** | Apache Airflow 2.10.5 | LocalExecutor (cloud). GCS→BigQuery Load + dbt |
+| **Transformation** | dbt (dbt-bigquery) | 48+ models: 21 RDL views + 15 ODL tables + 12 ADL tables |
+| **Infrastructure** | Terraform | VPC, BigQuery, GCS, Cloud Run Jobs ×9, Cloud Scheduler, Compute Engine, IAM, Secret Manager |
+| **Container Registry** | Artifact Registry | `boohoo-jobs` Docker repository |
+| **Containerisation** | Docker Compose | Lightweight cloud stack (4 containers) |
 | **CI/CD** | GitHub Actions | PR title enforcement (`DATA-<number>`) |
-| **Language** | Python 3.11 | Lambda handlers, Airflow DAGs, dbt model generator, scripts |
+| **Language** | Python 3.11 | Cloud Run Jobs, Airflow DAGs, dbt model generator, scripts |
 
 ---
 
@@ -123,94 +121,76 @@ flowchart LR
 ```
 boohoo-data-pipeline/
 │
-├── lambda/                                    # Data generation Lambda functions
-│   ├── ecommerce_customers/handler.py         # Generates customer data for all 7 brands
-│   ├── ecommerce_orders/handler.py            # Generates orders + order_items for all brands
-│   ├── ecommerce_products/handler.py          # Generates product catalogues for all brands
+├── jobs/                                      # Cloud Run Job data generators
+│   ├── Dockerfile                             # Shared container image for all 9 jobs
+│   ├── requirements.txt                       # google-cloud-storage
+│   ├── ecommerce_customers/main.py            # Generates customer data for all 7 brands
+│   ├── ecommerce_orders/main.py               # Generates orders + order_items for all brands
+│   ├── ecommerce_products/main.py             # Generates product catalogues for all brands
 │   └── shared/
-│       └── config/
-│           └── ecommerce.py                   # Multi-platform schemas, field mappings, ref data
+│       ├── config/ecommerce.py                # Multi-platform schemas, BRAND_SOURCES, ref data
+│       ├── handler_logic.py                   # gen_customers, gen_orders, gen_products
+│       └── utils.py                           # GCS upload helper (JSONL.GZ)
 │
-├── terraform/                                 # Full AWS infrastructure as code
-│   ├── main.tf                                # Provider, S3 backend, default tags
-│   ├── lambdas.tf                             # 9 Lambda functions via for_each
-│   ├── eventbridge.tf                         # Daily cron triggers for all 9 Lambdas
-│   ├── ec2.tf                                 # Airflow host: t3.medium, bootstrap user_data
-│   ├── ec2_scheduler.tf                       # Start/stop Lambdas + EventBridge crons
-│   ├── redshift.tf                            # Redshift Serverless namespace + 9 schemas
-│   ├── s3.tf                                  # 3 buckets with lifecycle policies
-│   ├── iam.tf                                 # Roles: Lambda, Redshift S3 unload
-│   ├── variables.tf                           # Region, environment, Redshift credentials
-│   └── outputs.tf                             # Endpoints, ARNs, bucket names
+├── terraform/                                 # Full GCP infrastructure as code
+│   ├── main.tf                                # Google provider, GCS backend, API enablement
+│   ├── bigquery.tf                            # BigQuery dataset (boohoo_dwh)
+│   ├── cloud_run_jobs.tf                      # 9 Cloud Run Jobs via for_each
+│   ├── cloud_scheduler.tf                     # Daily triggers for all 9 jobs
+│   ├── compute_engine.tf                      # Airflow VM + Instance Schedule (MWF start/stop)
+│   ├── gcs.tf                                 # 3 buckets with lifecycle policies
+│   ├── iam.tf                                 # Service accounts + Artifact Registry
+│   ├── secret_manager.tf                      # Placeholder for future API keys
+│   ├── variables.tf                           # Project ID, region, environment
+│   └── outputs.tf                             # Endpoints, dataset IDs, bucket names
 │
 ├── dbt/                                       # dbt transformation layer (48+ models)
-│   ├── models/
-│   │   ├── rdl/                               # Raw Data Layer — 21 source views
-│   │   │   ├── boohoo_commerce/               # boohoo + boohoo_man (×3 each)
-│   │   │   ├── salesforce_commerce/           # prettylittlething (×3)
-│   │   │   ├── shopify/                       # nastygal (×3)
-│   │   │   ├── magento/                       # karen_millen + coast (×3 each)
-│   │   │   └── oracle_commerce/               # debenhams (×3)
-│   │   ├── odl/                               # Operational Data Layer — 15 tables
-│   │   │   ├── dim_customers.sql              # Cross-brand customer dimension
-│   │   │   ├── dim_products.sql               # Product dim with margin/discount calcs
-│   │   │   ├── dim_time.sql                   # Date spine from 2024
-│   │   │   ├── dim_campaigns.sql              # Marketing campaign dimension
-│   │   │   ├── dim_marketing_channels.sql     # Channel dimension
-│   │   │   ├── fact_orders.sql                # Order facts with surrogate keys
-│   │   │   ├── fact_meta_campaign_insights.sql
-│   │   │   ├── fact_google_ads_performance.sql
-│   │   │   ├── fact_tiktok_ad_insights.sql
-│   │   │   ├── fact_ga4_sessions.sql
-│   │   │   ├── fact_email_engagement.sql
-│   │   │   ├── fact_influencer_performance.sql
-│   │   │   ├── map_brand.sql                  # 7 brands with value tiers
-│   │   │   ├── map_channel_grouping.sql
-│   │   │   └── map_utm_sources.sql
-│   │   └── adl/                               # Analytics Data Layer — 12 BI tables
-│   │       ├── fact_revenue_by_brand.sql
-│   │       ├── fact_daily_sales.sql
-│   │       ├── fact_customer_segments.sql
-│   │       ├── fact_product_performance.sql
-│   │       ├── fact_marketing_roas.sql
-│   │       ├── fact_channel_performance.sql
-│   │       └── ... (6 more)
+│   ├── profiles.yml                           # BigQuery connection (OAuth + service-account)
 │   ├── dbt_project.yml                        # Project: boohoo_dwh
-│   ├── profiles.yml                           # Redshift connection profile
-│   └── packages.yml                           # dbt-utils >=1.0.0
+│   ├── packages.yml                           # dbt-utils >=1.0.0
+│   └── models/
+│       ├── rdl/                               # Raw Data Layer — 21 source views
+│       │   ├── boohoo_commerce/               # boohoo + boohoo_man (×3 each)
+│       │   ├── salesforce_commerce/           # prettylittlething (×3)
+│       │   ├── shopify/                       # nastygal (×3)
+│       │   ├── magento/                       # karen_millen + coast (×3 each)
+│       │   └── oracle_commerce/               # debenhams (×3)
+│       ├── odl/                               # Operational Data Layer — 15 tables
+│       │   ├── dim/                           # dim_customers, dim_products, dim_time, etc.
+│       │   ├── fact/                          # fact_orders, fact_meta_campaign_insights, etc.
+│       │   └── map/                           # map_brand, map_channel_grouping, map_utm_sources
+│       └── adl/bi/                            # Analytics Data Layer — 12 BI tables
 │
 ├── airflow/                                   # Airflow orchestration
 │   ├── config/
-│   │   ├── copy_jobs.yml                      # S3 → Redshift COPY definitions (all brands)
-│   │   ├── export_jobs.yml                    # Redshift → S3 Parquet UNLOAD definitions
-│   │   └── airflow.cfg                        # Full Airflow configuration
+│   │   ├── copy_jobs.yml                      # GCS → BigQuery Load definitions
+│   │   └── export_jobs.yml                    # BigQuery → GCS Parquet Export definitions
 │   ├── dags/
-│   │   └── aws_session.py                     # Unified boto3 session (SSO local / env cloud)
-│   ├── docker-compose.yaml                    # Full local stack (6 containers)
-│   └── docker-compose.cloud.yaml              # Lightweight cloud stack (3 containers)
+│   │   └── gcp_session.py                     # GCP credentials helper (ADC + service account)
+│   ├── docker-compose.yaml                    # Full local stack (CeleryExecutor)
+│   └── docker-compose.cloud.yaml              # Lightweight cloud stack (LocalExecutor)
 │
 ├── scripts/
-│   ├── build_zips.py                          # Package Lambda functions → dist/ ZIPs
+│   ├── build_images.py                        # Build & push Docker images to Artifact Registry
 │   └── generate_dbt_models.py                 # Scaffold all RDL/ODL/ADL SQL models
 │
 ├── .github/
-│   ├── workflows/
-│   │   └── pr_title_checker.yml               # Enforce DATA-<number> PR title prefix
+│   ├── workflows/pr_title_checker.yml         # Enforce DATA-<number> PR title prefix
 │   └── PULL_REQUEST_TEMPLATE.md               # PR template with checklist
 │
-└── dist/                                      # Built Lambda ZIP packages
+└── boohoo/                                    # Brand configuration and data models
 ```
 
 ---
 
 ## Key Components
 
-### ⚡ Lambda Data Generators
+### ⚡ Cloud Run Job Data Generators
 
-**9 Lambda functions** generate e-commerce and marketing data for all 7 brands, triggered daily by EventBridge:
+**9 Cloud Run Jobs** generate e-commerce and marketing data for all 7 brands, triggered daily by Cloud Scheduler:
 
-| Function | Output | Description |
-|----------|--------|-------------|
+| Job | Output | Description |
+|-----|--------|-------------|
 | `ecommerce_customers` | `{brand}/customers/` | Customer profiles per brand/platform |
 | `ecommerce_orders` | `{brand}/orders/` + `order_items/` | Orders and line items |
 | `ecommerce_products` | `{brand}/products/` | Product catalogues |
@@ -221,45 +201,37 @@ boohoo-data-pipeline/
 | `marketing_email_campaigns` | `marketing/email_campaigns/` | Email engagement metrics |
 | `marketing_influencers` | `marketing/influencer_posts/` | Influencer performance |
 
-The `shared/config/ecommerce.py` contains full platform-specific field mappings, ensuring each brand's data conforms to its native e-commerce platform schema (Boohoo Commerce, Salesforce, Shopify, Magento, Oracle Commerce).
+All jobs share a single Docker image pushed to **Artifact Registry** (`boohoo-jobs`). Each Cloud Run Job overrides the `CMD` at deploy time.
 
-**S3 path pattern**: `{brand}/{dataset}/history/ingest_date={yyyy-mm-dd}/{dataset}.jsonl.gz`
+**GCS path pattern**: `raw/{source}/{brand}/{dataset}/ingest_date={yyyy-mm-dd}/{dataset}.jsonl.gz`
 
-### ⏰ EC2 Cost Scheduler
+### ⏰ VM Cost Scheduler
 
-The Airflow EC2 instance is managed by two dedicated Lambda functions to minimise costs:
+The Airflow VM is managed by **native GCE Instance Schedules** — no extra functions needed:
 
 | Component | Configuration |
 |-----------|--------------|
-| **Start Lambda** | `boohoo-ec2-start` — triggered Mon/Wed/Fri at **01:00 UTC** |
-| **Stop Lambda** | `boohoo-ec2-stop` — triggered Mon/Wed/Fri at **03:00 UTC** |
-| **EC2 Instance** | `t3.medium` — Amazon Linux 2023, 20 GB gp3 |
+| **Instance Schedule** | `boohoo-airflow-schedule` — Start Mon/Wed/Fri at **01:00 UTC**, Stop at **03:00 UTC** |
+| **VM** | `e2-standard-2` — Debian 12, 20 GB pd-ssd, static external IP |
 | **Runtime** | ~**6 hours/week** total (2 hrs × 3 days) |
 | **Estimated cost** | ~**£2–4/month** |
 
-The EC2 `user_data` bootstrap installs Python 3.11, Airflow 2.10.5, dbt-redshift, clones the repo, and sets up systemd services for automatic DAG sync.
+### 🏢 BigQuery Data Warehouse
 
-### 🏢 Redshift Serverless Data Warehouse
+**Dataset**: `boohoo_dwh` | **Location**: EU | **Pricing**: On-demand
 
-**Namespace**: `boohoo-dwh` | **Base capacity**: 8 RPU | **Region**: `eu-west-2`
+All tables live in a single dataset. dbt manages the logical layering:
 
-**9 schemas** provisioned automatically:
-
-| Schema | Purpose |
-|--------|---------|
-| `rdl_boohoo_commerce` | Boohoo + BoohooMAN raw data |
-| `rdl_salesforce_commerce` | PrettyLittleThing raw data |
-| `rdl_shopify` | NastyGal raw data |
-| `rdl_magento` | Karen Millen + Coast raw data |
-| `rdl_oracle_commerce` | Debenhams raw data |
-| `rdl_marketing` | All marketing data sources |
-| `odl` | Operational Data Layer (star schema) |
-| `bi` | Analytics / BI layer |
-| `unit_test` | dbt test results |
+| Logical Layer | Purpose |
+|---------------|---------|
+| `rdl_*` tables | Platform-specific raw data (21 views) |
+| `odl_*` tables | Operational star schema (15 tables) |
+| `bi_*` tables | Analytics / BI layer (12 tables) |
+| `unit_test_*` tables | dbt test results |
 
 ### 🔄 dbt Medallion Architecture
 
-The dbt project (`boohoo_dwh`) uses **dbt-redshift** to transform data through three layers:
+The dbt project (`boohoo_dwh`) uses **dbt-bigquery** to transform data through three layers:
 
 ```
 RDL (21 views)                ODL (15 tables)              ADL (12 tables)
@@ -268,31 +240,31 @@ Per-brand source views   →    Star schema dims/facts   →   BI-ready analytic
 • Dedup via ROW_NUMBER        • dim_customers (UNION ALL   • fact_revenue_by_brand
 • Platform-specific fields      + dedup by email)          • fact_daily_sales
 • _history table reads        • dim_products (margin calc) • fact_customer_segments
-                              • dim_time (date spine)      • fact_marketing_roas
-                              • fact_orders (surrogate     • fact_channel_performance
-                                keys, revenue calcs)       • ... (7 more)
+                              • dim_time (date spine via   • fact_marketing_roas
+                                GENERATE_DATE_ARRAY)       • fact_channel_performance
+                              • fact_orders (surrogate     • ... (7 more)
+                                keys, revenue calcs)
                               • 7 marketing fact tables
                               • 3 mapping tables
 ```
-
-**Tests**: Comprehensive `_schema.yml` with unique/not_null on surrogate keys, accepted_values on brand, accepted_range on prices, referential integrity checks.
 
 ---
 
 ## Infrastructure (Terraform)
 
-All infrastructure is provisioned as code in `eu-west-2` with S3 backend state:
+All infrastructure is provisioned as code in `europe-west2` (London) with GCS backend state:
 
 | Resource | Details |
 |----------|---------|
-| **VPC** | Public + private subnets, NAT gateway, internet gateway |
-| **Redshift Serverless** | `boohoo-dwh` namespace, 8 RPU, 9 auto-provisioned schemas |
-| **S3** | 3 buckets: `boohoo-dns-rdl-staging`, `boohoo-terraform-state`, `boohoo-data-quality-staging` |
-| **Lambda (×11)** | 9 data generators + 2 EC2 scheduler functions |
-| **EventBridge** | Daily triggers for generators + Mon/Wed/Fri EC2 start/stop |
-| **EC2** | `t3.medium`, Amazon Linux 2023, 20 GB gp3, Elastic IP |
-| **IAM** | `BoohooDataGeneratorRole` (Lambda), `BoohooRedshiftS3UnloadRole` (Redshift) |
-| **Secrets Manager** | Redshift admin credentials |
+| **BigQuery** | `boohoo_dwh` dataset, EU location, on-demand pricing |
+| **Cloud Storage** | 3 buckets: `boohoo-rdl-staging`, `boohoo-terraform-state`, `boohoo-data-quality` |
+| **Cloud Run Jobs (×9)** | Containerised Python 3.11 data generators, 512 Mi, Artifact Registry images |
+| **Cloud Scheduler (×9)** | Daily midnight UTC triggers for each Cloud Run Job |
+| **Compute Engine** | `e2-standard-2`, Debian 12, 20 GB pd-ssd, static IP, Docker bootstrap |
+| **Instance Schedule** | Native GCE start/stop: Mon/Wed/Fri 01:00–03:00 UTC |
+| **IAM** | `boohoo-data-generator` SA (GCS + BQ), `boohoo-airflow-vm` SA (BQ admin + GCS + Run invoker) |
+| **Artifact Registry** | `boohoo-jobs` Docker repository |
+| **Secret Manager** | Placeholder for future API keys |
 
 ---
 
@@ -300,32 +272,33 @@ All infrastructure is provisioned as code in `eu-west-2` with S3 backend state:
 
 ### Prerequisites
 
-- AWS CLI configured with appropriate permissions
+- Google Cloud SDK (`gcloud`) configured
+- A GCP project with billing enabled
 - Terraform ≥ 1.0
 - Docker & Docker Compose
 - Python 3.11
-- dbt-redshift (`pip install dbt-redshift`)
+- dbt-bigquery (`pip install dbt-bigquery`)
 
 ### 1. Provision Infrastructure
 
 ```bash
 cd terraform
 terraform init
-terraform plan
-terraform apply
+terraform plan -var="gcp_project_id=YOUR_PROJECT_ID"
+terraform apply -var="gcp_project_id=YOUR_PROJECT_ID"
 ```
 
-### 2. Build & Deploy Lambda Functions
+### 2. Build & Push Cloud Run Job Images
 
 ```bash
-python scripts/build_zips.py
-# Upload dist/*.zip via Terraform or AWS CLI
+python scripts/build_images.py --push
 ```
 
 ### 3. Run dbt Models
 
 ```bash
 cd dbt
+export GCP_PROJECT_ID=YOUR_PROJECT_ID
 dbt deps
 dbt run        # Build all models
 dbt test       # Run quality checks

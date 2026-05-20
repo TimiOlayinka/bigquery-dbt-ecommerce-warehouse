@@ -15,7 +15,7 @@ WITH meta AS (
         SUM(clicks) AS clicks,
         SUM(reach) AS reach,
         0 AS conversions,
-        0::NUMERIC AS revenue,
+        CAST(0 AS NUMERIC) AS revenue,
         0 AS sessions
     FROM {{ ref('fact_meta_campaign_insights') }}
     GROUP BY 1, 2, 3
@@ -31,7 +31,7 @@ google AS (
         SUM(impressions),
         SUM(clicks),
         0,
-        SUM(conversions)::INT,
+        CAST(SUM(conversions) AS INT64),
         SUM(conversions_value),
         0
     FROM {{ ref('fact_google_ads_performance') }}
@@ -48,8 +48,8 @@ tiktok AS (
         SUM(impressions),
         SUM(clicks),
         SUM(reach),
-        SUM(conversion)::INT,
-        0::NUMERIC,
+        CAST(SUM(conversion) AS INT64),
+        CAST(0 AS NUMERIC),
         0
     FROM {{ ref('fact_tiktok_ad_insights') }}
     GROUP BY 1, 2, 3
@@ -61,11 +61,11 @@ email AS (
         brand_tier,
         'Email' AS channel,
         'Owned' AS channel_type,
-        0::NUMERIC,
-        SUM(delivered)::BIGINT,
-        SUM(clicked)::BIGINT,
-        SUM(delivered)::BIGINT,
-        SUM(converted)::INT,
+        CAST(0 AS NUMERIC),
+        CAST(SUM(delivered) AS INT64),
+        CAST(SUM(clicked) AS INT64),
+        CAST(SUM(delivered) AS INT64),
+        CAST(SUM(converted) AS INT64),
         SUM(revenue),
         0
     FROM {{ ref('fact_email_engagement') }}
@@ -80,9 +80,9 @@ influencer AS (
         'Earned' AS channel_type,
         SUM(cost),
         SUM(impressions),
-        SUM(link_clicks)::BIGINT,
+        CAST(SUM(link_clicks) AS INT64),
         SUM(reach),
-        SUM(conversions)::INT,
+        CAST(SUM(conversions) AS INT64),
         SUM(revenue_attributed),
         0
     FROM {{ ref('fact_influencer_performance') }}
@@ -95,11 +95,11 @@ ga4 AS (
         brand_tier,
         'Website (GA4)' AS channel,
         'All Traffic' AS channel_type,
-        0::NUMERIC,
-        0::BIGINT,
-        0::BIGINT,
-        0::BIGINT,
-        SUM(transactions)::INT,
+        CAST(0 AS NUMERIC),
+        CAST(0 AS INT64),
+        CAST(0 AS INT64),
+        CAST(0 AS INT64),
+        CAST(SUM(transactions) AS INT64),
         SUM(revenue),
         COUNT(*) AS sessions
     FROM {{ ref('fact_ga4_sessions') }}
@@ -127,8 +127,8 @@ SELECT
     -- Normalised metrics
     ROUND(spend / NULLIF(impressions, 0) * 1000, 2)     AS cpm,
     ROUND(spend / NULLIF(clicks, 0), 2)                 AS cpc,
-    ROUND(clicks::FLOAT / NULLIF(impressions, 0) * 100, 4) AS ctr,
-    ROUND(conversions::FLOAT / NULLIF(clicks, 0) * 100, 2) AS conversion_rate,
+    ROUND(CAST(clicks AS FLOAT64) / NULLIF(impressions, 0) * 100, 4) AS ctr,
+    ROUND(CAST(conversions AS FLOAT64) / NULLIF(clicks, 0) * 100, 2) AS conversion_rate,
     ROUND(spend / NULLIF(conversions, 0), 2)            AS cost_per_conversion,
     ROUND(revenue / NULLIF(spend, 0), 2)                AS roas
 FROM combined

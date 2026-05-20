@@ -84,7 +84,7 @@ SELECT
     date_nk,
     EXTRACT(YEAR FROM date_nk)                          AS year,
     EXTRACT(MONTH FROM date_nk)                         AS month,
-    EXTRACT(DOW FROM date_nk)                           AS day_of_week,
+    EXTRACT(DAYOFWEEK FROM date_nk)                           AS day_of_week,
     brand,
     brand_tier,
     channel,
@@ -96,7 +96,7 @@ SELECT
     -- Calculated metrics
     ROUND(spend / NULLIF(impressions, 0) * 1000, 2)     AS cpm,
     ROUND(spend / NULLIF(clicks, 0), 2)                 AS cpc,
-    ROUND(clicks::FLOAT / NULLIF(impressions, 0) * 100, 4) AS ctr,
+    ROUND(CAST(clicks AS FLOAT64) / NULLIF(impressions, 0) * 100, 4) AS ctr,
     -- Rolling averages (window functions)
     ROUND(AVG(spend) OVER (
         PARTITION BY brand, channel ORDER BY date_nk ROWS BETWEEN 6 PRECEDING AND CURRENT ROW

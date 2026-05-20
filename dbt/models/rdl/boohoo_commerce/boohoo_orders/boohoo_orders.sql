@@ -19,7 +19,7 @@ WITH history AS (
         delivery_method,
         warehouse_id AS fulfilment_centre,
         ingest_date,
-        REPLACE(SPLIT_PART(ingest_time, '+', 1), 'T', ' ')::TIMESTAMP AS ingest_ts
+        CAST(REPLACE(SPLIT(ingest_time, '+')[OFFSET(0)], 'T', ' ') AS TIMESTAMP) AS ingest_ts
     FROM {{ source('rdl_boohoo_commerce', 'boohoo_orders_history') }}
 ),
 versioned AS (
@@ -31,26 +31,26 @@ versioned AS (
         COUNT(*) OVER (
             PARTITION BY order_id
         ) AS version_count,
-        MD5(
+        TO_HEX(MD5(
             COALESCE(order_id, '') || '|' ||
             COALESCE(customer_id, '') || '|' ||
-            COALESCE(order_timestamp::VARCHAR, '') || '|' ||
-            COALESCE(total_amount::VARCHAR, '') || '|' ||
+            COALESCE(CAST(order_timestamp AS STRING), '') || '|' ||
+            COALESCE(CAST(total_amount AS STRING), '') || '|' ||
             COALESCE(status, '') || '|' ||
             COALESCE(payment_method, '') || '|' ||
-            COALESCE(discount_amount::VARCHAR, '') || '|' ||
-            COALESCE(shipping_cost::VARCHAR, '') || '|' ||
-            COALESCE(item_count::VARCHAR, '') || '|' ||
+            COALESCE(CAST(discount_amount AS STRING), '') || '|' ||
+            COALESCE(CAST(shipping_cost AS STRING), '') || '|' ||
+            COALESCE(CAST(item_count AS STRING), '') || '|' ||
             COALESCE(promo_code, '') || '|' ||
             COALESCE(delivery_method, '') || '|' ||
             COALESCE(fulfilment_centre, '')
-        ) AS record_hash
+        )) AS record_hash
     FROM history
 )
 SELECT
     order_id,
     customer_id,
-    order_timestamp::TIMESTAMP AS order_timestamp,
+    CAST(order_timestamp AS TIMESTAMP) AS order_timestamp,
     total_amount,
     status,
     payment_method,

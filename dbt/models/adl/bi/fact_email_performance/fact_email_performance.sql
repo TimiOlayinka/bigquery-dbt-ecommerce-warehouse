@@ -32,9 +32,9 @@ SELECT
     conversion_rate,
     revenue_per_email,
     -- Derived health metrics
-    ROUND(unsubscribed::FLOAT / NULLIF(delivered, 0) * 100, 4) AS unsubscribe_rate,
-    ROUND(bounced::FLOAT / NULLIF(list_size, 0) * 100, 4)     AS bounce_rate,
-    ROUND(spam_complaints::FLOAT / NULLIF(delivered, 0) * 100, 4) AS spam_rate,
+    ROUND(CAST(unsubscribed AS FLOAT64) / NULLIF(delivered, 0) * 100, 4) AS unsubscribe_rate,
+    ROUND(CAST(bounced AS FLOAT64) / NULLIF(list_size, 0) * 100, 4)     AS bounce_rate,
+    ROUND(CAST(spam_complaints AS FLOAT64) / NULLIF(delivered, 0) * 100, 4) AS spam_rate,
     -- Revenue attribution
     ROUND(revenue / NULLIF(converted, 0), 2)            AS avg_order_value,
     ROUND(revenue / NULLIF(clicked, 0), 2)              AS revenue_per_click
