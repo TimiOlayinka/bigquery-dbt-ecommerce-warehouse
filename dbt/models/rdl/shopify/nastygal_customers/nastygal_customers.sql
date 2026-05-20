@@ -17,7 +17,7 @@ id AS customer_id,
         NULL AS gender,
         accepts_marketing AS is_subscribed,
         ingest_date,
-        REPLACE(SPLIT_PART(ingest_time, '+', 1), 'T', ' ')::TIMESTAMP AS ingest_ts
+        CAST(REPLACE(SPLIT(ingest_time, '+')[OFFSET(0)], 'T', ' ') AS TIMESTAMP) AS ingest_ts
     FROM {{ source('rdl_shopify', 'nastygal_customers_history') }}
 ),
 versioned AS (
@@ -30,19 +30,19 @@ versioned AS (
         COUNT(*) OVER (
             PARTITION BY customer_id
         ) AS version_count,
-        MD5(
-            COALESCE(customer_id::VARCHAR, '') || '|' ||
-            COALESCE(email::VARCHAR, '') || '|' ||
-            COALESCE(first_name::VARCHAR, '') || '|' ||
-            COALESCE(last_name::VARCHAR, '') || '|' ||
-            COALESCE(phone::VARCHAR, '') || '|' ||
-            COALESCE(city::VARCHAR, '') || '|' ||
-            COALESCE(country::VARCHAR, '') || '|' ||
-            COALESCE(customer_segment::VARCHAR, '') || '|' ||
-            COALESCE(signup_date::VARCHAR, '') || '|' ||
-            COALESCE(gender::VARCHAR, '') || '|' ||
-            COALESCE(is_subscribed::VARCHAR, '')
-        ) AS record_hash
+        TO_HEX(MD5(
+            COALESCE(CAST(customer_id AS STRING), '') || '|' ||
+            COALESCE(CAST(email AS STRING), '') || '|' ||
+            COALESCE(CAST(first_name AS STRING), '') || '|' ||
+            COALESCE(CAST(last_name AS STRING), '') || '|' ||
+            COALESCE(CAST(phone AS STRING), '') || '|' ||
+            COALESCE(CAST(city AS STRING), '') || '|' ||
+            COALESCE(CAST(country AS STRING), '') || '|' ||
+            COALESCE(CAST(customer_segment AS STRING), '') || '|' ||
+            COALESCE(CAST(signup_date AS STRING), '') || '|' ||
+            COALESCE(CAST(gender AS STRING), '') || '|' ||
+            COALESCE(CAST(is_subscribed AS STRING), '')
+        )) AS record_hash
     FROM history
 )
 SELECT
@@ -54,7 +54,7 @@ SELECT
     city,
     country,
     customer_segment,
-    signup_date::DATE AS registration_date,
+    CAST(signup_date AS DATE) AS registration_date,
     gender,
     CASE WHEN is_subscribed IN ('true', 'True', '1', 'yes') THEN TRUE ELSE FALSE END AS is_marketing_opted_in,
     ingest_date,

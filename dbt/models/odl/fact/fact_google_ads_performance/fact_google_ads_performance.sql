@@ -16,19 +16,19 @@ WITH raw_data AS (
         date_nk,
         device,
         ad_network_type,
-        cost_micros                                     :: BIGINT,
-        spend                                           :: NUMERIC(18,2),
-        impressions                                     :: BIGINT,
-        clicks                                          :: BIGINT,
-        interactions                                    :: BIGINT,
-        conversions                                     :: NUMERIC(18,2),
-        conversions_value                               :: NUMERIC(18,2),
-        all_conversions                                 :: NUMERIC(18,2),
-        all_conversions_value                           :: NUMERIC(18,2),
-        video_quartile_p25_rate                         :: NUMERIC(18,2),
-        video_quartile_p50_rate                         :: NUMERIC(18,2),
-        video_quartile_p75_rate                         :: NUMERIC(18,2),
-        video_quartile_p100_rate                        :: NUMERIC(18,2),
+        CAST(cost_micros AS INT64),
+        CAST(spend AS NUMERIC),
+        CAST(impressions AS INT64),
+        CAST(clicks AS INT64),
+        CAST(interactions AS INT64),
+        CAST(conversions AS NUMERIC),
+        CAST(conversions_value AS NUMERIC),
+        CAST(all_conversions AS NUMERIC),
+        CAST(all_conversions_value AS NUMERIC),
+        CAST(video_quartile_p25_rate AS NUMERIC),
+        CAST(video_quartile_p50_rate AS NUMERIC),
+        CAST(video_quartile_p75_rate AS NUMERIC),
+        CAST(video_quartile_p100_rate AS NUMERIC),
         brand,
         ingest_date
     FROM {{ ref('rdl_google_ads') }}
@@ -51,7 +51,7 @@ classified AS (
     FROM raw_data
 )
 SELECT
-    MD5(d.google_ads_ad_nk || '|' || d.date_nk || '|' || d.device || '|' || d.brand)
+    TO_HEX(MD5(d.google_ads_ad_nk || '|' || d.date_nk || '|' || d.device || '|' || d.brand))
         AS google_ads_sk,
     d.google_ads_customer_nk,
     d.google_ads_campaign_nk,
@@ -82,7 +82,7 @@ SELECT
     d.brand,
     b.brand_tier,
     d.ingest_date,
-    CURRENT_TIMESTAMP                                   AS dwh_created_at
+    CURRENT_TIMESTAMP()                                   AS dwh_created_at
 FROM classified d
 LEFT JOIN {{ ref('dim_campaigns') }} dc
     ON d.google_ads_campaign_nk = dc.campaign_nk AND dc.platform = 'Google Ads' AND d.brand = dc.brand

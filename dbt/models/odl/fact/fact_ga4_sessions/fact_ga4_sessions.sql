@@ -4,13 +4,13 @@
 -- Follows HnB fact_sessions_ga4 pattern
 ------------------------------------------------------------------------------------------------------------------------
 SELECT
-    MD5(s.session_id || '|' || s.brand)                 AS session_sk,
+    TO_HEX(MD5(s.session_id || '|' || s.brand))                 AS session_sk,
     s.session_id                                        AS session_nk,
     s.user_pseudo_id,
     s.date_nk,
     EXTRACT(YEAR FROM s.date_nk)                        AS year,
     EXTRACT(MONTH FROM s.date_nk)                       AS month,
-    EXTRACT(DOW FROM s.date_nk)                         AS day_of_week,
+    EXTRACT(DAYOFWEEK FROM s.date_nk)                         AS day_of_week,
     s.session_timestamp,
     s.source,
     s.medium,
@@ -33,7 +33,7 @@ SELECT
     s.brand,
     b.brand_tier,
     s.ingest_date,
-    CURRENT_TIMESTAMP                                   AS dwh_created_at
+    CURRENT_TIMESTAMP()                                   AS dwh_created_at
 FROM {{ ref('rdl_ga4_sessions') }} s
 LEFT JOIN {{ ref('map_utm_sources') }} utm
     ON s.source = utm.utm_source AND s.medium = utm.utm_medium

@@ -142,3 +142,53 @@ PAYMENTS_MAP = {
     "magento": ["braintree","klarna_pay_later","paypal_express","stripe","checkmo"],
     "oracle_commerce": ["creditCard","klarnaPayment","payPal","applePay","giftCard"],
 }
+
+# ─────────────────────────────────────────────────────────────────
+# Brand → Source System Mapping + Generation Counts
+# Each brand maps to its e-commerce platform and how many records
+# to generate per Cloud Run Job execution.
+# ─────────────────────────────────────────────────────────────────
+BRAND_SOURCES = {
+    "hnb": {
+        "source": "boohoo_commerce",
+        "customers_per": 500,
+        "products_per": 300,
+        "orders_per": 800,
+    },
+    "hnb_man": {
+        "source": "boohoo_commerce",
+        "customers_per": 300,
+        "products_per": 200,
+        "orders_per": 500,
+    },
+    "prettylittlething": {
+        "source": "salesforce_commerce",
+        "customers_per": 600,
+        "products_per": 400,
+        "orders_per": 1000,
+    },
+    "nastygal": {
+        "source": "shopify",
+        "customers_per": 350,
+        "products_per": 250,
+        "orders_per": 600,
+    },
+    "karen_millen": {
+        "source": "magento",
+        "customers_per": 250,
+        "products_per": 200,
+        "orders_per": 400,
+    },
+    "coast": {
+        "source": "magento",
+        "customers_per": 200,
+        "products_per": 150,
+        "orders_per": 350,
+    },
+    "debenhams": {
+        "source": "oracle_commerce",
+        "customers_per": 400,
+        "products_per": 350,
+        "orders_per": 700,
+    },
+}

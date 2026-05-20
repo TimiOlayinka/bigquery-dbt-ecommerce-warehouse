@@ -11,26 +11,26 @@ WITH raw_data AS (
         account_id                                      AS meta_account_nk,
         publisher_platform,
         date_nk,
-        spend                                           :: NUMERIC(18,4),
-        impressions                                     :: BIGINT,
-        clicks                                          :: BIGINT,
-        reach                                           :: BIGINT,
-        frequency                                       :: NUMERIC(18,4),
-        cpc                                             :: NUMERIC(18,4),
-        cpm                                             :: NUMERIC(18,4),
-        ctr                                             :: NUMERIC(18,4),
-        outbound_clicks                                 :: BIGINT,
-        outbound_clicks_ctr                             :: NUMERIC(18,4),
-        video_p25_watched                               :: BIGINT,
-        video_p50_watched                               :: BIGINT,
-        video_p75_watched                               :: BIGINT,
-        video_p100_watched                              :: BIGINT,
+        CAST(spend AS NUMERIC),
+        CAST(impressions AS INT64),
+        CAST(clicks AS INT64),
+        CAST(reach AS INT64),
+        CAST(frequency AS NUMERIC),
+        CAST(cpc AS NUMERIC),
+        CAST(cpm AS NUMERIC),
+        CAST(ctr AS NUMERIC),
+        CAST(outbound_clicks AS INT64),
+        CAST(outbound_clicks_ctr AS NUMERIC),
+        CAST(video_p25_watched AS INT64),
+        CAST(video_p50_watched AS INT64),
+        CAST(video_p75_watched AS INT64),
+        CAST(video_p100_watched AS INT64),
         brand,
         ingest_date
     FROM {{ ref('rdl_meta_ads') }}
 )
 SELECT
-    MD5(rd.meta_campaign_nk || '|' || rd.date_nk || '|' || rd.publisher_platform || '|' || rd.brand)
+    TO_HEX(MD5(rd.meta_campaign_nk || '|' || rd.date_nk || '|' || rd.publisher_platform || '|' || rd.brand))
         AS meta_insight_sk,
     rd.meta_campaign_nk,
     rd.meta_campaign_name,
@@ -58,7 +58,7 @@ SELECT
     rd.brand,
     b.brand_tier,
     rd.ingest_date,
-    CURRENT_TIMESTAMP                                   AS dwh_created_at
+    CURRENT_TIMESTAMP()                                   AS dwh_created_at
 FROM raw_data rd
 LEFT JOIN {{ ref('dim_campaigns') }} dc
     ON rd.meta_campaign_nk = dc.campaign_nk AND dc.platform = 'Meta Ads' AND rd.brand = dc.brand

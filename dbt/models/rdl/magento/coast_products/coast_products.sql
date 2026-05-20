@@ -20,7 +20,7 @@ entity_id AS product_id,
         created_at,
         updated_at,
         ingest_date,
-        REPLACE(SPLIT_PART(ingest_time, '+', 1), 'T', ' ')::TIMESTAMP AS ingest_ts
+        CAST(REPLACE(SPLIT(ingest_time, '+')[OFFSET(0)], 'T', ' ') AS TIMESTAMP) AS ingest_ts
     FROM {{ source('rdl_magento', 'coast_products_history') }}
 ),
 versioned AS (
@@ -33,22 +33,22 @@ versioned AS (
         COUNT(*) OVER (
             PARTITION BY product_id
         ) AS version_count,
-        MD5(
-            COALESCE(product_id::VARCHAR, '') || '|' ||
-            COALESCE(product_name::VARCHAR, '') || '|' ||
-            COALESCE(colour::VARCHAR, '') || '|' ||
-            COALESCE(category::VARCHAR, '') || '|' ||
-            COALESCE(subcategory::VARCHAR, '') || '|' ||
-            COALESCE(current_price::VARCHAR, '') || '|' ||
-            COALESCE(cost_price::VARCHAR, '') || '|' ||
-            COALESCE(rrp::VARCHAR, '') || '|' ||
-            COALESCE(material::VARCHAR, '') || '|' ||
-            COALESCE(season::VARCHAR, '') || '|' ||
-            COALESCE(is_active::VARCHAR, '') || '|' ||
-            COALESCE(stock_status::VARCHAR, '') || '|' ||
-            COALESCE(created_at::VARCHAR, '') || '|' ||
-            COALESCE(updated_at::VARCHAR, '')
-        ) AS record_hash
+        TO_HEX(MD5(
+            COALESCE(CAST(product_id AS STRING), '') || '|' ||
+            COALESCE(CAST(product_name AS STRING), '') || '|' ||
+            COALESCE(CAST(colour AS STRING), '') || '|' ||
+            COALESCE(CAST(category AS STRING), '') || '|' ||
+            COALESCE(CAST(subcategory AS STRING), '') || '|' ||
+            COALESCE(CAST(current_price AS STRING), '') || '|' ||
+            COALESCE(CAST(cost_price AS STRING), '') || '|' ||
+            COALESCE(CAST(rrp AS STRING), '') || '|' ||
+            COALESCE(CAST(material AS STRING), '') || '|' ||
+            COALESCE(CAST(season AS STRING), '') || '|' ||
+            COALESCE(CAST(is_active AS STRING), '') || '|' ||
+            COALESCE(CAST(stock_status AS STRING), '') || '|' ||
+            COALESCE(CAST(created_at AS STRING), '') || '|' ||
+            COALESCE(CAST(updated_at AS STRING), '')
+        )) AS record_hash
     FROM history
 )
 SELECT
@@ -62,7 +62,7 @@ SELECT
     rrp,
     material,
     season,
-    is_active::BOOLEAN AS is_active,
+    CAST(is_active AS BOOL) AS is_active,
     stock_status,
     created_at,
     updated_at,

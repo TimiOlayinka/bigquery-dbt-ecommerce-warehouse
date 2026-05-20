@@ -18,7 +18,7 @@ WITH history AS (
         gender,
         is_subscribed,
         ingest_date,
-        REPLACE(SPLIT_PART(ingest_time, '+', 1), 'T', ' ')::TIMESTAMP AS ingest_ts
+        CAST(REPLACE(SPLIT(ingest_time, '+')[OFFSET(0)], 'T', ' ') AS TIMESTAMP) AS ingest_ts
     FROM {{ source('rdl_boohoo_commerce', 'boohoo_customers_history') }}
 ),
 versioned AS (
@@ -30,7 +30,7 @@ versioned AS (
         COUNT(*) OVER (
             PARTITION BY customer_id
         ) AS version_count,
-        MD5(
+        TO_HEX(MD5(
             COALESCE(customer_id, '') || '|' ||
             COALESCE(email, '') || '|' ||
             COALESCE(first_name, '') || '|' ||
@@ -39,10 +39,10 @@ versioned AS (
             COALESCE(city, '') || '|' ||
             COALESCE(country, '') || '|' ||
             COALESCE(customer_segment, '') || '|' ||
-            COALESCE(signup_date::VARCHAR, '') || '|' ||
+            COALESCE(CAST(signup_date AS STRING), '') || '|' ||
             COALESCE(gender, '') || '|' ||
-            COALESCE(is_subscribed::VARCHAR, '')
-        ) AS record_hash
+            COALESCE(CAST(is_subscribed AS STRING), '')
+        )) AS record_hash
     FROM history
 )
 SELECT
@@ -54,9 +54,9 @@ SELECT
     city,
     country,
     customer_segment,
-    signup_date::DATE     AS registration_date,
+    CAST(signup_date AS DATE)     AS registration_date,
     gender,
-    is_subscribed::BOOLEAN AS is_marketing_opted_in,
+    CAST(is_subscribed AS BOOL) AS is_marketing_opted_in,
     'Boohoo'              AS brand,
     'boohoo_commerce'     AS source_system,
     ingest_date,

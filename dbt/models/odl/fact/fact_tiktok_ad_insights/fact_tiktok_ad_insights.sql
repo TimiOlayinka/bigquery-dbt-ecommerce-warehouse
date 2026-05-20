@@ -10,31 +10,31 @@ WITH raw_data AS (
         campaign_name                                   AS tiktok_campaign_name,
         objective,
         date_nk,
-        spend                                           :: NUMERIC(18,4),
-        impressions                                     :: BIGINT,
-        clicks                                          :: BIGINT,
-        reach                                           :: BIGINT,
-        frequency                                       :: NUMERIC(18,4),
-        ctr                                             :: NUMERIC(18,4),
-        cpc                                             :: NUMERIC(18,4),
-        cpm                                             :: NUMERIC(18,4),
-        conversion_rate                                 :: NUMERIC(18,4),
-        conversion                                      :: BIGINT,
-        cost_per_conversion                             :: NUMERIC(18,4),
-        purchase                                        :: BIGINT,
-        video_play_actions                              :: BIGINT,
-        video_watched_2s                                :: BIGINT,
-        video_watched_6s                                :: BIGINT,
-        video_views_p25                                 :: BIGINT,
-        video_views_p50                                 :: BIGINT,
-        video_views_p75                                 :: BIGINT,
-        video_views_p100                                :: BIGINT,
+        CAST(spend AS NUMERIC),
+        CAST(impressions AS INT64),
+        CAST(clicks AS INT64),
+        CAST(reach AS INT64),
+        CAST(frequency AS NUMERIC),
+        CAST(ctr AS NUMERIC),
+        CAST(cpc AS NUMERIC),
+        CAST(cpm AS NUMERIC),
+        CAST(conversion_rate AS NUMERIC),
+        CAST(conversion AS INT64),
+        CAST(cost_per_conversion AS NUMERIC),
+        CAST(purchase AS INT64),
+        CAST(video_play_actions AS INT64),
+        CAST(video_watched_2s AS INT64),
+        CAST(video_watched_6s AS INT64),
+        CAST(video_views_p25 AS INT64),
+        CAST(video_views_p50 AS INT64),
+        CAST(video_views_p75 AS INT64),
+        CAST(video_views_p100 AS INT64),
         brand,
         ingest_date
     FROM {{ ref('rdl_tiktok_ads') }}
 )
 SELECT
-    MD5(rd.tiktok_ad_nk || '|' || rd.date_nk || '|' || rd.brand)
+    TO_HEX(MD5(rd.tiktok_ad_nk || '|' || rd.date_nk || '|' || rd.brand))
         AS tiktok_ad_sk,
     rd.tiktok_ad_nk,
     rd.tiktok_advertiser_id,
@@ -65,7 +65,7 @@ SELECT
     rd.brand,
     b.brand_tier,
     rd.ingest_date,
-    CURRENT_TIMESTAMP                                   AS dwh_created_at
+    CURRENT_TIMESTAMP()                                   AS dwh_created_at
 FROM raw_data rd
 LEFT JOIN {{ ref('map_brand') }} b
     ON rd.brand = b.brand

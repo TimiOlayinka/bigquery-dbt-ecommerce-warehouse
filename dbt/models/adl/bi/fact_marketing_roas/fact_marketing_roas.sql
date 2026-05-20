@@ -51,7 +51,7 @@ SELECT
     ROUND(s.spend / NULLIF(s.clicks, 0), 2)             AS cost_per_click,
     ROUND(r.revenue_attributed / NULLIF(r.orders, 0), 2)
         AS avg_order_value,
-    ROUND(r.converting_sessions::FLOAT / NULLIF(r.sessions, 0) * 100, 2)
+    ROUND(CAST(r.converting_sessions AS FLOAT64) / NULLIF(r.sessions, 0) * 100, 2)
         AS session_conversion_rate
 FROM paid_spend s
 FULL OUTER JOIN ga4_revenue r

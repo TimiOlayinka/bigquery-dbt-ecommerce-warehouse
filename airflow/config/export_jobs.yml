@@ -1,45 +1,44 @@
 # ─────────────────────────────────────────────────────────────────
-# Redshift → S3 Parquet Export Configuration
-# Each model maps to an UNLOAD SQL statement.
-# The DAG reads this file and submits each SQL to Redshift Data API.
+# BigQuery → GCS Parquet Export Configuration
+# Each model maps to a BigQuery EXPORT DATA statement.
+# The DAG reads this file and submits each query to BigQuery.
 # ─────────────────────────────────────────────────────────────────
 
 settings:
-  workgroup: bellosdata
-  database: hnb_dwh
-  iam_role: ${REDSHIFT_IAM_ROLE}
-  s3_bucket: hnb-data-quality-staging
-  region: eu-west-2
+  project: ${GCP_PROJECT_ID}
+  dataset_prefix: hnb_dwh
+  gcs_bucket: hnb-data-quality-staging
+  region: europe-west2
 
 exports:
 
   # ── RDL Layer ──────────────────────────────────────────────────
   rdl:
     models:
-      - schema: rdl_zendesk
+      - dataset: rdl_zendesk
         tables: [rdl_tickets, rdl_agents, rdl_teams, rdl_ticket_interactions]
         filter: ""
 
-      - schema: rdl_qualtrics
+      - dataset: rdl_qualtrics
         tables: [rdl_blnx_survey, rdl_nps_visitview]
         filter: ""
 
-      - schema: rdl_manhattan
+      - dataset: rdl_manhattan
         tables: [rdl_warehouse_status, rdl_basket_items]
         filter: ""
 
-      - schema: rdl_metapack
+      - dataset: rdl_metapack
         tables: [rdl_parcel_events, rdl_delivery_order, rdl_delivery_item, rdl_digital_refunds]
         filter: ""
 
-      - schema: rdl_hnb_commerce
+      - dataset: rdl_hnb_commerce
         tables: [rdl_customer_otif, rdl_customer_otif_cc, rdl_postship_defect]
         filter: ""
 
   # ── ODL Layer ──────────────────────────────────────────────────
   odl:
     models:
-      - schema: odl
+      - dataset: odl
         tables:
           - dim_tickets
           - dim_agents
@@ -60,7 +59,7 @@ exports:
   # ── ADL Layer ──────────────────────────────────────────────────
   adl:
     models:
-      - schema: bi
+      - dataset: bi
         tables:
           - fact_cx_nps_summary
           - fact_delivery_performance

@@ -27,7 +27,7 @@ dedup AS (
     FROM all_customers
 )
 SELECT
-    MD5(customer_id || '|' || brand) AS customer_sk,
+    TO_HEX(MD5(customer_id || '|' || brand)) AS customer_sk,
     customer_id                      AS customer_nk,
     email,
     first_name,
@@ -42,5 +42,5 @@ SELECT
     brand,
     source_system,
     ingest_date,
-    CURRENT_TIMESTAMP AS dwh_created_at
+    CURRENT_TIMESTAMP() AS dwh_created_at
 FROM dedup WHERE rnk = 1

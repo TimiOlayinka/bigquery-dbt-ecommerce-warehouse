@@ -19,7 +19,7 @@ WITH all_products AS (
     SELECT * FROM {{ ref('debenhams_products') }}    WHERE is_latest
 )
 SELECT
-    MD5(product_id || '|' || brand) AS product_sk,
+    TO_HEX(MD5(product_id || '|' || brand)) AS product_sk,
     product_id                      AS product_nk,
     product_name,
     colour,
@@ -38,5 +38,5 @@ SELECT
     brand,
     source_system,
     ingest_date,
-    CURRENT_TIMESTAMP AS dwh_created_at
+    CURRENT_TIMESTAMP() AS dwh_created_at
 FROM all_products
