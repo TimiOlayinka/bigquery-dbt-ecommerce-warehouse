@@ -1,6 +1,6 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', '.']
+    args: ['build', '-t', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'jobs/']
   
   - name: 'gcr.io/cloud-builders/docker'
     args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/ecommerce_customers:latest']
