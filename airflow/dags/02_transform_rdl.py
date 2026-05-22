@@ -4,7 +4,7 @@ Loads raw JSONL data from GCS staging into BigQuery history tables.
 """
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.providers.google.cloud.operators.bigquery import GCSToBigQueryOperator
+from airflow.providers.google.cloud.transfers.gcs_to_bigquery import GCSToBigQueryOperator
 from airflow.sensors.external_task import ExternalTaskSensor
 from airflow.utils.task_group import TaskGroup
 
@@ -39,7 +39,7 @@ with DAG(
     dag_id="02_transform_rdl",
     default_args=default_args,
     description="Raw Data Layer: Load GCS JSONL into BigQuery history tables",
-    schedule_interval="@daily",
+    schedule="@daily",
     start_date=datetime(2026, 5, 20),
     catchup=False,
     tags=["load", "gcs", "bigquery", "rdl"],
