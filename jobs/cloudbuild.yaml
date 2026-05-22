@@ -39,3 +39,6 @@ images:
   - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_ga4_sessions:latest'
   - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_email_campaigns:latest'
   - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_influencers:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
