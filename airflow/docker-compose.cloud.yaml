@@ -24,9 +24,7 @@ x-airflow-common:
     AIRFLOW__CORE__EXECUTION_API_SERVER_URL: 'http://airflow-apiserver:8080/execution/'
     AIRFLOW__API_AUTH__JWT_SECRET: 'boohoo_jwt_secret_2026'
     AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: 'true'
-    _PIP_ADDITIONAL_REQUIREMENTS: 'google-cloud-bigquery google-cloud-storage pyarrow'
-    # GCP credentials from instance service account key
-    GOOGLE_APPLICATION_CREDENTIALS: /opt/airflow/keys/service-account.json
+    _PIP_ADDITIONAL_REQUIREMENTS: 'apache-airflow-providers-google dbt-bigquery dbt-core google-cloud-bigquery google-cloud-storage pyarrow'
     GCP_PROJECT_ID: ${GCP_PROJECT_ID:-bellosdata}
   volumes:
     - ./dags:/opt/airflow/dags
