@@ -17,7 +17,7 @@ terraform {
   # Remote state in GCS — bucket must be created before first init.
   # Use: gsutil mb -l europe-west2 gs://boohoo-terraform-state-<project_id>
   backend "gcs" {
-    bucket = "boohoo-terraform-state"
+    bucket = "boohoo-terraform-state-bellosdata"
     prefix = "terraform/state"
   }
 }
