@@ -1,0 +1,44 @@
+name: Airflow VM Control
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Start or Stop the Airflow VM'
+        required: true
+        type: choice
+        options:
+          - start
+          - stop
+
+jobs:
+  vm-control:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/241603873816/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
+          service_account: 'boohoo-github-actions@bellosdata.iam.gserviceaccount.com'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: ${{ inputs.action == 'start' && 'Start' || 'Stop' }} Airflow VM
+        run: |
+          gcloud compute instances ${{ inputs.action }} boohoo-airflow \
+            --zone=europe-west2-a \
+            --project=bellosdata \
+            --quiet
+
+      - name: Check VM status
+        run: |
+          STATUS=$(gcloud compute instances describe boohoo-airflow \
+            --zone=europe-west2-a \
+            --project=bellosdata \
+            --format="value(status)")
+          echo "VM Status: $STATUS"
