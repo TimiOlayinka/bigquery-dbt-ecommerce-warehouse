@@ -20,7 +20,7 @@ with DAG(
     dag_id="03_transform_odl",
     default_args=default_args,
     description="Operational Data Layer: Conformed dimensions and facts",
-    schedule_interval="@daily",
+    schedule="@daily",
     start_date=datetime(2026, 5, 20),
     catchup=False,
     tags=["transform", "dbt", "odl"],

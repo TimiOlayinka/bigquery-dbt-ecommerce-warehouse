@@ -20,7 +20,7 @@ with DAG(
     dag_id="04_transform_adl",
     default_args=default_args,
     description="Analytical Data Layer: Reporting marts and aggregations",
-    schedule_interval="@daily",
+    schedule="@daily",
     start_date=datetime(2026, 5, 20),
     catchup=False,
     tags=["transform", "dbt", "adl"],

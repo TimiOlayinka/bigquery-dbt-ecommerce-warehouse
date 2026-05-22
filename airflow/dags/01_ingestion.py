@@ -36,7 +36,7 @@ with DAG(
     dag_id="01_ingestion",
     default_args=default_args,
     description="Generate synthetic data across 9 Cloud Run micro-services into GCS",
-    schedule_interval="@daily",
+    schedule="@daily",
     start_date=datetime(2026, 5, 20),
     catchup=False,
     tags=["ingestion", "cloud-run", "gcs"],
