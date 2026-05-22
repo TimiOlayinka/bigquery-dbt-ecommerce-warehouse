@@ -4,20 +4,20 @@
 # ─────────────────────────────────────────────────────────────────
 
 settings:
-  bucket: hnb-dns-rdl-staging
+  bucket: boohoo-rdl-staging-bellosdata
   project: ${GCP_PROJECT_ID}
-  dataset_prefix: hnb_dwh
+  dataset_prefix: boohoo_dwh
   region: europe-west2
 
 sources:
 
   # ── HNB Commerce (Custom Platform) ──────────────────────────
-  hnb_commerce:
-    dataset: rdl_hnb_commerce
+  boohoo_commerce:
+    dataset: rdl_boohoo_commerce
     brands:
-      hnb:
+      boohoo:
         datasets: [customers, products, orders, order_items]
-      hnb_man:
+      boohoo_man:
         datasets: [customers, products, orders, order_items]
 
   # ── Salesforce Commerce Cloud (PLT) ────────────────────────────
@@ -55,9 +55,9 @@ sources:
   marketing:
     dataset: rdl_marketing
     brands:
-      hnb:
+      boohoo:
         datasets: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
-      hnb_man:
+      boohoo_man:
         datasets: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
       prettylittlething:
         datasets: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]

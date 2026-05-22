@@ -21,8 +21,8 @@ BQ_DATASET = "boohoo_dwh"
 
 # Define the sources, brands, and datasets
 ECOMMERCE_MAPPING = [
-    ("boohoo_commerce", "hnb", ["customers", "orders", "products"]),
-    ("boohoo_commerce", "hnb_man", ["customers", "orders", "products"]),
+    ("boohoo_commerce", "boohoo", ["customers", "orders", "products"]),
+    ("boohoo_commerce", "boohoo_man", ["customers", "orders", "products"]),
     ("salesforce_commerce", "prettylittlething", ["customers", "orders", "products"]),
     ("shopify", "nastygal", ["customers", "orders", "products"]),
     ("magento", "karen_millen", ["customers", "orders", "products"]),
@@ -32,7 +32,7 @@ ECOMMERCE_MAPPING = [
 
 MARKETING_MAPPING = [
     ("marketing", brand, ["meta_ads", "google_ads", "tiktok_ads", "ga4_sessions", "email_campaigns", "influencers"])
-    for brand in ["hnb", "hnb_man", "prettylittlething", "nastygal", "karen_millen", "coast", "debenhams"]
+    for brand in ["boohoo", "boohoo_man", "prettylittlething", "nastygal", "karen_millen", "coast", "debenhams"]
 ]
 
 with DAG(
@@ -59,9 +59,9 @@ with DAG(
                 # BigQuery table name mapping (e.g. boohoo_customers_history)
                 # Map brand names to match the dbt model expectations
                 bq_brand = brand
-                if brand == "hnb":
+                if brand == "boohoo":
                     bq_brand = "boohoo"
-                elif brand == "hnb_man":
+                elif brand == "boohoo_man":
                     bq_brand = "boohoo_man"
                 elif brand == "prettylittlething":
                     bq_brand = "plt"
@@ -84,9 +84,9 @@ with DAG(
         for source, brand, datasets in MARKETING_MAPPING:
             for dataset in datasets:
                 bq_brand = brand
-                if brand == "hnb":
+                if brand == "boohoo":
                     bq_brand = "boohoo"
-                elif brand == "hnb_man":
+                elif brand == "boohoo_man":
                     bq_brand = "boohoo_man"
                 elif brand == "prettylittlething":
                     bq_brand = "plt"
