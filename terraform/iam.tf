@@ -61,10 +61,10 @@ resource "google_project_iam_member" "airflow_vm_bq_admin" {
   member  = "serviceAccount:${google_service_account.airflow_vm.email}"
 }
 
-# Cloud Run: invoke jobs from Airflow DAGs
-resource "google_project_iam_member" "airflow_vm_run_invoker" {
+# Cloud Run: invoke and monitor jobs from Airflow DAGs
+resource "google_project_iam_member" "airflow_vm_run_developer" {
   project = var.gcp_project_id
-  role    = "roles/run.invoker"
+  role    = "roles/run.developer"
   member  = "serviceAccount:${google_service_account.airflow_vm.email}"
 }
 
