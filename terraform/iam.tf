@@ -89,3 +89,29 @@ resource "google_artifact_registry_repository" "boohoo_jobs" {
 
   depends_on = [google_project_service.apis]
 }
+
+# =============================================================================
+# Cloud Build CI/CD Service Account
+# =============================================================================
+# Used by Cloud Build triggers to build and push Docker images.
+
+resource "google_service_account" "cloud_builder" {
+  account_id   = "boohoo-cloud-builder"
+  display_name = "Boohoo Cloud Builder"
+  description  = "Service account for Cloud Build CI/CD pipeline"
+  project      = var.gcp_project_id
+}
+
+# Allow Cloud Build to write logs
+resource "google_project_iam_member" "cloud_builder_logs" {
+  project = var.gcp_project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.cloud_builder.email}"
+}
+
+# Allow Cloud Build to push Docker images to Artifact Registry
+resource "google_project_iam_member" "cloud_builder_ar_writer" {
+  project = var.gcp_project_id
+  role    = "roles/artifactregistry.writer"
+  member  = "serviceAccount:${google_service_account.cloud_builder.email}"
+}
