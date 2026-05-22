@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from shared.marketing_logic import gen_tiktok_ads
 from shared import utils
 
-BRANDS = ["hnb", "hnb_man", "prettylittlething", "nastygal", "karen_millen", "coast", "debenhams"]
+BRANDS = ["boohoo", "boohoo_man", "prettylittlething", "nastygal", "karen_millen", "coast", "debenhams"]
 
 def main():
     now = datetime.now(timezone.utc)

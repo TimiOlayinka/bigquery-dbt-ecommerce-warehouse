@@ -6,8 +6,8 @@
 
 settings:
   project: ${GCP_PROJECT_ID}
-  dataset_prefix: hnb_dwh
-  gcs_bucket: hnb-data-quality-staging
+  dataset_prefix: boohoo_dwh
+  gcs_bucket: boohoo-data-quality-staging
   region: europe-west2
 
 exports:
@@ -31,7 +31,7 @@ exports:
         tables: [rdl_parcel_events, rdl_delivery_order, rdl_delivery_item, rdl_digital_refunds]
         filter: ""
 
-      - dataset: rdl_hnb_commerce
+      - dataset: rdl_boohoo_commerce
         tables: [rdl_customer_otif, rdl_customer_otif_cc, rdl_postship_defect]
         filter: ""
 

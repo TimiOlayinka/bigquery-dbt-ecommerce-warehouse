@@ -10,7 +10,7 @@ import json
 import os
 from google.cloud import storage
 
-GCS_BUCKET = os.environ.get("GCS_BUCKET", "hnb-dns-rdl-staging")
+GCS_BUCKET = os.environ.get("GCS_BUCKET", "boohoo-rdl-staging-bellosdata")
 
 
 def upload(records: list[dict], brand: str, source: str, dataset: str, ingest_date: str) -> str:
@@ -19,7 +19,7 @@ def upload(records: list[dict], brand: str, source: str, dataset: str, ingest_da
 
     Args:
         records:      List of dicts — one JSON object per line.
-        brand:        Brand slug (e.g. "hnb", "prettylittlething").
+        brand:        Brand slug (e.g. "boohoo", "prettylittlething").
         source:       Source system (e.g. "boohoo_commerce", "shopify").
         dataset:      Dataset name (e.g. "customers", "orders").
         ingest_date:  ISO date string for partitioning (YYYY-MM-DD).
