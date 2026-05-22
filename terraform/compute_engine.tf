@@ -163,11 +163,10 @@ resource "google_compute_instance" "airflow" {
 
     cd "$REPO_DIR"
 
-    # Start Airflow stack (docker-compose.yml should be in the repo root or airflow/)
-    if [ -f docker-compose.yml ]; then
-      docker compose up -d
-    elif [ -f airflow/docker-compose.yml ]; then
-      cd airflow && docker compose up -d
+    # Start Airflow stack using the cloud-specific compose file
+    if [ -f airflow/docker-compose.cloud.yaml ]; then
+      cd airflow && docker compose -f docker-compose.cloud.yaml down --remove-orphans 2>/dev/null || true
+      docker compose -f docker-compose.cloud.yaml up -d
     fi
 
     echo "Startup script completed at $(date)" >> /var/log/boohoo-startup.log
