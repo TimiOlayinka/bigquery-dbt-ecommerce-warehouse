@@ -2,9 +2,24 @@
 # Outputs
 # =============================================================================
 
-output "bigquery_dataset_id" {
-  description = "BigQuery dataset ID for the Boohoo DWH"
-  value       = google_bigquery_dataset.boohoo_dwh.dataset_id
+output "bigquery_rdl_raw_dataset" {
+  description = "BigQuery dataset for external tables (GCS pointers)"
+  value       = google_bigquery_dataset.rdl_raw.dataset_id
+}
+
+output "bigquery_rdl_dataset" {
+  description = "BigQuery dataset for cleaned RDL views (Dataform)"
+  value       = google_bigquery_dataset.rdl.dataset_id
+}
+
+output "bigquery_odl_dataset" {
+  description = "BigQuery dataset for unified ODL tables (Dataform)"
+  value       = google_bigquery_dataset.odl.dataset_id
+}
+
+output "bigquery_bi_dataset" {
+  description = "BigQuery dataset for BI aggregates (Dataform)"
+  value       = google_bigquery_dataset.bi.dataset_id
 }
 
 output "rdl_staging_bucket" {
