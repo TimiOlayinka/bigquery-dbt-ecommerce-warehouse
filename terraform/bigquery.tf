@@ -139,8 +139,13 @@ resource "google_bigquery_table" "ecommerce_external" {
     autodetect    = true
     compression   = "GZIP"
     source_uris = [
-      "gs://${var.gcs_bucket}/raw/${each.value.source}/${each.value.brand}/${each.value.dataset}/ingest_date=*/*.jsonl.gz"
+      "gs://${var.gcs_bucket}/raw/${each.value.source}/${each.value.brand}/${each.value.dataset}/*"
     ]
+
+    hive_partitioning_options {
+      mode              = "AUTO"
+      source_uri_prefix = "gs://${var.gcs_bucket}/raw/${each.value.source}/${each.value.brand}/${each.value.dataset}/"
+    }
   }
 
   labels = {
@@ -166,8 +171,13 @@ resource "google_bigquery_table" "marketing_external" {
     autodetect    = true
     compression   = "GZIP"
     source_uris = [
-      "gs://${var.gcs_bucket}/raw/${each.value.source}/${each.value.brand}/${each.value.dataset}/ingest_date=*/*.jsonl.gz"
+      "gs://${var.gcs_bucket}/raw/${each.value.source}/${each.value.brand}/${each.value.dataset}/*"
     ]
+
+    hive_partitioning_options {
+      mode              = "AUTO"
+      source_uri_prefix = "gs://${var.gcs_bucket}/raw/${each.value.source}/${each.value.brand}/${each.value.dataset}/"
+    }
   }
 
   labels = {
