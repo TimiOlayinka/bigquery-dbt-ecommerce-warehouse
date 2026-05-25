@@ -47,3 +47,9 @@ variable "scheduler_stop_cron" {
   type        = string
   default     = "0 3 * * 1,3,5" # Mon/Wed/Fri at 03:00 UTC
 }
+
+variable "gcs_bucket" {
+  description = "GCS bucket for raw ingested data (JSONL.GZ files from Cloud Run)"
+  type        = string
+  default     = "boohoo-rdl-staging-bellosdata"
+}
