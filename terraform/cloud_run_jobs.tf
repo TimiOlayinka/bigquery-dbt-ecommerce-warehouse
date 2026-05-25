@@ -42,6 +42,8 @@ resource "google_cloud_run_v2_job" "data_generators" {
         # Image from Artifact Registry — pushed by CI/CD pipeline
         image = "${var.gcp_region}-docker.pkg.dev/${var.gcp_project_id}/boohoo-jobs/${each.value}:latest"
 
+        command = ["python", "-m", "${each.value}.main"]
+
         resources {
           limits = {
             memory = "512Mi"
