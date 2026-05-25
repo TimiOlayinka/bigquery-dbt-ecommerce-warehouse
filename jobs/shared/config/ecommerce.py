@@ -149,13 +149,13 @@ PAYMENTS_MAP = {
 # to generate per Cloud Run Job execution.
 # ─────────────────────────────────────────────────────────────────
 BRAND_SOURCES = {
-    "hnb": {
+    "boohoo": {
         "source": "boohoo_commerce",
         "customers_per": 500,
         "products_per": 300,
         "orders_per": 800,
     },
-    "hnb_man": {
+    "boohoo_man": {
         "source": "boohoo_commerce",
         "customers_per": 300,
         "products_per": 200,
