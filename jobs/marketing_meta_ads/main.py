@@ -20,7 +20,7 @@ def main():
     for brand in BRANDS:
         print(f"\n[{brand}] Generating Meta Ads...")
         data = gen_meta_ads(brand, 50, ingest_date, ingest_time)
-        keys.append(utils.upload(data, brand, "marketing", "meta_ads", ingest_date))
+        keys.append(utils.upload(data, brand, "meta_ads", ingest_date))
 
     print(f"\n✅ Done — {len(keys)} files uploaded.")
 

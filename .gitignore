@@ -15,11 +15,9 @@ venv/
 .terraform.lock.hcl
 crash.log
 
-# dbt
-dbt/target/
-dbt/logs/
-dbt/dbt_packages/
-dbt/.user.yml
+# Dataform
+dataform/node_modules/
+dataform/.df-credentials.json
 
 # Lambda build artefacts
 dist/*.zip

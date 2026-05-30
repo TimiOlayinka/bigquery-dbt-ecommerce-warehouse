@@ -31,8 +31,8 @@ def main():
         n_c, n_p, n_o = cfg["customers_per"], cfg["products_per"], cfg["orders_per"]
         print(f"\n[{brand}] Generating orders...")
         orders, items = gen_orders(brand, src, n_o, n_c, n_p, ingest_date, ingest_time)
-        keys.append(utils.upload(orders, brand, src, "orders", ingest_date))
-        keys.append(utils.upload(items, brand, src, "order_items", ingest_date))
+        keys.append(utils.upload(orders, brand, "orders", ingest_date))
+        keys.append(utils.upload(items, brand, "order_items", ingest_date))
 
     print(f"\n✅ Done — {len(keys)} files uploaded.")
 

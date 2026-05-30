@@ -20,7 +20,7 @@ def main():
     for brand in BRANDS:
         print(f"\n[{brand}] Generating Email Campaigns...")
         data = gen_email_campaigns(brand, 10, ingest_date, ingest_time)
-        keys.append(utils.upload(data, brand, "marketing", "email_campaigns", ingest_date))
+        keys.append(utils.upload(data, brand, "email_campaigns", ingest_date))
 
     print(f"\n✅ Done — {len(keys)} files uploaded.")
 

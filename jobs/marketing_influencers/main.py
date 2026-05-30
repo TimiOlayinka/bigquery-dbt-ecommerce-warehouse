@@ -20,7 +20,7 @@ def main():
     for brand in BRANDS:
         print(f"\n[{brand}] Generating Influencer Data...")
         data = gen_influencers(brand, 20, ingest_date, ingest_time)
-        keys.append(utils.upload(data, brand, "marketing", "influencers", ingest_date))
+        keys.append(utils.upload(data, brand, "influencers", ingest_date))
 
     print(f"\n✅ Done — {len(keys)} files uploaded.")
 

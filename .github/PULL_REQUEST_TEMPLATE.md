@@ -6,6 +6,6 @@ A brief summary of what this PR does.
 - [ ] List your changes here...
 
 ## Validation
-- [ ] Ran `dbt compile` or equivalent tests
+- [ ] Ran `dataform compile` or equivalent tests
 - [ ] Checked data quality metrics (if applicable)
 - [ ] Code follows formatting standards
