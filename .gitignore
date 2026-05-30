@@ -16,8 +16,8 @@ venv/
 crash.log
 
 # Dataform
-dataform/node_modules/
-dataform/.df-credentials.json
+node_modules/
+.df-credentials.json
 
 # Lambda build artefacts
 dist/*.zip
