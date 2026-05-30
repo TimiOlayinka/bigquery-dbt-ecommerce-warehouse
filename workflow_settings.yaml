@@ -2,7 +2,6 @@ defaultProject: bellosdata
 defaultLocation: EU
 defaultDataset: rdl
 defaultAssertionDataset: dataform_assertions
-dataformCoreVersion: 3.0.52
 
 vars:
   project_id:   "bellosdata"
