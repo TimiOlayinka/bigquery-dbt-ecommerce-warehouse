@@ -6,14 +6,13 @@
 
 settings:
   project: ${GCP_PROJECT_ID}
-  dataset_prefix: boohoo_dwh
-  gcs_bucket: boohoo-data-quality-staging
+  gcs_bucket: boohoo-data-quality-bellosdata
   region: europe-west2
 
 exports:
 
-  # ── RDL Layer ──────────────────────────────────────────────────
-  rdl:
+  # ── RDL Layer — Cross-Cutting Sources ───────────────────────
+  rdl_shared:
     models:
       - dataset: rdl_zendesk
         tables: [rdl_tickets, rdl_agents, rdl_teams, rdl_ticket_interactions]
@@ -31,8 +30,35 @@ exports:
         tables: [rdl_parcel_events, rdl_delivery_order, rdl_delivery_item, rdl_digital_refunds]
         filter: ""
 
-      - dataset: rdl_boohoo_commerce
-        tables: [rdl_customer_otif, rdl_customer_otif_cc, rdl_postship_defect]
+  # ── RDL Layer — Per-Brand ───────────────────────────────────
+  rdl_brands:
+    models:
+      - dataset: rdl_boohoo
+        tables: [customers_history, orders_history, products_history]
+        filter: ""
+
+      - dataset: rdl_boohoo_man
+        tables: [customers_history, orders_history, products_history]
+        filter: ""
+
+      - dataset: rdl_prettylittlething
+        tables: [customers_history, orders_history, products_history]
+        filter: ""
+
+      - dataset: rdl_nastygal
+        tables: [customers_history, orders_history, products_history]
+        filter: ""
+
+      - dataset: rdl_karen_millen
+        tables: [customers_history, orders_history, products_history]
+        filter: ""
+
+      - dataset: rdl_coast
+        tables: [customers_history, orders_history, products_history]
+        filter: ""
+
+      - dataset: rdl_debenhams
+        tables: [customers_history, orders_history, products_history]
         filter: ""
 
   # ── ODL Layer ──────────────────────────────────────────────────

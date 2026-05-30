@@ -1,10 +1,13 @@
 """
 DAG 3: ODL (Operational Data Layer)
-Runs dbt models tagged with 'odl' to build conforming dimensions and facts.
+Triggers Dataform workflow to build conforming dimensions and facts (odl schema).
 """
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.operators.bash import BashOperator
+from airflow.providers.google.cloud.operators.dataform import (
+    DataformCreateCompilationResultOperator,
+    DataformCreateWorkflowInvocationOperator,
+)
 from airflow.sensors.external_task import ExternalTaskSensor
 
 default_args = {
@@ -14,16 +17,18 @@ default_args = {
     "retry_delay": timedelta(minutes=3),
 }
 
-DBT_DIR = "/opt/boohoo-repo/dbt"
+PROJECT_ID = "bellosdata"
+REGION = "europe-west2"
+REPOSITORY_ID = "boohoo-dataform"
 
 with DAG(
     dag_id="03_transform_odl",
     default_args=default_args,
-    description="Operational Data Layer: Conformed dimensions and facts",
+    description="Operational Data Layer: Conformed dimensions and facts via Dataform",
     schedule="@daily",
     start_date=datetime(2026, 5, 20),
     catchup=False,
-    tags=["transform", "dbt", "odl"],
+    tags=["transform", "dataform", "odl"],
 ) as dag:
 
     wait_for_rdl = ExternalTaskSensor(
@@ -34,9 +39,28 @@ with DAG(
         poke_interval=30,
     )
 
-    dbt_run_odl = BashOperator(
-        task_id="dbt_run_odl",
-        bash_command=f"cd {DBT_DIR} && dbt deps && dbt run --select tag:odl --profiles-dir .",
+    compile_odl = DataformCreateCompilationResultOperator(
+        task_id="compile_odl",
+        project_id=PROJECT_ID,
+        region=REGION,
+        repository_id=REPOSITORY_ID,
+        compilation_result={
+            "git_commitish": "main",
+        },
     )
 
-    wait_for_rdl >> dbt_run_odl
+    run_odl = DataformCreateWorkflowInvocationOperator(
+        task_id="run_odl",
+        project_id=PROJECT_ID,
+        region=REGION,
+        repository_id=REPOSITORY_ID,
+        workflow_invocation={
+            "compilation_result": "{{ task_instance.xcom_pull('compile_odl')['name'] }}",
+            "invocation_config": {
+                "included_tags": ["odl"],
+                "transitive_dependencies_included": True,
+            },
+        },
+    )
+
+    wait_for_rdl >> compile_odl >> run_odl

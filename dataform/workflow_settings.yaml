@@ -5,8 +5,6 @@ defaultAssertionDataset: dataform_assertions
 
 vars:
   project_id:   "bellosdata"
-  raw_dataset:  "rdl_raw"
-  rdl_dataset:  "rdl"
   odl_dataset:  "odl"
   bi_dataset:   "bi"
   gcs_bucket:   "boohoo-rdl-staging-bellosdata"

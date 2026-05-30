@@ -31,7 +31,7 @@ def main():
         n_p = cfg["products_per"]
         print(f"\n[{brand}] Generating products...")
         products = gen_products(brand, src, n_p, ingest_date, ingest_time)
-        keys.append(utils.upload(products, brand, src, "products", ingest_date))
+        keys.append(utils.upload(products, brand, "products", ingest_date))
 
     print(f"\n✅ Done — {len(keys)} files uploaded.")
 

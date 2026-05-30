@@ -20,7 +20,7 @@ def main():
     for brand in BRANDS:
         print(f"\n[{brand}] Generating GA4 Sessions...")
         data = gen_ga4_sessions(brand, 200, ingest_date, ingest_time)
-        keys.append(utils.upload(data, brand, "marketing", "ga4_sessions", ingest_date))
+        keys.append(utils.upload(data, brand, "ga4_sessions", ingest_date))
 
     print(f"\n✅ Done — {len(keys)} files uploaded.")
 

@@ -2,14 +2,9 @@
 # Outputs
 # =============================================================================
 
-output "bigquery_rdl_raw_dataset" {
-  description = "BigQuery dataset for external tables (GCS pointers)"
-  value       = google_bigquery_dataset.rdl_raw.dataset_id
-}
-
-output "bigquery_rdl_dataset" {
-  description = "BigQuery dataset for cleaned RDL views (Dataform)"
-  value       = google_bigquery_dataset.rdl.dataset_id
+output "bigquery_rdl_brand_datasets" {
+  description = "BigQuery per-brand RDL datasets (external tables + history tables)"
+  value       = { for k, v in google_bigquery_dataset.rdl_brand : k => v.dataset_id }
 }
 
 output "bigquery_odl_dataset" {

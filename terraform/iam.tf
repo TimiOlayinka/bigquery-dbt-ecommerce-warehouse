@@ -54,7 +54,7 @@ resource "google_project_iam_member" "airflow_vm_gcs_viewer" {
   member  = "serviceAccount:${google_service_account.airflow_vm.email}"
 }
 
-# BigQuery: full admin for dbt model execution
+# BigQuery: full admin for Dataform model execution
 resource "google_project_iam_member" "airflow_vm_bq_admin" {
   project = var.gcp_project_id
   role    = "roles/bigquery.admin"
