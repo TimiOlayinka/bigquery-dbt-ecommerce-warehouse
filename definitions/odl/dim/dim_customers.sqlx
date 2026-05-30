@@ -1,0 +1,53 @@
+config {
+  type: "table",
+  schema: "odl",
+  name: "dim_customers",
+  tags: ["odl", "dim"]
+}
+
+------------------------------------------------------------------------------------------------------------------------
+-- odl.dim_customers
+-- Unified customer dimension across all Boohoo Group brands (star schema)
+-- Consumes RDL full-history models filtered to is_latest (current state only)
+------------------------------------------------------------------------------------------------------------------------
+WITH all_customers AS (
+    SELECT * FROM ${ref({schema: "rdl_boohoo", name: "customers_history"})}       WHERE is_latest
+    UNION ALL
+    SELECT * FROM ${ref({schema: "rdl_boohoo_man", name: "customers_history"})}   WHERE is_latest
+    UNION ALL
+    SELECT * FROM ${ref({schema: "rdl_prettylittlething", name: "customers_history"})}          WHERE is_latest
+    UNION ALL
+    SELECT * FROM ${ref({schema: "rdl_nastygal", name: "customers_history"})}     WHERE is_latest
+    UNION ALL
+    SELECT * FROM ${ref({schema: "rdl_karen_millen", name: "customers_history"})} WHERE is_latest
+    UNION ALL
+    SELECT * FROM ${ref({schema: "rdl_coast", name: "customers_history"})}        WHERE is_latest
+    UNION ALL
+    SELECT * FROM ${ref({schema: "rdl_debenhams", name: "customers_history"})}    WHERE is_latest
+),
+dedup AS (
+    SELECT
+        *,
+        ROW_NUMBER() OVER (
+            PARTITION BY email ORDER BY registration_date DESC, ingest_date DESC
+        ) AS rnk
+    FROM all_customers
+)
+SELECT
+    TO_HEX(MD5(customer_id || '|' || brand)) AS customer_sk,
+    customer_id                      AS customer_nk,
+    email,
+    first_name,
+    last_name,
+    phone,
+    city,
+    country,
+    customer_segment,
+    registration_date,
+    gender,
+    is_marketing_opted_in,
+    brand,
+    source_system,
+    ingest_date,
+    CURRENT_TIMESTAMP() AS dwh_created_at
+FROM dedup WHERE rnk = 1

@@ -1,1 +1,37 @@
+<<<<<<< HEAD
 node_modules/
+=======
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+*.egg
+venv/
+.env
+
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+.terraform/
+.terraform.lock.hcl
+crash.log
+
+# Dataform
+node_modules/
+.df-credentials.json
+
+# Lambda build artefacts
+dist/*.zip
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+>>>>>>> refs/heads/main

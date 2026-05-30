@@ -13,24 +13,23 @@ from google.cloud import storage
 GCS_BUCKET = os.environ.get("GCS_BUCKET", "boohoo-rdl-staging-bellosdata")
 
 
-def upload(records: list[dict], brand: str, source: str, dataset: str, ingest_date: str) -> str:
+def upload(records: list[dict], brand: str, dataset: str, ingest_date: str) -> str:
     """
     Serialize records to JSONL, gzip-compress, and upload to GCS.
 
     Args:
         records:      List of dicts — one JSON object per line.
         brand:        Brand slug (e.g. "boohoo", "prettylittlething").
-        source:       Source system (e.g. "boohoo_commerce", "shopify").
         dataset:      Dataset name (e.g. "customers", "orders").
         ingest_date:  ISO date string for partitioning (YYYY-MM-DD).
 
     Returns:
         The GCS object path that was written (gs://bucket/key).
     """
-    # Build the GCS object key matching the old S3 layout:
-    #   raw/{source}/{brand}/{dataset}/ingest_date={date}/{dataset}.jsonl.gz
+    # Build the GCS object key (per-brand layout):
+    #   raw/{brand}/{dataset}/ingest_date={date}/{dataset}.jsonl.gz
     key = (
-        f"raw/{source}/{brand}/{dataset}/"
+        f"raw/{brand}/{dataset}/"
         f"ingest_date={ingest_date}/{dataset}.jsonl.gz"
     )
 

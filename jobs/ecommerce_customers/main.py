@@ -31,7 +31,7 @@ def main():
         n_c = cfg["customers_per"]
         print(f"\n[{brand}] Generating customers...")
         customers = gen_customers(brand, src, n_c, ingest_date, ingest_time)
-        keys.append(utils.upload(customers, brand, src, "customers", ingest_date))
+        keys.append(utils.upload(customers, brand, "customers", ingest_date))
 
     print(f"\n✅ Done — {len(keys)} files uploaded.")
 
