@@ -8,13 +8,29 @@ jobs:
   check-title:
     runs-on: ubuntu-latest
     steps:
-      - name: Check PR Title format (DATA-X_summary)
+      - name: Auto-set PR title from branch name
+        if: github.event.action == 'opened'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          # Extract DATA-XX and description from branch name (e.g. DATA-43/add-customer-ltv)
+          if [[ "$BRANCH" =~ ^(DATA-[0-9]+)/(.+)$ ]]; then
+            PREFIX="${BASH_REMATCH[1]}"
+            DESC=$(echo "${BASH_REMATCH[2]}" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
+            NEW_TITLE="${PREFIX}: ${DESC}"
+            echo "Setting PR title to: $NEW_TITLE"
+            gh pr edit "$PR_NUMBER" --title "$NEW_TITLE" --repo "$GITHUB_REPOSITORY"
+          fi
+
+      - name: Check PR Title format (DATA-X: summary)
         env:
           TITLE: ${{ github.event.pull_request.title }}
         run: |
           if [[ ! "$TITLE" =~ ^DATA-[0-9]+.*$ ]]; then
             echo "❌ Error: Pull Request title must start with 'DATA-<number>'"
-            echo "   Examples: 'DATA-10: Add cron based orchestration', 'DATA-11 - SSM Sync'"
+            echo "   Examples: 'DATA-43: Add customer lifetime value', 'DATA-44: Fix order dedup'"
             exit 1
           fi
           echo "✅ PR Title matches the required format."
