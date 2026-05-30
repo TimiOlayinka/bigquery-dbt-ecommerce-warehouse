@@ -8,8 +8,5 @@ vars:
   project_id:   "bellosdata"
   odl_dataset:  "odl"
   bi_dataset:   "bi"
-<<<<<<< HEAD
   gcs_bucket:   "boohoo-rdl-staging-bellosdata"
-=======
   gcs_bucket:   "boohoo-rdl-staging-bellosdata"
->>>>>>> refs/heads/main
