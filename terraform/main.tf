@@ -1,7 +1,7 @@
 # =============================================================================
-# Boohoo Data Pipeline — GCP Terraform Configuration
+# VelvetLane Data Pipeline — GCP Terraform Configuration
 # =============================================================================
-# Provider, backend, and API enablement for the Boohoo DWH project.
+# Provider, backend, and API enablement for the VelvetLane DWH project.
 # Region: europe-west2 (London) to maintain low latency for UK-based ops.
 
 terraform {
@@ -15,9 +15,9 @@ terraform {
   }
 
   # Remote state in GCS — bucket must be created before first init.
-  # Use: gsutil mb -l europe-west2 gs://boohoo-terraform-state-<project_id>
+  # Use: gsutil mb -l europe-west2 gs://omnistyle-terraform-state-<project_id>
   backend "gcs" {
-    bucket = "boohoo-terraform-state-bellosdata"
+    bucket = "omnistyle-terraform-state-bellosdata"
     prefix = "terraform/state"
   }
 }
@@ -28,7 +28,7 @@ provider "google" {
   zone    = var.gcp_zone
 
   default_labels = {
-    project     = "boohoo-dwh"
+    project     = "omnistyle-dwh"
     environment = var.environment
     managed_by  = "terraform"
   }

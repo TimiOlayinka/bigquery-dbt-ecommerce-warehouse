@@ -12,7 +12,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.fact_google_ads_performance
 -- Unified Google Ads performance with channel grouping classification
--- Follows HnB fact_google_ads_standard_campaign_performance.sql pattern
+-- Follows enterprise fact_google_ads_standard_campaign_performance.sql pattern
 ------------------------------------------------------------------------------------------------------------------------
 WITH raw_data AS (
     SELECT

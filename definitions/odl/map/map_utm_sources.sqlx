@@ -8,7 +8,7 @@ config {
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.map_utm_sources
 -- Maps utm_source/medium combinations to traffic source hierarchy
--- Inspired by HnB's dim_traffic_sources L1/L2/L3 structure
+-- Inspired by OmniStyle's dim_traffic_sources L1/L2/L3 structure
 ------------------------------------------------------------------------------------------------------------------------
 SELECT
     'google'     AS utm_source,

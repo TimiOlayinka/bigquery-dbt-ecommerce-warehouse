@@ -7,7 +7,7 @@
 resource "google_cloud_scheduler_job" "trigger_data_generators" {
   for_each = toset(local.job_names)
 
-  name    = "boohoo-trigger-${replace(each.value, "_", "-")}"
+  name    = "omnistyle-trigger-${replace(each.value, "_", "-")}"
   project = var.gcp_project_id
   region  = var.gcp_region
 

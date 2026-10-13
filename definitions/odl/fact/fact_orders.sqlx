@@ -11,19 +11,19 @@ config {
 -- Consumes RDL full-history models filtered to is_latest (current state only)
 ------------------------------------------------------------------------------------------------------------------------
 WITH all_orders AS (
-    SELECT * FROM ${ref({schema: "rdl_boohoo", name: "orders_history"})}       WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_velvet_lane", name: "orders_history"})}       WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_boohoo_man", name: "orders_history"})}   WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_velvet_mens", name: "orders_history"})}   WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_prettylittlething", name: "orders_history"})}          WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_trend_pulse", name: "orders_history"})}          WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_nastygal", name: "orders_history"})}     WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_rebel_chic", name: "orders_history"})}     WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_karen_millen", name: "orders_history"})} WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_atelier_luxe", name: "orders_history"})} WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_coast", name: "orders_history"})}        WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_riviera_mode", name: "orders_history"})}        WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_debenhams", name: "orders_history"})}    WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_grand_heritage", name: "orders_history"})}    WHERE is_latest
 )
 SELECT
     TO_HEX(MD5(order_id || '|' || brand))       AS order_sk,

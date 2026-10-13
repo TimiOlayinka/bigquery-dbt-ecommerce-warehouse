@@ -18,18 +18,18 @@ PROJECT_ID = "bellosdata"
 REGION = "europe-west2"
 
 ECOMMERCE_JOBS = [
-    "boohoo-ecommerce-customers",
-    "boohoo-ecommerce-orders",
-    "boohoo-ecommerce-products",
+    "omnistyle-ecommerce-customers",
+    "omnistyle-ecommerce-orders",
+    "omnistyle-ecommerce-products",
 ]
 
 MARKETING_JOBS = [
-    "boohoo-marketing-meta-ads",
-    "boohoo-marketing-google-ads",
-    "boohoo-marketing-tiktok-ads",
-    "boohoo-marketing-ga4-sessions",
-    "boohoo-marketing-email-campaigns",
-    "boohoo-marketing-influencers",
+    "omnistyle-marketing-meta-ads",
+    "omnistyle-marketing-google-ads",
+    "omnistyle-marketing-tiktok-ads",
+    "omnistyle-marketing-ga4-sessions",
+    "omnistyle-marketing-email-campaigns",
+    "omnistyle-marketing-influencers",
 ]
 
 with DAG(
@@ -45,7 +45,7 @@ with DAG(
     with TaskGroup("ecommerce_data") as ecommerce_group:
         for job_name in ECOMMERCE_JOBS:
             CloudRunExecuteJobOperator(
-                task_id=f"generate_{job_name.replace('boohoo-', '').replace('-', '_')}",
+                task_id=f"generate_{job_name.replace('omnistyle-', '').replace('-', '_')}",
                 project_id=PROJECT_ID,
                 region=REGION,
                 job_name=job_name,
@@ -55,7 +55,7 @@ with DAG(
     with TaskGroup("marketing_data") as marketing_group:
         for job_name in MARKETING_JOBS:
             CloudRunExecuteJobOperator(
-                task_id=f"generate_{job_name.replace('boohoo-', '').replace('-', '_')}",
+                task_id=f"generate_{job_name.replace('omnistyle-', '').replace('-', '_')}",
                 project_id=PROJECT_ID,
                 region=REGION,
                 job_name=job_name,

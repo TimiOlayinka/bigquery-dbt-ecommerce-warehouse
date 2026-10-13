@@ -25,7 +25,7 @@ One row per record in dim_products
 | season | varchar | Season |
 | is_active | boolean | Boolean: active |
 | stock_status | varchar | Stock status |
-| brand | varchar | Boohoo Group brand name |
+| brand | varchar | OmniStyle Commerce Group brand name |
 | source_system | varchar | Source platform identifier |
 | ingest_date | date | Date this version was loaded from source |
 | dwh_created_at | varchar | Timestamp when this row was created in the warehouse |
@@ -37,13 +37,13 @@ One row per record in dim_products
 - Filters to is_latest = TRUE from RDL (current-state only)
 
 ## Upstream inputs
-- `ref('boohoo_products')`
-- `ref('boohoo_man_products')`
-- `ref('plt_products')`
-- `ref('nastygal_products')`
-- `ref('karen_millen_products')`
-- `ref('coast_products')`
-- `ref('debenhams_products')`
+- `ref('velvet_lane_products')`
+- `ref('velvet_mens_products')`
+- `ref('trend_pulse_products')`
+- `ref('rebel_chic_products')`
+- `ref('atelier_luxe_products')`
+- `ref('riviera_mode_products')`
+- `ref('grand_heritage_products')`
 
 ## Downstream usage
 - See lineage map

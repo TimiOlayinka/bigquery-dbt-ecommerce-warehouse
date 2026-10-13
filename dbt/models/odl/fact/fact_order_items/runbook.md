@@ -28,4 +28,4 @@ ORDER BY 2 DESC, 1;
 2. For full historical backfill: `dbt run --select fact_order_items --full-refresh`
 
 ## Escalation
-data-team@boohoo.com
+data-team@omnistyle-commerce.co.uk

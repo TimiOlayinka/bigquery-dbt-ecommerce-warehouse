@@ -1,5 +1,5 @@
 PRODUCT_SCHEMAS = {
-    "boohoo_commerce": {
+    "omnia_commerce": {
         "id_field": "sku", "name_field": "product_name",
         "color_field": "colour", "size_field": "size",
         "price_field": "selling_price", "cost_field": "cost_price",
@@ -37,7 +37,7 @@ PRODUCT_SCHEMAS = {
 }
 
 ORDER_SCHEMAS = {
-    "boohoo_commerce": {
+    "omnia_commerce": {
         "id_field": "order_id", "cust_field": "customer_id",
         "date_field": "order_date", "total_field": "order_total",
         "status_field": "order_status", "payment_field": "payment_method",
@@ -70,7 +70,7 @@ ORDER_SCHEMAS = {
 }
 
 CUSTOMER_SCHEMAS = {
-    "boohoo_commerce": {
+    "omnia_commerce": {
         "id_field": "customer_id", "email_field": "email",
         "first_field": "first_name", "last_field": "last_name",
         "extra_fields": ["phone", "city", "country", "segment", "signup_date", "gender", "is_subscribed"],
@@ -128,7 +128,7 @@ CITIES = [("London","GB"),("Manchester","GB"),("Birmingham","GB"),("Leeds","GB")
           ("Dublin","IE"),("Paris","FR"),("Amsterdam","NL"),("Berlin","DE"),("New York","US"),("LA","US")]
 
 STATUSES_MAP = {
-    "boohoo_commerce": ["delivered","shipped","processing","returned","cancelled"],
+    "omnia_commerce": ["delivered","shipped","processing","returned","cancelled"],
     "salesforce_commerce": ["COMPLETED","SHIPPED","CREATED","RETURNED","CANCELLED"],
     "shopify": ["paid","partially_paid","pending","refunded","voided"],
     "magento": ["complete","shipped","processing","closed","canceled"],
@@ -136,7 +136,7 @@ STATUSES_MAP = {
 }
 
 PAYMENTS_MAP = {
-    "boohoo_commerce": ["card","klarna","paypal","apple_pay","google_pay"],
+    "omnia_commerce": ["card","klarna","paypal","apple_pay","google_pay"],
     "salesforce_commerce": ["CREDIT_CARD","KLARNA","PAYPAL","APPLE_PAY","GIFT_CERTIFICATE"],
     "shopify": ["shopify_payments","klarna","paypal","manual","gift_card"],
     "magento": ["braintree","klarna_pay_later","paypal_express","stripe","checkmo"],
@@ -149,43 +149,43 @@ PAYMENTS_MAP = {
 # to generate per Cloud Run Job execution.
 # ─────────────────────────────────────────────────────────────────
 BRAND_SOURCES = {
-    "boohoo": {
-        "source": "boohoo_commerce",
+    "velvet_lane": {
+        "source": "omnia_commerce",
         "customers_per": 500,
         "products_per": 300,
         "orders_per": 800,
     },
-    "boohoo_man": {
-        "source": "boohoo_commerce",
+    "velvet_mens": {
+        "source": "omnia_commerce",
         "customers_per": 300,
         "products_per": 200,
         "orders_per": 500,
     },
-    "prettylittlething": {
+    "trend_pulse": {
         "source": "salesforce_commerce",
         "customers_per": 600,
         "products_per": 400,
         "orders_per": 1000,
     },
-    "nastygal": {
+    "rebel_chic": {
         "source": "shopify",
         "customers_per": 350,
         "products_per": 250,
         "orders_per": 600,
     },
-    "karen_millen": {
+    "atelier_luxe": {
         "source": "magento",
         "customers_per": 250,
         "products_per": 200,
         "orders_per": 400,
     },
-    "coast": {
+    "riviera_mode": {
         "source": "magento",
         "customers_per": 200,
         "products_per": 150,
         "orders_per": 350,
     },
-    "debenhams": {
+    "grand_heritage": {
         "source": "oracle_commerce",
         "customers_per": 400,
         "products_per": 350,

@@ -12,7 +12,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.fact_influencer_performance
 -- Influencer post performance fact table with engagement and ROI metrics
--- Follows HnB fact_influencer_posts pattern
+-- Follows enterprise fact_influencer_posts pattern
 ------------------------------------------------------------------------------------------------------------------------
 SELECT
     TO_HEX(MD5(p.post_id || '|' || p.brand))                    AS influencer_sk,

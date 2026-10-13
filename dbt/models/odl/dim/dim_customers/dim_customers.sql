@@ -8,23 +8,23 @@
 
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.dim_customers
--- Unified customer dimension across all Boohoo Group brands (star schema)
+-- Unified customer dimension across all OmniStyle Commerce Group brands (star schema)
 -- Consumes RDL full-history models filtered to is_latest (current state only)
 ------------------------------------------------------------------------------------------------------------------------
 WITH all_customers AS (
-    SELECT * FROM {{ ref('boohoo_customers') }}       WHERE is_latest
+    SELECT * FROM {{ ref('velvet_lane_customers') }}       WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('boohoo_man_customers') }}   WHERE is_latest
+    SELECT * FROM {{ ref('velvet_mens_customers') }}   WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('plt_customers') }}          WHERE is_latest
+    SELECT * FROM {{ ref('trend_pulse_customers') }}          WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('nastygal_customers') }}     WHERE is_latest
+    SELECT * FROM {{ ref('rebel_chic_customers') }}     WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('karen_millen_customers') }} WHERE is_latest
+    SELECT * FROM {{ ref('atelier_luxe_customers') }} WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('coast_customers') }}        WHERE is_latest
+    SELECT * FROM {{ ref('riviera_mode_customers') }}        WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('debenhams_customers') }}    WHERE is_latest
+    SELECT * FROM {{ ref('grand_heritage_customers') }}    WHERE is_latest
 ),
 dedup AS (
     SELECT

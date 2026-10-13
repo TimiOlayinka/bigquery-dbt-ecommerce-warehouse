@@ -9,7 +9,7 @@ One row per record in fact_customer_segments
 ## Table structure
 | Column | Type | Description |
 |--------|------|-------------|
-| brand | varchar | Boohoo Group brand name |
+| brand | varchar | OmniStyle Commerce Group brand name |
 | brand_tier | varchar | Brand tier: Value, Mid, or Premium |
 | customer_segment | varchar | Customer segment |
 | gender | varchar | Gender |

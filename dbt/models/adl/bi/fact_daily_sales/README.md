@@ -10,7 +10,7 @@ One row per record in fact_daily_sales
 | Column | Type | Description |
 |--------|------|-------------|
 | order_date | date | Order date |
-| brand | varchar | Boohoo Group brand name |
+| brand | varchar | OmniStyle Commerce Group brand name |
 | brand_tier | varchar | Brand tier: Value, Mid, or Premium |
 | order_year | varchar | Order year |
 | order_month | varchar | Order month |

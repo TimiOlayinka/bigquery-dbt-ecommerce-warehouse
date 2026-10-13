@@ -8,7 +8,7 @@ config {
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.dim_campaigns
 -- Unified campaign dimension across all ad platforms (Meta, Google, TikTok)
--- Follows HnB dim_campaigns pattern with surrogate keys
+-- Follows enterprise dim_campaigns pattern with surrogate keys
 ------------------------------------------------------------------------------------------------------------------------
 WITH meta_campaigns AS (
     SELECT DISTINCT
@@ -59,7 +59,7 @@ SELECT
     campaign_name,
     objective,
     platform,
-    -- Campaign name classification (inspired by HnB's classified CTE)
+    -- Campaign name classification (inspired by enterprise classified CTE)
     CASE
         WHEN campaign_name LIKE '%Branded%'     THEN 'Brand'
         WHEN campaign_name LIKE '%Generic%'     THEN 'Generic'

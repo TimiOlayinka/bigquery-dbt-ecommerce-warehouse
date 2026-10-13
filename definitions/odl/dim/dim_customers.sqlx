@@ -7,23 +7,23 @@ config {
 
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.dim_customers
--- Unified customer dimension across all Boohoo Group brands (star schema)
+-- Unified customer dimension across all OmniStyle Commerce Group brands (star schema)
 -- Consumes RDL full-history models filtered to is_latest (current state only)
 ------------------------------------------------------------------------------------------------------------------------
 WITH all_customers AS (
-    SELECT * FROM ${ref({schema: "rdl_boohoo", name: "customers_history"})}       WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_velvet_lane", name: "customers_history"})}       WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_boohoo_man", name: "customers_history"})}   WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_velvet_mens", name: "customers_history"})}   WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_prettylittlething", name: "customers_history"})}          WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_trend_pulse", name: "customers_history"})}          WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_nastygal", name: "customers_history"})}     WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_rebel_chic", name: "customers_history"})}     WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_karen_millen", name: "customers_history"})} WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_atelier_luxe", name: "customers_history"})} WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_coast", name: "customers_history"})}        WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_riviera_mode", name: "customers_history"})}        WHERE is_latest
     UNION ALL
-    SELECT * FROM ${ref({schema: "rdl_debenhams", name: "customers_history"})}    WHERE is_latest
+    SELECT * FROM ${ref({schema: "rdl_grand_heritage", name: "customers_history"})}    WHERE is_latest
 ),
 dedup AS (
     SELECT

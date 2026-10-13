@@ -4,7 +4,7 @@
 Marketing funnel analysis — Awareness → Consideration → Conversion
 
 ## Expected refresh
-Daily, triggered by Airflow DAG `boohoo_dbt_run`
+Daily, triggered by Airflow DAG `omnistyle_dbt_run`
 
 ## Failure impact
 Dashboard metrics will be stale or incorrect. Executive reports may show wrong KPIs.
@@ -29,7 +29,7 @@ FROM {{ ref('fact_funnel_metrics') }};
 5. Verify downstream models: `dbt run --select fact_funnel_metrics+`
 
 ## Escalation
-data-team@boohoo.com
+data-team@omnistyle-commerce.co.uk
 
 ## Related checks
 - dbt test: `dbt test --select fact_funnel_metrics`

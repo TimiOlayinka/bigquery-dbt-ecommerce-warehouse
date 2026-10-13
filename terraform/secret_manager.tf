@@ -6,7 +6,7 @@
 # any future API keys (e.g. Meta Ads, Google Ads, TikTok tokens).
 
 resource "google_secret_manager_secret" "airflow_config" {
-  secret_id = "boohoo-airflow-config"
+  secret_id = "omnistyle-airflow-config"
   project   = var.gcp_project_id
 
   replication {

@@ -12,7 +12,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.fact_tiktok_ad_insights
 -- Unified TikTok Ads performance with surrogate keys
--- Follows HnB fact_tiktok_ad_insights.sql pattern
+-- Follows enterprise fact_tiktok_ad_insights.sql pattern
 ------------------------------------------------------------------------------------------------------------------------
 WITH raw_data AS (
     SELECT

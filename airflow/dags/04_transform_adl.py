@@ -19,7 +19,7 @@ default_args = {
 
 PROJECT_ID = "bellosdata"
 REGION = "europe-west2"
-REPOSITORY_ID = "boohoo-dataform"
+REPOSITORY_ID = "omnistyle-dataform"
 
 with DAG(
     dag_id="04_transform_adl",

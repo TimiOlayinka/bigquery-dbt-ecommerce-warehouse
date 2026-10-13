@@ -1,7 +1,7 @@
 # fact_order_items
 
 ## Purpose
-Granular order line-item fact table unifying SKU-level transactions across all 7 Boohoo Group brands (`Boohoo`, `Boohoo Man`, `PrettyLittleThing`, `NastyGal`, `Karen Millen`, `Coast`, `Debenhams`).
+Granular order line-item fact table unifying SKU-level transactions across all 7 OmniStyle Commerce Group brands (`VelvetLane`, `VelvetMens`, `TrendPulse`, `RebelChic`, `AtelierLuxe`, `RivieraMode`, `GrandHeritage`).
 
 ## Grain
 One row per order line item (`order_item_sk`)
@@ -25,7 +25,7 @@ One row per order line item (`order_item_sk`)
 | item_discount_amount | numeric | Line-level promotional discount (GBP) |
 | gross_item_revenue | numeric | `quantity * unit_price` |
 | net_item_revenue | numeric | `(quantity * unit_price) - item_discount_amount` |
-| brand | string | Boohoo Group brand name |
+| brand | string | OmniStyle Commerce Group brand name |
 | source_system | string | E-commerce platform identifier |
 
 ## SLA

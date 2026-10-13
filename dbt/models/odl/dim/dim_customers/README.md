@@ -1,7 +1,7 @@
 # dim_customers
 
 ## Purpose
-Unified customer dimension across all Boohoo Group brands (star schema)
+Unified customer dimension across all OmniStyle Commerce Group brands (star schema)
 
 ## Grain
 One row per (email) per brand
@@ -21,7 +21,7 @@ One row per (email) per brand
 | registration_date | date | Registration date |
 | gender | varchar | Gender |
 | is_marketing_opted_in | boolean | Boolean: marketing opted in |
-| brand | varchar | Boohoo Group brand name |
+| brand | varchar | OmniStyle Commerce Group brand name |
 | source_system | varchar | Source platform identifier |
 | ingest_date | date | Date this version was loaded from source |
 | dwh_created_at | varchar | Timestamp when this row was created in the warehouse |
@@ -33,13 +33,13 @@ One row per (email) per brand
 - Filters to is_latest = TRUE from RDL (current-state only)
 
 ## Upstream inputs
-- `ref('boohoo_customers')`
-- `ref('boohoo_man_customers')`
-- `ref('plt_customers')`
-- `ref('nastygal_customers')`
-- `ref('karen_millen_customers')`
-- `ref('coast_customers')`
-- `ref('debenhams_customers')`
+- `ref('velvet_lane_customers')`
+- `ref('velvet_mens_customers')`
+- `ref('trend_pulse_customers')`
+- `ref('rebel_chic_customers')`
+- `ref('atelier_luxe_customers')`
+- `ref('riviera_mode_customers')`
+- `ref('grand_heritage_customers')`
 
 ## Downstream usage
 - See lineage map

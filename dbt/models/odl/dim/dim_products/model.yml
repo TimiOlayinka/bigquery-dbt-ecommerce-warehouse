@@ -4,10 +4,10 @@ model:
   schema: odl
   layer: odl
 owners:
-  workstream: boohoo-data-engineering
-  analytics_owner: data-team@boohoo.com
-  business_owner: dim-team@boohoo.com
-  technical_owner: data-team@boohoo.com
+  workstream: omnistyle-data-engineering
+  analytics_owner: data-team@omnistyle-commerce.co.uk
+  business_owner: dim-team@omnistyle-commerce.co.uk
+  technical_owner: data-team@omnistyle-commerce.co.uk
 service:
   sla: Daily by 07:00 Europe/London
   refresh_cadence: daily
@@ -17,13 +17,13 @@ description:
   business_purpose: Unified product dimension with calculated margin metrics
 grain: One row per record in dim_products
 depends_on_products:
-- boohoo_products
-- boohoo_man_products
-- plt_products
-- nastygal_products
-- karen_millen_products
-- coast_products
-- debenhams_products
+- velvet_lane_products
+- velvet_mens_products
+- trend_pulse_products
+- rebel_chic_products
+- atelier_luxe_products
+- riviera_mode_products
+- grand_heritage_products
 documentation:
   main: ./README.md
   runbook: ./runbook.md

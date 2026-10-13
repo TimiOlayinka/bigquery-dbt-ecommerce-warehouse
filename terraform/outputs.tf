@@ -44,7 +44,7 @@ output "cloud_run_job_names" {
 
 output "artifact_registry_url" {
   description = "Artifact Registry URL for pushing Docker images"
-  value       = "${var.gcp_region}-docker.pkg.dev/${var.gcp_project_id}/${google_artifact_registry_repository.boohoo_jobs.repository_id}"
+  value       = "${var.gcp_region}-docker.pkg.dev/${var.gcp_project_id}/${google_artifact_registry_repository.velvet_lane_jobs.repository_id}"
 }
 
 output "data_generator_service_account_email" {

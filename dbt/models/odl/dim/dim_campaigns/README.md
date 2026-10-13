@@ -34,7 +34,7 @@ One row per (campaign_nk, platform, brand)
 | WHEN campaign_name LIKE '%Payday%'      THEN 'Promotional' | varchar | When campaign name like '%payday%'      then 'promotional' |
 | ELSE 'Other' | varchar | Else 'other' |
 | campaign_type | varchar | Campaign type |
-| brand | varchar | Boohoo Group brand name |
+| brand | varchar | OmniStyle Commerce Group brand name |
 | dwh_created_at | varchar | Timestamp when this row was created in the warehouse |
 
 ## Key business rules

@@ -1,0 +1,32 @@
+model:
+  name: atelier_luxe_orders
+  domain: magento
+  schema: rdl_magento
+  layer: rdl
+owners:
+  workstream: omnistyle-data-engineering
+  analytics_owner: data-team@omnistyle-commerce.co.uk
+  business_owner: magento-team@omnistyle-commerce.co.uk
+  technical_owner: data-team@omnistyle-commerce.co.uk
+service:
+  sla: Daily by 07:00 Europe/London
+  refresh_cadence: daily
+  criticality: medium
+description:
+  short: AtelierLuxe Orders — RDL layer model
+  business_purpose: AtelierLuxe Orders — RDL layer model
+grain: One row per (order_id) per ingestion version
+depends_on_products:
+- rdl_magento.atelier_luxe_orders_history
+documentation:
+  main: ./README.md
+  runbook: ./runbook.md
+classification:
+  certified_for_reporting: false
+  contains_pii: false
+  confidentiality: internal
+tags:
+- rdl
+- magento
+- atelier_luxe
+- commerce

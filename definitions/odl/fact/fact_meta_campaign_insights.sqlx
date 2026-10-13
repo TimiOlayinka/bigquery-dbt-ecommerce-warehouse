@@ -8,7 +8,7 @@ config {
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.fact_meta_campaign_insights
 -- Unified Meta Ads campaign insights with surrogate keys
--- Follows HnB fact_meta_campaign_insights.sql pattern
+-- Follows enterprise fact_meta_campaign_insights.sql pattern
 ------------------------------------------------------------------------------------------------------------------------
 WITH raw_data AS (
     SELECT

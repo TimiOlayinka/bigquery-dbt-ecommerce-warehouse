@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">Boohoo Group Multi-Brand E-Commerce Data Warehouse</h1>
+  <h1 align="center">OmniStyle Commerce Group Multi-Brand E-Commerce Data Warehouse</h1>
   <p align="center">
     <strong>Multi-brand e-commerce data warehouse on GCP — 9 Cloud Run Jobs across 7 brands, BigQuery FinOps-optimised Star Schema (40% fewer scanned bytes), Dual dbt Core & Dataform Medallion Architecture (RDL → ODL → ADL/BI), and ephemeral Airflow orchestration delivering £350K/yr (~£30K/mo) infrastructure savings.</strong>
   </p>
@@ -20,7 +20,7 @@
 
 ## Executive Summary & FinOps Impact
 
-A **production-grade, FinOps-optimised multi-brand e-commerce data warehouse** engineered for the **Boohoo Group's 7 retail brands** across **5 heterogeneous commerce platforms** (`Boohoo Commerce`, `Salesforce Commerce Cloud`, `Shopify`, `Magento`, `Oracle Commerce`) and **6 performance marketing channels** (`Meta Ads`, `Google Ads`, `TikTok Ads`, `GA4`, `Email`, `Influencers`).
+A **production-grade, FinOps-optimised multi-brand e-commerce data warehouse** engineered for the **OmniStyle Commerce Group's 7 retail brands** across **5 heterogeneous commerce platforms** (`Omnia Commerce`, `Salesforce Commerce Cloud`, `Shopify`, `Magento`, `Oracle Commerce`) and **6 performance marketing channels** (`Meta Ads`, `Google Ads`, `TikTok Ads`, `GA4`, `Email`, `Influencers`).
 
 | Engineering Pillar | Architectural Implementation | Quantified Impact |
 |---|---|---|
@@ -39,13 +39,13 @@ A **production-grade, FinOps-optimised multi-brand e-commerce data warehouse** e
 
 | Brand | Platform | BigQuery RDL Dataset | dbt RDL Schema |
 |-------|----------|----------------------|----------------|
-| **Boohoo** | Boohoo Commerce | `rdl_boohoo` | `rdl_boohoo_commerce` |
-| **BoohooMAN** | Boohoo Commerce | `rdl_boohoo_man` | `rdl_boohoo_commerce` |
-| **PrettyLittleThing** | Salesforce Commerce Cloud | `rdl_prettylittlething` | `rdl_salesforce_commerce` |
-| **NastyGal** | Shopify | `rdl_nastygal` | `rdl_shopify` |
-| **Karen Millen** | Magento | `rdl_karen_millen` | `rdl_magento` |
-| **Coast** | Magento | `rdl_coast` | `rdl_magento` |
-| **Debenhams** | Oracle Commerce | `rdl_debenhams` | `rdl_oracle_commerce` |
+| **VelvetLane** | Omnia Commerce | `rdl_velvet_lane` | `rdl_omnia_commerce` |
+| **VelvetMens** | Omnia Commerce | `rdl_velvet_mens` | `rdl_omnia_commerce` |
+| **TrendPulse** | Salesforce Commerce Cloud | `rdl_trend_pulse` | `rdl_salesforce_commerce` |
+| **RebelChic** | Shopify | `rdl_rebel_chic` | `rdl_shopify` |
+| **AtelierLuxe** | Magento | `rdl_atelier_luxe` | `rdl_magento` |
+| **RivieraMode** | Magento | `rdl_riviera_mode` | `rdl_magento` |
+| **GrandHeritage** | Oracle Commerce | `rdl_grand_heritage` | `rdl_oracle_commerce` |
 
 ```mermaid
 flowchart LR
@@ -62,8 +62,8 @@ flowchart LR
     end
 
     subgraph GCS["📦 Cloud Storage (3 Buckets)"]
-        RDL_GCS["boohoo-rdl-staging\nJSONL.GZ per brand\nNearline after 90d"]
-        DQ_GCS["boohoo-data-quality\nParquet exports"]
+        RDL_GCS["omnistyle-rdl-staging\nJSONL.GZ per brand\nNearline after 90d"]
+        DQ_GCS["omnistyle-data-quality\nParquet exports"]
     end
 
     subgraph SCHEDULER["⏰ Instance Schedule (Native GCE)"]
@@ -171,7 +171,7 @@ Our GitHub Actions CI pipeline ([`.github/workflows/dbt_bigquery_slim_ci.yml`](.
 ## Project Structure
 
 ```
-boohoo-data-pipeline/
+bigquery-dbt-ecommerce-warehouse/
 │
 ├── dbt/                                       # First-class dbt-bigquery project (55 models + contracts)
 │   ├── dbt_project.yml                        # Medallion layer configs, persist_docs, FinOps labels
@@ -185,11 +185,11 @@ boohoo-data-pipeline/
 │   └── models/
 │       ├── rdl/                               # Raw Data Layer — 21 brand history models + 6 marketing models
 │       │   ├── _sources.yml                   # BigQuery external staging table declarations
-│       │   ├── boohoo_commerce/               # boohoo_* and boohoo_man_* (customers, orders, products)
+│       │   ├── omnia_commerce/               # velvet_lane_* and velvet_mens_* (customers, orders, products)
 │       │   ├── salesforce_commerce/           # plt_* (customers, orders, products)
-│       │   ├── shopify/                       # nastygal_* (customers, orders, products)
-│       │   ├── magento/                       # karen_millen_* and coast_* (customers, orders, products)
-│       │   ├── oracle_commerce/               # debenhams_* (customers, orders, products)
+│       │   ├── shopify/                       # rebel_chic_* (customers, orders, products)
+│       │   ├── magento/                       # atelier_luxe_* and coast_* (customers, orders, products)
+│       │   ├── oracle_commerce/               # grand_heritage_* (customers, orders, products)
 │       │   └── marketing/                     # rdl_meta_ads, rdl_google_ads, rdl_tiktok_ads, rdl_ga4_sessions, etc.
 │       ├── odl/                               # Operational Data Layer — 16 Star Schema models
 │       │   ├── _schema.yml                    # Schema & referential integrity tests

@@ -4,7 +4,7 @@
 Unified Google Ads performance with channel grouping classification
 
 ## Expected refresh
-Daily, triggered by Airflow DAG `boohoo_dbt_run`
+Daily, triggered by Airflow DAG `omnistyle_dbt_run`
 
 ## Failure impact
 Downstream ADL aggregates and dashboards will be affected.
@@ -34,7 +34,7 @@ WHERE f.brand IS NULL;
 5. Verify downstream models: `dbt run --select fact_google_ads_performance+`
 
 ## Escalation
-data-team@boohoo.com
+data-team@omnistyle-commerce.co.uk
 
 ## Related checks
 - dbt test: `dbt test --select fact_google_ads_performance`

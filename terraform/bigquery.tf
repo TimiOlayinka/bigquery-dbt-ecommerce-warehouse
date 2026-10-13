@@ -12,13 +12,13 @@
 
 resource "google_bigquery_dataset" "rdl_brand" {
   for_each = toset([
-    "rdl_boohoo",
-    "rdl_boohoo_man",
-    "rdl_prettylittlething",
-    "rdl_nastygal",
-    "rdl_karen_millen",
-    "rdl_coast",
-    "rdl_debenhams",
+    "rdl_velvet_lane",
+    "rdl_velvet_mens",
+    "rdl_trend_pulse",
+    "rdl_rebel_chic",
+    "rdl_atelier_luxe",
+    "rdl_riviera_mode",
+    "rdl_grand_heritage",
   ])
 
   dataset_id    = each.key
@@ -65,13 +65,13 @@ resource "google_bigquery_dataset" "bi" {
 
 locals {
   ecommerce_brands = {
-    boohoo            = ["customers", "orders", "products"]
-    boohoo_man        = ["customers", "orders", "products"]
-    prettylittlething = ["customers", "orders", "products"]
-    nastygal          = ["customers", "orders", "products"]
-    karen_millen      = ["customers", "orders", "products"]
-    coast             = ["customers", "orders", "products"]
-    debenhams         = ["customers", "orders", "products"]
+    velvet_lane    = ["customers", "orders", "products"]
+    velvet_mens    = ["customers", "orders", "products"]
+    trend_pulse    = ["customers", "orders", "products"]
+    rebel_chic     = ["customers", "orders", "products"]
+    atelier_luxe   = ["customers", "orders", "products"]
+    riviera_mode   = ["customers", "orders", "products"]
+    grand_heritage = ["customers", "orders", "products"]
   }
 
   # Flatten into a map of key => { brand, dataset }
@@ -86,7 +86,7 @@ locals {
   ]...)
 
   # Marketing: all 7 brands × 6 channels
-  marketing_brands   = ["boohoo", "boohoo_man", "prettylittlething", "nastygal", "karen_millen", "coast", "debenhams"]
+  marketing_brands   = ["velvet_lane", "velvet_mens", "trend_pulse", "rebel_chic", "atelier_luxe", "riviera_mode", "grand_heritage"]
   marketing_channels = ["meta_ads", "google_ads", "tiktok_ads", "ga4_sessions", "email_campaigns", "influencers"]
 
   marketing_tables = {

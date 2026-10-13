@@ -2,16 +2,16 @@
 # IAM — Service Accounts & Role Bindings
 # =============================================================================
 # Two service accounts with least-privilege access:
-#   1. boohoo-data-generator — Cloud Run Jobs (write to GCS, query BigQuery)
-#   2. boohoo-airflow-vm     — Compute Engine (read GCS, admin BigQuery, invoke Cloud Run)
+#   1. omnistyle-data-generator — Cloud Run Jobs (write to GCS, query BigQuery)
+#   2. omnistyle-airflow-vm     — Compute Engine (read GCS, admin BigQuery, invoke Cloud Run)
 
 # -----------------------------------------------------------------------------
 # 1. Data Generator Service Account (Cloud Run Jobs)
 # -----------------------------------------------------------------------------
 
 resource "google_service_account" "data_generator" {
-  account_id   = "boohoo-data-generator"
-  display_name = "Boohoo Data Generator"
+  account_id   = "omnistyle-data-generator"
+  display_name = "VelvetLane Data Generator"
   description  = "Service account for Cloud Run data generator jobs"
   project      = var.gcp_project_id
 }
@@ -41,8 +41,8 @@ resource "google_project_iam_member" "data_generator_bq_job_user" {
 # -----------------------------------------------------------------------------
 
 resource "google_service_account" "airflow_vm" {
-  account_id   = "boohoo-airflow-vm"
-  display_name = "Boohoo Airflow VM"
+  account_id   = "omnistyle-airflow-vm"
+  display_name = "VelvetLane Airflow VM"
   description  = "Service account for the Airflow orchestrator VM"
   project      = var.gcp_project_id
 }
@@ -80,10 +80,10 @@ resource "google_project_iam_member" "airflow_vm_secret_accessor" {
 # =============================================================================
 # Stores container images for Cloud Run Jobs, pushed by CI/CD pipeline.
 
-resource "google_artifact_registry_repository" "boohoo_jobs" {
+resource "google_artifact_registry_repository" "velvet_lane_jobs" {
   location      = var.gcp_region
-  repository_id = "boohoo-jobs"
-  description   = "Docker images for Boohoo data generator Cloud Run Jobs"
+  repository_id = "omnistyle-jobs"
+  description   = "Docker images for VelvetLane data generator Cloud Run Jobs"
   format        = "DOCKER"
   project       = var.gcp_project_id
 
@@ -96,8 +96,8 @@ resource "google_artifact_registry_repository" "boohoo_jobs" {
 # Used by Cloud Build triggers to build and push Docker images.
 
 resource "google_service_account" "cloud_builder" {
-  account_id   = "boohoo-cloud-builder"
-  display_name = "Boohoo Cloud Builder"
+  account_id   = "omnistyle-cloud-builder"
+  display_name = "VelvetLane Cloud Builder"
   description  = "Service account for Cloud Build CI/CD pipeline"
   project      = var.gcp_project_id
 }

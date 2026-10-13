@@ -1,44 +1,44 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'jobs/']
+    args: ['build', '-t', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'jobs/']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/ecommerce_customers:latest']
+    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/ecommerce_customers:latest']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/ecommerce_orders:latest']
+    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/ecommerce_orders:latest']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/ecommerce_products:latest']
+    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/ecommerce_products:latest']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_meta_ads:latest']
+    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_meta_ads:latest']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_google_ads:latest']
+    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_google_ads:latest']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_tiktok_ads:latest']
+    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_tiktok_ads:latest']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_ga4_sessions:latest']
+    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_ga4_sessions:latest']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_email_campaigns:latest']
+    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_email_campaigns:latest']
   
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/boohoo-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_influencers:latest']
+    args: ['tag', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/omnistyle-base:latest', 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_influencers:latest']
 
 images:
-  - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/ecommerce_customers:latest'
-  - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/ecommerce_orders:latest'
-  - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/ecommerce_products:latest'
-  - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_meta_ads:latest'
-  - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_google_ads:latest'
-  - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_tiktok_ads:latest'
-  - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_ga4_sessions:latest'
-  - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_email_campaigns:latest'
-  - 'europe-west2-docker.pkg.dev/bellosdata/boohoo-jobs/marketing_influencers:latest'
+  - 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/ecommerce_customers:latest'
+  - 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/ecommerce_orders:latest'
+  - 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/ecommerce_products:latest'
+  - 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_meta_ads:latest'
+  - 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_google_ads:latest'
+  - 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_tiktok_ads:latest'
+  - 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_ga4_sessions:latest'
+  - 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_email_campaigns:latest'
+  - 'europe-west2-docker.pkg.dev/bellosdata/omnistyle-jobs/marketing_influencers:latest'
 
 options:
   logging: CLOUD_LOGGING_ONLY

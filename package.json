@@ -1,5 +1,5 @@
 {
-  "name": "boohoo-data-pipeline",
+  "name": "bigquery-dbt-ecommerce-warehouse",
   "dependencies": {
     "@dataform/core": "3.0.0"
   }

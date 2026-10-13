@@ -4,10 +4,10 @@ model:
   schema: odl
   layer: odl
 owners:
-  workstream: boohoo-data-engineering
-  analytics_owner: data-team@boohoo.com
-  business_owner: fact-team@boohoo.com
-  technical_owner: data-team@boohoo.com
+  workstream: omnistyle-data-engineering
+  analytics_owner: data-team@omnistyle-commerce.co.uk
+  business_owner: fact-team@omnistyle-commerce.co.uk
+  technical_owner: data-team@omnistyle-commerce.co.uk
 service:
   sla: Daily by 07:00 Europe/London
   refresh_cadence: daily
@@ -17,13 +17,13 @@ description:
   business_purpose: Unified order fact table with surrogate keys to dimensions
 grain: One row per record in fact_orders
 depends_on_products:
-- boohoo_orders
-- boohoo_man_orders
-- plt_orders
-- nastygal_orders
-- karen_millen_orders
-- coast_orders
-- debenhams_orders
+- velvet_lane_orders
+- velvet_mens_orders
+- trend_pulse_orders
+- rebel_chic_orders
+- atelier_luxe_orders
+- riviera_mode_orders
+- grand_heritage_orders
 documentation:
   main: ./README.md
   runbook: ./runbook.md

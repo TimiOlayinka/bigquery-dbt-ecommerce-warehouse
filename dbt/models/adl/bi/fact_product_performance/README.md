@@ -9,7 +9,7 @@ One row per record in fact_product_performance
 ## Table structure
 | Column | Type | Description |
 |--------|------|-------------|
-| brand | varchar | Boohoo Group brand name |
+| brand | varchar | OmniStyle Commerce Group brand name |
 | brand_tier | varchar | Brand tier: Value, Mid, or Premium |
 | category | varchar | Category |
 | subcategory | varchar | Subcategory |

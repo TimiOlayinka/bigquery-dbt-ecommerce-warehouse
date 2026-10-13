@@ -1,7 +1,7 @@
 {% macro generate_schema_name(custom_schema_name, node) -%}
     {#-
         BigQuery Multi-Environment Dataset Resolution:
-        - In 'prod': writes directly to the target medallion dataset (e.g. `rdl_boohoo_commerce`, `odl`, `bi`)
+        - In 'prod': writes directly to the target medallion dataset (e.g. `rdl_omnia_commerce`, `odl`, `bi`)
         - In 'ci': prefixes with the ephemeral PR schema (e.g. `ci_pr_42_odl`) for isolated Slim CI validation
         - In 'dev': prefixes with the developer's sandbox dataset (e.g. `odl_dev_bi`)
     -#}

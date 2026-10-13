@@ -22,13 +22,13 @@ One row per record in fact_orders
 - Filters to is_latest = TRUE from RDL (current-state only)
 
 ## Upstream inputs
-- `ref('boohoo_orders')`
-- `ref('boohoo_man_orders')`
-- `ref('plt_orders')`
-- `ref('nastygal_orders')`
-- `ref('karen_millen_orders')`
-- `ref('coast_orders')`
-- `ref('debenhams_orders')`
+- `ref('velvet_lane_orders')`
+- `ref('velvet_mens_orders')`
+- `ref('trend_pulse_orders')`
+- `ref('rebel_chic_orders')`
+- `ref('atelier_luxe_orders')`
+- `ref('riviera_mode_orders')`
+- `ref('grand_heritage_orders')`
 
 ## Downstream usage
 - See lineage map

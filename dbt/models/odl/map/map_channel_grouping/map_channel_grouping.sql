@@ -9,7 +9,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.map_channel_grouping
 -- Maps Google Ads channel_type + campaign_name → channel_group
--- Inspired by HnB's classified CTE in fact_google_ads_standard_campaign_performance.sql
+-- Inspired by OmniStyle's classified CTE in fact_google_ads_standard_campaign_performance.sql
 ------------------------------------------------------------------------------------------------------------------------
 SELECT
     'SEARCH'          AS channel_type,

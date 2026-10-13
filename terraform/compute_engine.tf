@@ -10,7 +10,7 @@
 # Persists across VM stop/start cycles (equivalent to AWS Elastic IP).
 
 resource "google_compute_address" "airflow" {
-  name    = "boohoo-airflow-ip"
+  name    = "omnistyle-airflow-ip"
   project = var.gcp_project_id
   region  = var.gcp_region
 }
@@ -22,7 +22,7 @@ resource "google_compute_address" "airflow" {
 # Airflow UI (8081) access.
 
 resource "google_compute_firewall" "airflow_ssh" {
-  name    = "boohoo-airflow-allow-ssh"
+  name    = "omnistyle-airflow-allow-ssh"
   project = var.gcp_project_id
   network = "default"
 
@@ -38,7 +38,7 @@ resource "google_compute_firewall" "airflow_ssh" {
 }
 
 resource "google_compute_firewall" "airflow_ui" {
-  name    = "boohoo-airflow-allow-ui"
+  name    = "omnistyle-airflow-allow-ui"
   project = var.gcp_project_id
   network = "default"
 
@@ -59,7 +59,7 @@ resource "google_compute_firewall" "airflow_ui" {
 # Native GCE resource policy for automatic start/stop — no Lambda needed.
 
 resource "google_compute_resource_policy" "airflow_schedule" {
-  name    = "boohoo-airflow-schedule"
+  name    = "omnistyle-airflow-schedule"
   project = var.gcp_project_id
   region  = var.gcp_region
 
@@ -83,7 +83,7 @@ resource "google_compute_resource_policy" "airflow_schedule" {
 # -----------------------------------------------------------------------------
 
 resource "google_compute_instance" "airflow" {
-  name         = "boohoo-airflow"
+  name         = "omnistyle-airflow"
   machine_type = var.vm_machine_type
   zone         = var.gcp_zone
   project      = var.gcp_project_id
@@ -154,9 +154,9 @@ resource "google_compute_instance" "airflow" {
     # -------------------------------------------------------------------------
     # Clone repo and start Airflow via Docker Compose
     # -------------------------------------------------------------------------
-    REPO_DIR="/opt/boohoo-repo"
+    REPO_DIR="/opt/omnistyle-repo"
     if [ ! -d "$REPO_DIR" ]; then
-      git clone https://github.com/TimiOlayinka/boohoo-data-pipeline.git "$REPO_DIR"
+      git clone https://github.com/TimiOlayinka/bigquery-dbt-ecommerce-warehouse.git "$REPO_DIR"
     else
       cd "$REPO_DIR" && git pull origin main
     fi
@@ -169,7 +169,7 @@ resource "google_compute_instance" "airflow" {
       docker compose -f docker-compose.cloud.yaml up -d
     fi
 
-    echo "Startup script completed at $(date)" >> /var/log/boohoo-startup.log
+    echo "Startup script completed at $(date)" >> /var/log/omnistyle-startup.log
   EOF
 
   labels = {

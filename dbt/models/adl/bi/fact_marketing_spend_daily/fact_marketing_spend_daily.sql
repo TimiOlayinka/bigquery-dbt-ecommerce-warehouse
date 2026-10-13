@@ -10,7 +10,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 -- bi.fact_marketing_spend_daily
 -- Daily marketing spend overview — spend + performance by brand × channel
--- Inspired by HnB fact_campaign_spend_daily_metabase_view.sql
+-- Inspired by OmniStyle fact_campaign_spend_daily_metabase_view.sql
 ------------------------------------------------------------------------------------------------------------------------
 WITH meta_daily AS (
     SELECT

@@ -12,19 +12,19 @@
 -- Consumes RDL full-history models filtered to is_latest (current state only)
 ------------------------------------------------------------------------------------------------------------------------
 WITH all_products AS (
-    SELECT * FROM {{ ref('boohoo_products') }}       WHERE is_latest
+    SELECT * FROM {{ ref('velvet_lane_products') }}       WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('boohoo_man_products') }}   WHERE is_latest
+    SELECT * FROM {{ ref('velvet_mens_products') }}   WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('plt_products') }}          WHERE is_latest
+    SELECT * FROM {{ ref('trend_pulse_products') }}          WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('nastygal_products') }}     WHERE is_latest
+    SELECT * FROM {{ ref('rebel_chic_products') }}     WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('karen_millen_products') }} WHERE is_latest
+    SELECT * FROM {{ ref('atelier_luxe_products') }} WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('coast_products') }}        WHERE is_latest
+    SELECT * FROM {{ ref('riviera_mode_products') }}        WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('debenhams_products') }}    WHERE is_latest
+    SELECT * FROM {{ ref('grand_heritage_products') }}    WHERE is_latest
 )
 SELECT
     TO_HEX(MD5(product_id || '|' || brand)) AS product_sk,

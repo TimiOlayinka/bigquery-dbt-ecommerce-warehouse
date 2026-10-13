@@ -1,7 +1,7 @@
 # rdl_google_ads
 
 ## Purpose
-Deduplicated Raw Data Layer (RDL) staging model over `rdl_marketing.google_ads_history` across all 7 Boohoo Group brands.
+Deduplicated Raw Data Layer (RDL) staging model over `rdl_marketing.google_ads_history` across all 7 OmniStyle Commerce Group brands.
 
 ## Grain
 One row per `(ad_id, date_nk, device, brand)` ordered by latest `ingest_date`.

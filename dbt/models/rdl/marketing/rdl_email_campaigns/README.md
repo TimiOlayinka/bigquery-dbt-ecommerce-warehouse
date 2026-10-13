@@ -1,7 +1,7 @@
 # rdl_email_campaigns
 
 ## Purpose
-Deduplicated Raw Data Layer (RDL) staging model over `rdl_marketing.email_campaigns_history` across all 7 Boohoo Group brands.
+Deduplicated Raw Data Layer (RDL) staging model over `rdl_marketing.email_campaigns_history` across all 7 OmniStyle Commerce Group brands.
 
 ## Grain
 One row per `(campaign_id, date_nk, brand)` ordered by latest `ingest_date`.

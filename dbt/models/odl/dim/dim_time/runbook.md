@@ -4,7 +4,7 @@
 Conformed date dimension providing consistent date attributes across all facts and reports.
 
 ## Expected refresh
-Daily, triggered by Airflow DAG `boohoo_dbt_run`
+Daily, triggered by Airflow DAG `omnistyle_dbt_run`
 
 ## Failure impact
 All time-based joins in fact tables will fail. Dashboards relying on date filters will break.
@@ -31,7 +31,7 @@ WHERE b.date_day IS NULL AND a.date_day < (SELECT MAX(date_day) FROM {{ ref('dim
 2. To extend the range, increase the `LIMIT 1096` value in the SQL
 
 ## Escalation
-data-team@boohoo.com
+data-team@omnistyle-commerce.co.uk
 
 ## Related checks
 - dbt test: `dbt test --select dim_time`

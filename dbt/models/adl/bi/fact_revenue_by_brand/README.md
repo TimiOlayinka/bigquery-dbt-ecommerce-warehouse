@@ -10,7 +10,7 @@ One row per record in fact_revenue_by_brand
 | Column | Type | Description |
 |--------|------|-------------|
 | ingest_date | date | Date this version was loaded from source |
-| brand | varchar | Boohoo Group brand name |
+| brand | varchar | OmniStyle Commerce Group brand name |
 | brand_tier | varchar | Brand tier: Value, Mid, or Premium |
 | total_orders | varchar | Total orders |
 | unique_customers | varchar | Unique customers |

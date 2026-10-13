@@ -13,7 +13,7 @@
 # Nearline after 90 days (cost savings) and deletes after 365 days.
 
 resource "google_storage_bucket" "rdl_staging" {
-  name     = "boohoo-rdl-staging-${var.gcp_project_id}"
+  name     = "omnistyle-rdl-staging-${var.gcp_project_id}"
   location = var.gcp_region
   project  = var.gcp_project_id
 
@@ -54,7 +54,7 @@ resource "google_storage_bucket" "rdl_staging" {
 # Versioning enabled for state history and recovery.
 
 resource "google_storage_bucket" "terraform_state" {
-  name     = "boohoo-terraform-state-${var.gcp_project_id}"
+  name     = "omnistyle-terraform-state-${var.gcp_project_id}"
   location = var.gcp_region
   project  = var.gcp_project_id
 
@@ -77,7 +77,7 @@ resource "google_storage_bucket" "terraform_state" {
 # Objects auto-delete after 180 days.
 
 resource "google_storage_bucket" "data_quality" {
-  name     = "boohoo-data-quality-${var.gcp_project_id}"
+  name     = "omnistyle-data-quality-${var.gcp_project_id}"
   location = var.gcp_region
   project  = var.gcp_project_id
 

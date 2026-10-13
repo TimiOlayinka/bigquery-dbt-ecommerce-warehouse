@@ -1,0 +1,31 @@
+model:
+  name: trend_pulse_products
+  domain: salesforce_commerce
+  schema: rdl_salesforce_commerce
+  layer: rdl
+owners:
+  workstream: omnistyle-data-engineering
+  analytics_owner: data-team@omnistyle-commerce.co.uk
+  business_owner: salesforce_commerce-team@omnistyle-commerce.co.uk
+  technical_owner: data-team@omnistyle-commerce.co.uk
+service:
+  sla: Daily by 07:00 Europe/London
+  refresh_cadence: daily
+  criticality: medium
+description:
+  short: Plt Products — RDL layer model
+  business_purpose: Plt Products — RDL layer model
+grain: One row per (product_id) per ingestion version
+depends_on_products:
+- rdl_salesforce_commerce.trend_pulse_products_history
+documentation:
+  main: ./README.md
+  runbook: ./runbook.md
+classification:
+  certified_for_reporting: false
+  contains_pii: false
+  confidentiality: internal
+tags:
+- rdl
+- salesforce_commerce
+- trend_pulse

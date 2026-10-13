@@ -1,71 +1,71 @@
 version: 2
 
 sources:
-  - name: rdl_boohoo_commerce
+  - name: rdl_omnia_commerce
     database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
-    schema: rdl_boohoo_commerce
-    description: "Boohoo & BoohooMAN custom e-commerce platform staging tables backed by GCS JSONL.GZ"
+    schema: rdl_omnia_commerce
+    description: "VelvetLane & VelvetMens custom e-commerce platform staging tables backed by GCS JSONL.GZ"
     tables:
-      - name: boohoo_customers_history
-        description: "Raw Boohoo customer records loaded from gs://boohoo-rdl-staging/raw/boohoo/customers/"
-      - name: boohoo_orders_history
-        description: "Raw Boohoo order records loaded from gs://boohoo-rdl-staging/raw/boohoo/orders/"
-      - name: boohoo_order_items_history
-        description: "Raw Boohoo order line items loaded from gs://boohoo-rdl-staging/raw/boohoo/order_items/"
-      - name: boohoo_products_history
-        description: "Raw Boohoo product catalogue loaded from gs://boohoo-rdl-staging/raw/boohoo/products/"
-      - name: boohoo_man_customers_history
-        description: "Raw BoohooMAN customer records"
-      - name: boohoo_man_orders_history
-        description: "Raw BoohooMAN order records"
-      - name: boohoo_man_order_items_history
-        description: "Raw BoohooMAN order line items"
-      - name: boohoo_man_products_history
-        description: "Raw BoohooMAN product catalogue"
+      - name: velvet_lane_customers_history
+        description: "Raw VelvetLane customer records loaded from gs://omnistyle-rdl-staging/raw/velvet_lane/customers/"
+      - name: velvet_lane_orders_history
+        description: "Raw VelvetLane order records loaded from gs://omnistyle-rdl-staging/raw/velvet_lane/orders/"
+      - name: velvet_lane_order_items_history
+        description: "Raw VelvetLane order line items loaded from gs://omnistyle-rdl-staging/raw/velvet_lane/order_items/"
+      - name: velvet_lane_products_history
+        description: "Raw VelvetLane product catalogue loaded from gs://omnistyle-rdl-staging/raw/velvet_lane/products/"
+      - name: velvet_mens_customers_history
+        description: "Raw VelvetMens customer records"
+      - name: velvet_mens_orders_history
+        description: "Raw VelvetMens order records"
+      - name: velvet_mens_order_items_history
+        description: "Raw VelvetMens order line items"
+      - name: velvet_mens_products_history
+        description: "Raw VelvetMens product catalogue"
 
   - name: rdl_salesforce_commerce
     database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
     schema: rdl_salesforce_commerce
-    description: "PrettyLittleThing Salesforce Commerce Cloud (Demandware) staging tables"
+    description: "TrendPulse Salesforce Commerce Cloud (Demandware) staging tables"
     tables:
-      - name: plt_customers_history
-      - name: plt_orders_history
-      - name: plt_order_items_history
-      - name: plt_products_history
+      - name: trend_pulse_customers_history
+      - name: trend_pulse_orders_history
+      - name: trend_pulse_order_items_history
+      - name: trend_pulse_products_history
 
   - name: rdl_shopify
     database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
     schema: rdl_shopify
-    description: "NastyGal Shopify Plus staging tables"
+    description: "RebelChic Shopify Plus staging tables"
     tables:
-      - name: nastygal_customers_history
-      - name: nastygal_orders_history
-      - name: nastygal_order_items_history
-      - name: nastygal_products_history
+      - name: rebel_chic_customers_history
+      - name: rebel_chic_orders_history
+      - name: rebel_chic_order_items_history
+      - name: rebel_chic_products_history
 
   - name: rdl_magento
     database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
     schema: rdl_magento
-    description: "Karen Millen & Coast Adobe Commerce (Magento) staging tables"
+    description: "AtelierLuxe & RivieraMode Adobe Commerce (Magento) staging tables"
     tables:
-      - name: karen_millen_customers_history
-      - name: karen_millen_orders_history
-      - name: karen_millen_order_items_history
-      - name: karen_millen_products_history
-      - name: coast_customers_history
-      - name: coast_orders_history
-      - name: coast_order_items_history
-      - name: coast_products_history
+      - name: atelier_luxe_customers_history
+      - name: atelier_luxe_orders_history
+      - name: atelier_luxe_order_items_history
+      - name: atelier_luxe_products_history
+      - name: riviera_mode_customers_history
+      - name: riviera_mode_orders_history
+      - name: riviera_mode_order_items_history
+      - name: riviera_mode_products_history
 
   - name: rdl_oracle_commerce
     database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
     schema: rdl_oracle_commerce
-    description: "Debenhams Oracle ATG Commerce staging tables"
+    description: "GrandHeritage Oracle ATG Commerce staging tables"
     tables:
-      - name: debenhams_customers_history
-      - name: debenhams_orders_history
-      - name: debenhams_order_items_history
-      - name: debenhams_products_history
+      - name: grand_heritage_customers_history
+      - name: grand_heritage_orders_history
+      - name: grand_heritage_order_items_history
+      - name: grand_heritage_products_history
 
   - name: rdl_marketing
     database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"

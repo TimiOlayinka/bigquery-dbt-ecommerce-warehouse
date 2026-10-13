@@ -9,7 +9,7 @@
 ------------------------------------------------------------------------------------------------------------------------
 -- odl.dim_marketing_channels
 -- Marketing channel hierarchy dimension — L1 (Channel Type) → L2 (Platform) → L3 (Sub-channel)
--- Follows HnB dim_traffic_sources pattern
+-- Follows enterprise dim_traffic_sources pattern
 ------------------------------------------------------------------------------------------------------------------------
 SELECT
     'Paid Social'       AS channel_l1,

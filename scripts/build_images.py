@@ -22,7 +22,7 @@ JOBS_DIR = os.path.join(SCRIPT_DIR, "..", "jobs")
 # Artifact Registry defaults — override via env vars
 AR_REGION = os.environ.get("AR_REGION", "europe-west2")
 AR_PROJECT = os.environ.get("GCP_PROJECT_ID", "bellosdata")
-AR_REPO = os.environ.get("AR_REPO", "boohoo-jobs")
+AR_REPO = os.environ.get("AR_REPO", "omnistyle-jobs")
 
 # The 9 Cloud Run Jobs
 JOBS_LIST = [
@@ -48,13 +48,13 @@ def build_image(tag: str) -> None:
     """Build the Docker image from jobs/ and tag it for all jobs."""
     # Build a single base image first
     print("\n🔨 Building base image")
-    _run(["docker", "build", "-t", "boohoo-base", JOBS_DIR])
+    _run(["docker", "build", "-t", "omnistyle-base", JOBS_DIR])
 
     print("\n🏷️ Tagging image for all jobs")
     for job in JOBS_LIST:
         image_uri = f"{AR_REGION}-docker.pkg.dev/{AR_PROJECT}/{AR_REPO}/{job}:{tag}"
-        _run(["docker", "tag", "boohoo-base", image_uri])
-        _run(["docker", "tag", "boohoo-base", f"{AR_REGION}-docker.pkg.dev/{AR_PROJECT}/{AR_REPO}/{job}:latest"])
+        _run(["docker", "tag", "omnistyle-base", image_uri])
+        _run(["docker", "tag", "omnistyle-base", f"{AR_REGION}-docker.pkg.dev/{AR_PROJECT}/{AR_REPO}/{job}:latest"])
 
 
 def push_image(tag: str) -> None:

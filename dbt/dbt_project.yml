@@ -1,8 +1,8 @@
-name: 'boohoo_dwh'
+name: 'omnistyle_dwh'
 version: '1.0.0'
 config-version: 2
 
-profile: 'boohoo_dwh'
+profile: 'omnistyle_dwh'
 
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -20,12 +20,12 @@ vars:
   require_partition_filter_default: true
 
 models:
-  boohoo_dwh:
+  omnistyle_dwh:
     +persist_docs:
       relation: true
       columns: true
     +labels:
-      project: boohoo_dwh
+      project: omnistyle_dwh
       managed_by: dbt_bigquery
       architecture: medallion
 
@@ -34,8 +34,8 @@ models:
       +schema: rdl
       +labels:
         layer: rdl
-      boohoo_commerce:
-        +schema: rdl_boohoo_commerce
+      omnia_commerce:
+        +schema: rdl_omnia_commerce
       salesforce_commerce:
         +schema: rdl_salesforce_commerce
       shopify:

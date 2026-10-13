@@ -4,10 +4,10 @@ model:
   schema: bi
   layer: adl
 owners:
-  workstream: boohoo-data-engineering
-  analytics_owner: data-team@boohoo.com
-  business_owner: bi-team@boohoo.com
-  technical_owner: data-team@boohoo.com
+  workstream: omnistyle-data-engineering
+  analytics_owner: data-team@omnistyle-commerce.co.uk
+  business_owner: bi-team@omnistyle-commerce.co.uk
+  technical_owner: data-team@omnistyle-commerce.co.uk
 service:
   sla: Daily by 07:00 Europe/London
   refresh_cadence: daily

@@ -23,21 +23,21 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: 'projects/241603873816/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
-          service_account: 'boohoo-github-actions@bellosdata.iam.gserviceaccount.com'
+          service_account: 'omnistyle-github-actions@bellosdata.iam.gserviceaccount.com'
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
       - name: ${{ inputs.action == 'start' && 'Start' || 'Stop' }} Airflow VM
         run: |
-          gcloud compute instances ${{ inputs.action }} boohoo-airflow \
+          gcloud compute instances ${{ inputs.action }} omnistyle-airflow \
             --zone=europe-west2-a \
             --project=bellosdata \
             --quiet
 
       - name: Check VM status
         run: |
-          STATUS=$(gcloud compute instances describe boohoo-airflow \
+          STATUS=$(gcloud compute instances describe omnistyle-airflow \
             --zone=europe-west2-a \
             --project=bellosdata \
             --format="value(status)")

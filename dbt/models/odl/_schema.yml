@@ -13,7 +13,7 @@ models:
       - name: brand
         tests:
           - accepted_values:
-              values: ['Boohoo','Boohoo Man','PrettyLittleThing','NastyGal','Karen Millen','Coast','Debenhams']
+              values: ['VelvetLane','VelvetMens','TrendPulse','RebelChic','AtelierLuxe','RivieraMode','GrandHeritage']
 
   - name: dim_products
     description: "Unified product dimension (odl)"
@@ -107,7 +107,7 @@ models:
       - name: brand
         tests:
           - accepted_values:
-              values: ['Boohoo','Boohoo Man','PrettyLittleThing','NastyGal','Karen Millen','Coast','Debenhams']
+              values: ['VelvetLane','VelvetMens','TrendPulse','RebelChic','AtelierLuxe','RivieraMode','GrandHeritage']
       - name: spend
         tests:
           - dbt_utils.accepted_range:

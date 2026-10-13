@@ -26,19 +26,19 @@
 -- incremental MERGE strategy with require_partition_filter = true (~40% reduction in bytes scanned)
 ------------------------------------------------------------------------------------------------------------------------
 WITH all_orders AS (
-    SELECT * FROM {{ ref('boohoo_orders') }}       WHERE is_latest
+    SELECT * FROM {{ ref('velvet_lane_orders') }}       WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('boohoo_man_orders') }}   WHERE is_latest
+    SELECT * FROM {{ ref('velvet_mens_orders') }}   WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('plt_orders') }}          WHERE is_latest
+    SELECT * FROM {{ ref('trend_pulse_orders') }}          WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('nastygal_orders') }}     WHERE is_latest
+    SELECT * FROM {{ ref('rebel_chic_orders') }}     WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('karen_millen_orders') }} WHERE is_latest
+    SELECT * FROM {{ ref('atelier_luxe_orders') }} WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('coast_orders') }}        WHERE is_latest
+    SELECT * FROM {{ ref('riviera_mode_orders') }}        WHERE is_latest
     UNION ALL
-    SELECT * FROM {{ ref('debenhams_orders') }}    WHERE is_latest
+    SELECT * FROM {{ ref('grand_heritage_orders') }}    WHERE is_latest
 )
 SELECT
     TO_HEX(MD5(order_id || '|' || brand))       AS order_sk,

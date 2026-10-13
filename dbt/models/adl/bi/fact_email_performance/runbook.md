@@ -4,7 +4,7 @@
 Email/CRM marketing dashboard — campaign type performance and health metrics
 
 ## Expected refresh
-Daily, triggered by Airflow DAG `boohoo_dbt_run`
+Daily, triggered by Airflow DAG `omnistyle_dbt_run`
 
 ## Failure impact
 Dashboard metrics will be stale or incorrect. Executive reports may show wrong KPIs.
@@ -29,7 +29,7 @@ FROM {{ ref('fact_email_performance') }};
 5. Verify downstream models: `dbt run --select fact_email_performance+`
 
 ## Escalation
-data-team@boohoo.com
+data-team@omnistyle-commerce.co.uk
 
 ## Related checks
 - dbt test: `dbt test --select fact_email_performance`

@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from shared.marketing_logic import gen_meta_ads
 from shared import utils
 
-BRANDS = ["boohoo", "boohoo_man", "prettylittlething", "nastygal", "karen_millen", "coast", "debenhams"]
+BRANDS = ["velvet_lane", "velvet_mens", "trend_pulse", "rebel_chic", "atelier_luxe", "riviera_mode", "grand_heritage"]
 
 def main():
     now = datetime.now(timezone.utc)

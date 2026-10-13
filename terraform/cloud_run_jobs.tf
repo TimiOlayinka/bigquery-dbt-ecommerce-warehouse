@@ -21,7 +21,7 @@ locals {
 resource "google_cloud_run_v2_job" "data_generators" {
   for_each = toset(local.job_names)
 
-  name     = "boohoo-${replace(each.value, "_", "-")}"
+  name     = "omnistyle-${replace(each.value, "_", "-")}"
   location = var.gcp_region
   project  = var.gcp_project_id
 
@@ -40,7 +40,7 @@ resource "google_cloud_run_v2_job" "data_generators" {
 
       containers {
         # Image from Artifact Registry — pushed by CI/CD pipeline
-        image = "${var.gcp_region}-docker.pkg.dev/${var.gcp_project_id}/boohoo-jobs/${each.value}:latest"
+        image = "${var.gcp_region}-docker.pkg.dev/${var.gcp_project_id}/omnistyle-jobs/${each.value}:latest"
 
         command = ["python", "-m", "${each.value}.main"]
 

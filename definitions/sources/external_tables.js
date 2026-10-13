@@ -5,13 +5,13 @@
 // ---------------------------------------------------------------------------
 
 const brands = {
-  boohoo:            { datasets: ["customers", "orders", "products"] },
-  boohoo_man:        { datasets: ["customers", "orders", "products"] },
-  prettylittlething: { datasets: ["customers", "orders", "products"] },
-  nastygal:          { datasets: ["customers", "orders", "products"] },
-  karen_millen:      { datasets: ["customers", "orders", "products"] },
-  coast:             { datasets: ["customers", "orders", "products"] },
-  debenhams:         { datasets: ["customers", "orders", "products"] },
+  velvet_lane:            { datasets: ["customers", "orders", "products"] },
+  velvet_mens:        { datasets: ["customers", "orders", "products"] },
+  trend_pulse: { datasets: ["customers", "orders", "products"] },
+  rebel_chic:          { datasets: ["customers", "orders", "products"] },
+  atelier_luxe:      { datasets: ["customers", "orders", "products"] },
+  riviera_mode:             { datasets: ["customers", "orders", "products"] },
+  grand_heritage:         { datasets: ["customers", "orders", "products"] },
 };
 
 const channels = [

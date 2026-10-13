@@ -5,50 +5,50 @@
 # =================================================================
 
 settings:
-  bucket: boohoo-rdl-staging-bellosdata
+  bucket: omnistyle-rdl-staging-bellosdata
   project: ${GCP_PROJECT_ID}
   region: europe-west2
 
 brands:
 
-  # == Boohoo ===================================================
-  boohoo:
-    dataset: rdl_boohoo
+  # == VelvetLane ===================================================
+  velvet_lane:
+    dataset: rdl_velvet_lane
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # == Boohoo MAN ===============================================
-  boohoo_man:
-    dataset: rdl_boohoo_man
+  # == VelvetMens ===============================================
+  velvet_mens:
+    dataset: rdl_velvet_mens
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # == PrettyLittleThing =======================================
-  prettylittlething:
-    dataset: rdl_prettylittlething
+  # == TrendPulse =======================================
+  trend_pulse:
+    dataset: rdl_trend_pulse
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # == NastyGal =================================================
-  nastygal:
-    dataset: rdl_nastygal
+  # == RebelChic =================================================
+  rebel_chic:
+    dataset: rdl_rebel_chic
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # == Karen Millen =============================================
-  karen_millen:
-    dataset: rdl_karen_millen
+  # == AtelierLuxe =============================================
+  atelier_luxe:
+    dataset: rdl_atelier_luxe
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # == Coast ====================================================
-  coast:
-    dataset: rdl_coast
+  # == RivieraMode ====================================================
+  riviera_mode:
+    dataset: rdl_riviera_mode
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # == Debenhams ================================================
-  debenhams:
-    dataset: rdl_debenhams
+  # == GrandHeritage ================================================
+  grand_heritage:
+    dataset: rdl_grand_heritage
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]

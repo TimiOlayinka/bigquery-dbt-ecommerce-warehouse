@@ -1,0 +1,32 @@
+model:
+  name: velvet_lane_customers
+  domain: omnia_commerce
+  schema: rdl_omnia_commerce
+  layer: rdl
+owners:
+  workstream: omnistyle-data-engineering
+  analytics_owner: data-team@omnistyle-commerce.co.uk
+  business_owner: omnia_commerce-team@omnistyle-commerce.co.uk
+  technical_owner: data-team@omnistyle-commerce.co.uk
+service:
+  sla: Daily by 07:00 Europe/London
+  refresh_cadence: daily
+  criticality: medium
+description:
+  short: Dedup responsibility moves to ODL — use WHERE is_latest for current state
+  business_purpose: Dedup responsibility moves to ODL — use WHERE is_latest for current
+    state
+grain: One row per (customer_id) per ingestion version
+depends_on_products:
+- rdl_omnia_commerce.velvet_lane_customers_history
+documentation:
+  main: ./README.md
+  runbook: ./runbook.md
+classification:
+  certified_for_reporting: false
+  contains_pii: true
+  confidentiality: internal
+tags:
+- rdl
+- omnia_commerce
+- velvet_lane

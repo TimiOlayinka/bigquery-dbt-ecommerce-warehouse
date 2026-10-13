@@ -24,7 +24,7 @@ jobs:
             gh pr edit "$PR_NUMBER" --title "$NEW_TITLE" --repo "$GITHUB_REPOSITORY"
           fi
 
-      - name: Check PR Title format (DATA-X: summary)
+      - name: "Check PR Title format (DATA-X: summary)"
         env:
           TITLE: ${{ github.event.pull_request.title }}
         run: |

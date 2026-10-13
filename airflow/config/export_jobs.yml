@@ -6,7 +6,7 @@
 
 settings:
   project: ${GCP_PROJECT_ID}
-  gcs_bucket: boohoo-data-quality-bellosdata
+  gcs_bucket: omnistyle-data-quality-bellosdata
   region: europe-west2
 
 exports:
@@ -33,31 +33,31 @@ exports:
   # == RDL Layer — Per-Brand ===================================
   rdl_brands:
     models:
-      - dataset: rdl_boohoo
+      - dataset: rdl_velvet_lane
         tables: [customers_history, orders_history, products_history]
         filter: ""
 
-      - dataset: rdl_boohoo_man
+      - dataset: rdl_velvet_mens
         tables: [customers_history, orders_history, products_history]
         filter: ""
 
-      - dataset: rdl_prettylittlething
+      - dataset: rdl_trend_pulse
         tables: [customers_history, orders_history, products_history]
         filter: ""
 
-      - dataset: rdl_nastygal
+      - dataset: rdl_rebel_chic
         tables: [customers_history, orders_history, products_history]
         filter: ""
 
-      - dataset: rdl_karen_millen
+      - dataset: rdl_atelier_luxe
         tables: [customers_history, orders_history, products_history]
         filter: ""
 
-      - dataset: rdl_coast
+      - dataset: rdl_riviera_mode
         tables: [customers_history, orders_history, products_history]
         filter: ""
 
-      - dataset: rdl_debenhams
+      - dataset: rdl_grand_heritage
         tables: [customers_history, orders_history, products_history]
         filter: ""
 

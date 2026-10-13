@@ -51,5 +51,5 @@ variable "scheduler_stop_cron" {
 variable "gcs_bucket" {
   description = "GCS bucket for raw ingested data (JSONL.GZ files from Cloud Run)"
   type        = string
-  default     = "boohoo-rdl-staging-bellosdata"
+  default     = "omnistyle-rdl-staging-bellosdata"
 }

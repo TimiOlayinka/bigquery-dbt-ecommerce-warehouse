@@ -10,37 +10,37 @@ config {
 -- Brand reference mapping
 ------------------------------------------------------------------------------------------------------------------------
 SELECT
-    'Boohoo'             AS brand,
-    'boohoo_commerce'       AS source_system,
+    'VelvetLane'             AS brand,
+    'omnia_commerce'       AS source_system,
     'Value'   AS brand_tier,
-    'boohoo.com'              AS website
+    'velvetlane.com'              AS website
 UNION ALL SELECT
-    'Boohoo Man',
-    'boohoo_commerce',
+    'VelvetMens',
+    'omnia_commerce',
     'Value',
-    'boohooman.com'
+    'velvetmens.com'
 UNION ALL SELECT
-    'PrettyLittleThing',
+    'TrendPulse',
     'salesforce_commerce',
     'Value',
-    'prettylittlething.com'
+    'trendpulse.com'
 UNION ALL SELECT
-    'NastyGal',
+    'RebelChic',
     'shopify',
     'Mid',
-    'nastygal.com'
+    'rebelchic.com'
 UNION ALL SELECT
-    'Karen Millen',
+    'AtelierLuxe',
     'magento',
     'Premium',
-    'karenmillen.com'
+    'atelierluxe.com'
 UNION ALL SELECT
-    'Coast',
+    'RivieraMode',
     'magento',
     'Premium',
-    'coast-stores.com'
+    'rivieramode.com'
 UNION ALL SELECT
-    'Debenhams',
+    'GrandHeritage',
     'oracle_commerce',
     'Mid',
-    'debenhams.com'
+    'grandheritage.com'
