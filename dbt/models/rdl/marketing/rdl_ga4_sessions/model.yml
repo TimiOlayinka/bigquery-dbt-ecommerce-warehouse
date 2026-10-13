@@ -1,0 +1,29 @@
+model:
+  name: rdl_ga4_sessions
+  domain: marketing
+  schema: rdl_marketing
+  layer: rdl
+owners:
+  workstream: boohoo-data-engineering
+  analytics_owner: data-team@boohoo.com
+  business_owner: marketing-analytics@boohoo.com
+  technical_owner: data-team@boohoo.com
+service:
+  sla: Daily by 07:00 Europe/London
+  refresh_cadence: daily
+  criticality: high
+description:
+  short: Deduplicated marketing staging view for ga4_sessions_history
+  business_purpose: Provides deduplicated raw marketing telemetry from ga4_sessions_history for ODL marketing facts
+grain: One row per (session_id, brand)
+depends_on_products: []
+documentation:
+  main: ./README.md
+  runbook: ./runbook.md
+classification:
+  certified_for_reporting: false
+  contains_pii: false
+  confidentiality: internal
+tags:
+- rdl
+- marketing

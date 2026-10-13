@@ -1,0 +1,80 @@
+version: 2
+
+sources:
+  - name: rdl_boohoo_commerce
+    database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
+    schema: rdl_boohoo_commerce
+    description: "Boohoo & BoohooMAN custom e-commerce platform staging tables backed by GCS JSONL.GZ"
+    tables:
+      - name: boohoo_customers_history
+        description: "Raw Boohoo customer records loaded from gs://boohoo-rdl-staging/raw/boohoo/customers/"
+      - name: boohoo_orders_history
+        description: "Raw Boohoo order records loaded from gs://boohoo-rdl-staging/raw/boohoo/orders/"
+      - name: boohoo_order_items_history
+        description: "Raw Boohoo order line items loaded from gs://boohoo-rdl-staging/raw/boohoo/order_items/"
+      - name: boohoo_products_history
+        description: "Raw Boohoo product catalogue loaded from gs://boohoo-rdl-staging/raw/boohoo/products/"
+      - name: boohoo_man_customers_history
+        description: "Raw BoohooMAN customer records"
+      - name: boohoo_man_orders_history
+        description: "Raw BoohooMAN order records"
+      - name: boohoo_man_order_items_history
+        description: "Raw BoohooMAN order line items"
+      - name: boohoo_man_products_history
+        description: "Raw BoohooMAN product catalogue"
+
+  - name: rdl_salesforce_commerce
+    database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
+    schema: rdl_salesforce_commerce
+    description: "PrettyLittleThing Salesforce Commerce Cloud (Demandware) staging tables"
+    tables:
+      - name: plt_customers_history
+      - name: plt_orders_history
+      - name: plt_order_items_history
+      - name: plt_products_history
+
+  - name: rdl_shopify
+    database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
+    schema: rdl_shopify
+    description: "NastyGal Shopify Plus staging tables"
+    tables:
+      - name: nastygal_customers_history
+      - name: nastygal_orders_history
+      - name: nastygal_order_items_history
+      - name: nastygal_products_history
+
+  - name: rdl_magento
+    database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
+    schema: rdl_magento
+    description: "Karen Millen & Coast Adobe Commerce (Magento) staging tables"
+    tables:
+      - name: karen_millen_customers_history
+      - name: karen_millen_orders_history
+      - name: karen_millen_order_items_history
+      - name: karen_millen_products_history
+      - name: coast_customers_history
+      - name: coast_orders_history
+      - name: coast_order_items_history
+      - name: coast_products_history
+
+  - name: rdl_oracle_commerce
+    database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
+    schema: rdl_oracle_commerce
+    description: "Debenhams Oracle ATG Commerce staging tables"
+    tables:
+      - name: debenhams_customers_history
+      - name: debenhams_orders_history
+      - name: debenhams_order_items_history
+      - name: debenhams_products_history
+
+  - name: rdl_marketing
+    database: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
+    schema: rdl_marketing
+    description: "Cross-brand performance marketing & web analytics staging tables"
+    tables:
+      - name: meta_ads_history
+      - name: google_ads_history
+      - name: tiktok_ads_history
+      - name: ga4_sessions_history
+      - name: email_campaigns_history
+      - name: influencers_history

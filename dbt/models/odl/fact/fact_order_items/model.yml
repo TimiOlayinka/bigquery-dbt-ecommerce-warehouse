@@ -1,0 +1,32 @@
+model:
+  name: fact_order_items
+  domain: fact
+  schema: odl
+  layer: odl
+owners:
+  workstream: boohoo-data-engineering
+  analytics_owner: data-team@boohoo.com
+  business_owner: commercial-analytics@boohoo.com
+  technical_owner: data-team@boohoo.com
+service:
+  sla: Daily by 07:00 Europe/London
+  refresh_cadence: daily
+  criticality: high
+description:
+  short: Granular order line-item fact table across all 7 Boohoo Group brands
+  business_purpose: Enables SKU-level basket analysis, product margin attribution, and brand cross-sell reporting with BigQuery partition pruning
+grain: One row per order line item per brand (order_item_sk)
+depends_on_products:
+- dim_products
+- fact_orders
+documentation:
+  main: ./README.md
+  runbook: ./runbook.md
+classification:
+  certified_for_reporting: true
+  contains_pii: false
+  confidentiality: internal
+tags:
+- odl
+- fact
+- finops_partitioned

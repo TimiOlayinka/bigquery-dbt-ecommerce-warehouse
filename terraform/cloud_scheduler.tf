@@ -7,9 +7,9 @@
 resource "google_cloud_scheduler_job" "trigger_data_generators" {
   for_each = toset(local.job_names)
 
-  name     = "boohoo-trigger-${replace(each.value, "_", "-")}"
-  project  = var.gcp_project_id
-  region   = var.gcp_region
+  name    = "boohoo-trigger-${replace(each.value, "_", "-")}"
+  project = var.gcp_project_id
+  region  = var.gcp_region
 
   description = "Daily trigger for Cloud Run Job: ${each.value}"
   schedule    = "0 0 * * *"

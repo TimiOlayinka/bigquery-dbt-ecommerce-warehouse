@@ -1,0 +1,49 @@
+# =============================================================================
+# dbt-bigquery Profile Configuration — Boohoo Group Multi-Brand DWH
+# =============================================================================
+# FinOps Cost Guard:
+#   `maximum_bytes_billed: 10000000000` (10 GB hard ceiling per query) prevents
+#   runaway full-table scans on unpartitioned queries and enforces partition
+#   pruning across all 7 brand datasets in EU multi-region.
+# =============================================================================
+
+boohoo_dwh:
+  target: "{{ env_var('DBT_TARGET', 'dev') }}"
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
+      dataset: "{{ env_var('DBT_DATASET', 'odl_dev') }}"
+      location: EU
+      threads: 8
+      priority: interactive
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      maximum_bytes_billed: 10000000000  # 10 GB FinOps query cost guard
+
+    ci:
+      type: bigquery
+      method: service-account
+      project: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
+      dataset: "ci_pr_{{ env_var('GITHUB_PR_NUMBER', '0') }}"
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS', '/tmp/gcp-sa-key.json') }}"
+      location: EU
+      threads: 8
+      priority: interactive
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      maximum_bytes_billed: 5000000000   # 5 GB strict FinOps cap for Slim CI runs
+
+    prod:
+      type: bigquery
+      method: service-account
+      project: "{{ env_var('GCP_PROJECT_ID', 'bellosdata') }}"
+      dataset: odl
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS', '/secrets/gcp-sa.json') }}"
+      location: EU
+      threads: 16
+      priority: interactive
+      job_execution_timeout_seconds: 600
+      job_retries: 2
+      maximum_bytes_billed: 10000000000  # 10 GB FinOps query cost guard

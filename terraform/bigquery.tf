@@ -65,13 +65,13 @@ resource "google_bigquery_dataset" "bi" {
 
 locals {
   ecommerce_brands = {
-    boohoo             = ["customers", "orders", "products"]
-    boohoo_man         = ["customers", "orders", "products"]
-    prettylittlething  = ["customers", "orders", "products"]
-    nastygal           = ["customers", "orders", "products"]
-    karen_millen       = ["customers", "orders", "products"]
-    coast              = ["customers", "orders", "products"]
-    debenhams          = ["customers", "orders", "products"]
+    boohoo            = ["customers", "orders", "products"]
+    boohoo_man        = ["customers", "orders", "products"]
+    prettylittlething = ["customers", "orders", "products"]
+    nastygal          = ["customers", "orders", "products"]
+    karen_millen      = ["customers", "orders", "products"]
+    coast             = ["customers", "orders", "products"]
+    debenhams         = ["customers", "orders", "products"]
   }
 
   # Flatten into a map of key => { brand, dataset }
@@ -99,10 +99,10 @@ locals {
 }
 
 resource "google_bigquery_table" "ecommerce_external" {
-  for_each   = local.ecommerce_tables
-  project    = var.gcp_project_id
-  dataset_id = google_bigquery_dataset.rdl_brand["rdl_${each.value.brand}"].dataset_id
-  table_id   = "${each.value.dataset}_stg"
+  for_each            = local.ecommerce_tables
+  project             = var.gcp_project_id
+  dataset_id          = google_bigquery_dataset.rdl_brand["rdl_${each.value.brand}"].dataset_id
+  table_id            = "${each.value.dataset}_stg"
   deletion_protection = false
 
   external_data_configuration {
@@ -130,10 +130,10 @@ resource "google_bigquery_table" "ecommerce_external" {
 # -----------------------------------------------------------------------------
 
 resource "google_bigquery_table" "marketing_external" {
-  for_each   = local.marketing_tables
-  project    = var.gcp_project_id
-  dataset_id = google_bigquery_dataset.rdl_brand["rdl_${each.value.brand}"].dataset_id
-  table_id   = "${each.value.dataset}_stg"
+  for_each            = local.marketing_tables
+  project             = var.gcp_project_id
+  dataset_id          = google_bigquery_dataset.rdl_brand["rdl_${each.value.brand}"].dataset_id
+  table_id            = "${each.value.dataset}_stg"
   deletion_protection = false
 
   external_data_configuration {
