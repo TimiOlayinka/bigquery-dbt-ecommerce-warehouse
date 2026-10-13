@@ -2,9 +2,11 @@ defaultProject: bellosdata
 defaultLocation: EU
 defaultDataset: rdl
 defaultAssertionDataset: dataform_assertions
+dataformCoreVersion: 3.0.52
 
 vars:
   project_id:   "bellosdata"
   odl_dataset:  "odl"
   bi_dataset:   "bi"
+  gcs_bucket:   "boohoo-rdl-staging-bellosdata"
   gcs_bucket:   "boohoo-rdl-staging-bellosdata"
