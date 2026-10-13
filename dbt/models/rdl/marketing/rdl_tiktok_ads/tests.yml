@@ -1,0 +1,7 @@
+null_tests:
+  - name: not_null_ad_id
+    description: Primary natural key ad_id must not be null
+    enabled: true
+    schedule: daily
+    field: [ad_id, brand]
+    severity: error

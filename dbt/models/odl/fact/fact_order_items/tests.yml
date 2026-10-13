@@ -1,0 +1,15 @@
+duplicate_tests:
+  - name: unique_order_item_sk
+    description: Each order line item surrogate key must be unique
+    enabled: true
+    schedule: daily
+    field: [order_item_sk]
+    severity: error
+
+null_tests:
+  - name: not_null_keys
+    description: Primary and foreign surrogate keys must never be null
+    enabled: true
+    schedule: daily
+    field: [order_item_sk, order_sk, product_sk, order_date, brand]
+    severity: error

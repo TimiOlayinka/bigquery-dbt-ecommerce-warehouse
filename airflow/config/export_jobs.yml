@@ -1,8 +1,8 @@
-# ─────────────────────────────────────────────────────────────────
+# =================================================================
 # BigQuery → GCS Parquet Export Configuration
 # Each model maps to a BigQuery EXPORT DATA statement.
 # The DAG reads this file and submits each query to BigQuery.
-# ─────────────────────────────────────────────────────────────────
+# =================================================================
 
 settings:
   project: ${GCP_PROJECT_ID}
@@ -11,7 +11,7 @@ settings:
 
 exports:
 
-  # ── RDL Layer — Cross-Cutting Sources ───────────────────────
+  # == RDL Layer — Cross-Cutting Sources =======================
   rdl_shared:
     models:
       - dataset: rdl_zendesk
@@ -30,7 +30,7 @@ exports:
         tables: [rdl_parcel_events, rdl_delivery_order, rdl_delivery_item, rdl_digital_refunds]
         filter: ""
 
-  # ── RDL Layer — Per-Brand ───────────────────────────────────
+  # == RDL Layer — Per-Brand ===================================
   rdl_brands:
     models:
       - dataset: rdl_boohoo
@@ -61,7 +61,7 @@ exports:
         tables: [customers_history, orders_history, products_history]
         filter: ""
 
-  # ── ODL Layer ──────────────────────────────────────────────────
+  # == ODL Layer ==================================================
   odl:
     models:
       - dataset: odl
@@ -82,7 +82,7 @@ exports:
           - fact_delivery_item
           - fact_basket_items
 
-  # ── ADL Layer ──────────────────────────────────────────────────
+  # == ADL Layer ==================================================
   adl:
     models:
       - dataset: bi

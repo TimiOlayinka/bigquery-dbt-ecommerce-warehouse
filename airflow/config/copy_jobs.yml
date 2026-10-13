@@ -1,8 +1,8 @@
-# ─────────────────────────────────────────────────────────────────
+# =================================================================
 # GCS → BigQuery Load Job Configuration (Per-Brand RDL)
 # Each brand has its own BigQuery dataset: rdl_{brand}
 # GCS path: raw/{brand}/{source}/ingest_date={date}/{source}.jsonl.gz
-# ─────────────────────────────────────────────────────────────────
+# =================================================================
 
 settings:
   bucket: boohoo-rdl-staging-bellosdata
@@ -11,43 +11,43 @@ settings:
 
 brands:
 
-  # ── Boohoo ───────────────────────────────────────────────────
+  # == Boohoo ===================================================
   boohoo:
     dataset: rdl_boohoo
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # ── Boohoo MAN ───────────────────────────────────────────────
+  # == Boohoo MAN ===============================================
   boohoo_man:
     dataset: rdl_boohoo_man
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # ── PrettyLittleThing ───────────────────────────────────────
+  # == PrettyLittleThing =======================================
   prettylittlething:
     dataset: rdl_prettylittlething
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # ── NastyGal ─────────────────────────────────────────────────
+  # == NastyGal =================================================
   nastygal:
     dataset: rdl_nastygal
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # ── Karen Millen ─────────────────────────────────────────────
+  # == Karen Millen =============================================
   karen_millen:
     dataset: rdl_karen_millen
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # ── Coast ────────────────────────────────────────────────────
+  # == Coast ====================================================
   coast:
     dataset: rdl_coast
     ecommerce: [customers, products, orders, order_items]
     marketing: [meta_ads, google_ads, tiktok_ads, ga4_sessions, email_campaigns, influencer_posts]
 
-  # ── Debenhams ────────────────────────────────────────────────
+  # == Debenhams ================================================
   debenhams:
     dataset: rdl_debenhams
     ecommerce: [customers, products, orders, order_items]

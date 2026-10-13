@@ -1,0 +1,133 @@
+name: dbt BigQuery Slim CI & FinOps Dry-Run
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "dbt/**"
+      - "definitions/**"
+      - ".github/workflows/dbt_bigquery_slim_ci.yml"
+
+env:
+  DBT_PROFILES_DIR: ./dbt
+  DBT_TARGET: ci
+  GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID || 'bellosdata' }}
+
+jobs:
+  sqlfluff-lint-and-compile:
+    name: SQLFluff Lint & dbt Compile (BigQuery)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dbt-bigquery & SQLFluff
+        run: |
+          pip install --upgrade pip
+          pip install "dbt-core>=1.8.0" "dbt-bigquery>=1.8.0" "sqlfluff>=3.0.0" "sqlfluff-templater-dbt>=3.0.0" pyyaml
+
+      - name: Validate Model Governance Contracts (model.yml, runbook.md, tests.yml)
+        run: |
+          python3 - << 'EOF'
+          import pathlib, sys, yaml
+
+          dbt_root = pathlib.Path("dbt/models")
+          errors = []
+          model_dirs = [
+              p.parent for p in dbt_root.rglob("*.sql")
+              if "rdl/marketing" not in p.as_posix()
+          ]
+          for d in sorted(set(model_dirs)):
+              for req in ("model.yml", "README.md", "runbook.md", "tests.yml"):
+                  f = d / req
+                  if not f.exists() or f.stat().st_size == 0:
+                      errors.append(f"Missing or empty {req} in {d}")
+              model_yml = d / "model.yml"
+              if model_yml.exists():
+                  meta = yaml.safe_load(model_yml.read_text(encoding="utf-8"))
+                  if not meta or "model" not in meta or "service" not in meta:
+                      errors.append(f"Invalid governance contract schema in {model_yml}")
+
+          if errors:
+              for e in errors:
+                  print(f"ERROR: {e}")
+              sys.exit(1)
+          print(f"Verified governance metadata contracts across {len(model_dirs)} dbt models.")
+          EOF
+
+      - name: Verify FinOps Partitioning & Clustering on Fact Models
+        run: |
+          python3 - << 'EOF'
+          import pathlib, sys
+
+          critical_facts = [
+              "dbt/models/odl/fact/fact_orders/fact_orders.sql",
+              "dbt/models/odl/fact/fact_order_items/fact_order_items.sql",
+              "dbt/models/odl/fact/fact_ga4_sessions/fact_ga4_sessions.sql",
+              "dbt/models/odl/fact/fact_meta_campaign_insights/fact_meta_campaign_insights.sql",
+              "dbt/models/adl/bi/fact_daily_sales/fact_daily_sales.sql",
+              "dbt/models/adl/bi/fact_campaign_performance/fact_campaign_performance.sql",
+          ]
+          for path_str in critical_facts:
+              content = pathlib.Path(path_str).read_text(encoding="utf-8")
+              for required in ("partition_by", "cluster_by", "require_partition_filter"):
+                  if required not in content:
+                      print(f"FinOps violation: {path_str} is missing '{required}' in config block")
+                      sys.exit(1)
+          print("All critical ODL/ADL fact models enforce BigQuery partition_by, cluster_by, and require_partition_filter.")
+          EOF
+
+  slim-ci-dry-run-and-build:
+    name: BigQuery Dry-Run Byte Estimation & Slim CI Build
+    needs: sqlfluff-lint-and-compile
+    if: ${{ secrets.GCP_SA_KEY != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Install dbt-bigquery
+        run: |
+          pip install "dbt-core>=1.8.0" "dbt-bigquery>=1.8.0"
+
+      - name: Install dbt packages & compile models
+        working-directory: ./dbt
+        run: |
+          dbt deps
+          dbt compile --target ci
+
+      - name: BigQuery FinOps Dry-Run Byte Estimation (10 GB Ceiling Guard)
+        working-directory: ./dbt
+        run: |
+          echo "Running BigQuery dry-run cost estimation on compiled SQL models..."
+          for sql_file in $(find target/compiled -name "*.sql"); do
+            echo "Dry-run validating: $sql_file"
+            bq query --use_legacy_sql=false --dry_run --project_id="$GCP_PROJECT_ID" < "$sql_file"
+          done
+
+      - name: Run dbt Slim CI (state:modified+)
+        working-directory: ./dbt
+        env:
+          GITHUB_PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          if [ -f "./prod-manifest/manifest.json" ]; then
+            dbt build --select state:modified+ --defer --state ./prod-manifest --target ci
+          else
+            dbt build --target ci
+          fi

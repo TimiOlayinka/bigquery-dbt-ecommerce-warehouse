@@ -1,0 +1,74 @@
+name: 'boohoo_dwh'
+version: '1.0.0'
+config-version: 2
+
+profile: 'boohoo_dwh'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+vars:
+  incremental_lookback_days: 3
+  require_partition_filter_default: true
+
+models:
+  boohoo_dwh:
+    +persist_docs:
+      relation: true
+      columns: true
+    +labels:
+      project: boohoo_dwh
+      managed_by: dbt_bigquery
+      architecture: medallion
+
+    rdl:
+      +materialized: view
+      +schema: rdl
+      +labels:
+        layer: rdl
+      boohoo_commerce:
+        +schema: rdl_boohoo_commerce
+      salesforce_commerce:
+        +schema: rdl_salesforce_commerce
+      shopify:
+        +schema: rdl_shopify
+      magento:
+        +schema: rdl_magento
+      oracle_commerce:
+        +schema: rdl_oracle_commerce
+      marketing:
+        +schema: rdl_marketing
+        +tags: ['marketing']
+
+    odl:
+      +materialized: table
+      +schema: odl
+      +labels:
+        layer: odl
+      dim:
+        +tags: ['odl', 'dim']
+      fact:
+        +tags: ['odl', 'fact', 'finops_partitioned']
+      map:
+        +tags: ['odl', 'map']
+
+    adl:
+      +materialized: table
+      +schema: bi
+      +labels:
+        layer: adl_bi
+      bi:
+        +tags: ['adl', 'bi', 'finops_partitioned']
+
+    unit_test:
+      +materialized: table
+      +schema: unit_test
+      +tags: ['quality']

@@ -22,7 +22,7 @@ resource "google_secret_manager_secret" "airflow_config" {
 
 # Placeholder version — replace with actual config via gcloud or CI/CD
 resource "google_secret_manager_secret_version" "airflow_config_placeholder" {
-  secret      = google_secret_manager_secret.airflow_config.id
+  secret = google_secret_manager_secret.airflow_config.id
   secret_data = jsonencode({
     description = "Placeholder — update with actual Airflow configuration"
     bigquery    = "Uses IAM authentication, no credentials required"

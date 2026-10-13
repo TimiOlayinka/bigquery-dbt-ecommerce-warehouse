@@ -1,0 +1,7 @@
+null_tests:
+  - name: not_null_post_id
+    description: Primary natural key post_id must not be null
+    enabled: true
+    schedule: daily
+    field: [post_id, brand]
+    severity: error
